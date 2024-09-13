@@ -180,8 +180,8 @@ export default function Home({ lng }: { lng: string }) {
 
   const searchArray = (searchQuery: string) => {
     const params = new URLSearchParams(searchParams);
-    const tryVar = "abc";
-    console.log(tryVar);
+    const tryVars = "cde";
+    console.log(tryVars);
     if (searchQuery) {
       params.set("search", searchQuery.toLowerCase());
     } else {
