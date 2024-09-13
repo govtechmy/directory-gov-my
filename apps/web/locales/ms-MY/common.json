@@ -1,0 +1,89 @@
+{
+  "site": {
+    "name": "Direktori",
+    "description": ""
+  },
+  "masthead": {
+    "official_gov_website": "Portal Rasmi Kerajaan Malaysia",
+    "how_to_identify": "Kenal pasti begini",
+    "official": "Pautan portal rasmi berakhir dengan .gov.my",
+    "not_govmy": "Sekiranya anda melihat pautan selain ",
+    "close_site": ", segera tutupkan halaman itu walaupun ia menyerupai portal rasmi!",
+    "secure": "Portal yang selamat menggunakan HTTPS",
+    "find_lock": "Periksa ikon loker (",
+    "or": ") atau ",
+    "precaution": " di depan pautan. Sekiranya tiada, jangan kongsikan sebarang maklumat sensitif."
+  },
+  "header": {
+    "home": "Utama"
+  },
+  "search": {
+    "type": "Tekan",
+    "search": "untuk cari",
+    "default_placeholder": "Mula menaip untuk membuat carian",
+    "not_found": "Tiada keputusan dijumpai",
+    "start_search": "Mula menaip untuk membuat carian"
+  },
+  "home": {
+    "title": ""
+  },
+  "footer": {
+    "about_us": "Tentang Kami",
+    "open_source": "Sumber Terbuka",
+    "repo": "Repo GitHub",
+    "ui_ux": "Figma",
+    "all_rights_reserved": "Hak Cipta Terpelihara",
+    "penafian": "Penafian",
+    "dasar-privasi": "Dasar Privasi",
+    "safety": "Dasar Keselamatan",
+    "personal_data": "Perlindungan Data Peribadi",
+    "last_update": "Kemaskini Terakhir"
+  },
+  "privacy": {
+    "header": "Dasar Privasi",
+    "your_privacy": "Privasi Anda",
+    "your_privacy_desc": "Halaman ini menerangkan dasar privasi yang merangkumi penggunaan dan perlindungan maklumat yang dikemukakan oleh pengunjung. Sekiranya anda membuat transaksi atau menghantar e-mel yang mengandungi maklumat peribadi, maklumat ini mungkin akan dikongsi bersama dengan agensi awam lain untuk membantu penyediaan perkhidmatan yang lebih berkesan dan efektif. Contohnya seperti di dalam menyelesaikan aduan yang memerlukan maklum balas dari agensi-agensi lain.",
+    "collected_info": "Maklumat Yang Dikumpul",
+    "collected_info_desc": "Tiada maklumat peribadi akan dikumpul semasa anda melayari portal ini kecuali maklumat yang dikemukakan oleh anda melalui e-mel.\n\nApa yang akan berlaku jika saya membuat pautan kepada portal/laman web yang lain?\n\nPortal ini mempunyai pautan ke portal/laman web lain. Dasar privasi ini hanya terpakai untuk laman web ini sahaja. Perlu diingatkan bahawa portal/laman web yang terdapat dalam pautan mungkin mempunyai dasar privasi yang berbeza dan pengunjung dinasihatkan supaya meneliti dan memahami dasar privasi bagi setiap portal/laman web yang dilayari.",
+    "policy_change": "Pindaan Dasar",
+    "policy_change_desc": "Sekiranya dasar privasi ini dipinda, pindaan akan dikemas kini di halaman ini. Dengan sering melayari halaman ini, anda akan dikemaskini tentang maklumat yang dikumpul, cara ia digunakan dan dalam keadaan tertentu, serta bagaimana maklumat dikongsi bersama pihak yang lain.",
+    "personal_data": "Perlindungan Data Peribadi",
+    "personal_data_act": "Akta Perlindungan Data Peribadi",
+    "personal_data_act_desc": "Jabatan Perlindungan Data Peribadi (JPDP) merupakan agensi di bawah Kementerian Digital yang ditubuhkan pada 16 Mei 2011 selepas Parlimen meluluskan Rang Undang-undang berkaitan Akta Perlindungan Data Peribadi 2010 (APDP) iaitu Akta 709.\n\nTanggungjawab utama Jabatan ini ialah untuk mengawalselia pemprosesan data peribadi individu yang terlibat dalam urus niaga komersial oleh pengguna data supaya tidak disalahguna dan disalahpakai oleh pihak-pihak yang berkepentingan.\n\nKeselamatan data peribadi pengguna perlu dilindungi bagi mencegah sebarang bentuk penyalahgunaan terhadap penyimpanan atau pemprosesan data peribadi individu, awam dan swasta di Malaysia secara transaksi komersial adalah termaktub di bawah APDP ini.\n\nDalam menguatkuasakan APDP, JPDP telah mensyaratkan kepada semua golongan pengguna data peribadi yang terdiri daripada pihak individu mahupun swasta kecuali Kerajaan untuk berdaftar secara rasmi bagi tujuan melindungi hak-hak pengguna dan awam.\n\nJPDP diketuai oleh Ketua Pengarah dengan dibantu oleh seorang Timbalan Ketua Pengarah. Manakala, terdapat tiga bahagian utama di JPDP iaitu Bahagian Pendaftaran dan Operasi, Bahagian Pemantauan dan Bahagian Perundangan.\n\nUntuk maklumat tambahan, sila layari <a>http://www.pdp.gov.my</a>.",
+    "last_updated": "Kemaskini terakhir pada 19 Februari 2024"
+  },
+  "disclaimer": {
+    "header": "Penafian",
+    "desc": " tidak bertanggungjawab terhadap sebarang kehilangan atau kerosakan yang dialami kerana menggunakan maklumat dalam portal ini."
+  },
+  "directory": {
+    "header": "Direktori Kakitangan",
+    "search_placeholder": "Cari kata kunci (nama, jawatan, emel, dsb)",
+    "table_header": {
+      "nama": "Nama",
+      "bhg": "Bahagian",
+      "gred": "Gred",
+      "jawatan": "Jawatan",
+      "telefon": "No. Telefon",
+      "emel": "Emel (@.gov.my)",
+      "semua": "Semua Bahagian"
+    }
+  },
+  "datepicker": {
+    "from": "Dari",
+    "to": "Hingga"
+  },
+  "table": {
+    "no_data": "Carian anda tidak dijumpai."
+  },
+  "pagination": {
+    "previous": "Sebelum",
+    "page_of": "{ current } daripada { total }",
+    "next": "Seterusnya"
+  },
+  "404": {
+    "not_found": "Tidak Dijumpai",
+    "cant_find": "Pautan tidak dijumpai",
+    "back": "Kembali Ke Laman Utama"
+  }
+}
