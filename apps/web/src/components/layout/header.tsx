@@ -43,9 +43,12 @@ export function Header({ lng }: { lng: string }) {
         )}
       >
         <div className="flex items-center justify-between gap-3 lg:gap-4">
-          <Link href={`/${lng}`} className="flex h-full w-full items-center gap-2.5">
+          <Link
+            href={`/${lng}`}
+            className="flex h-full w-full items-center gap-2.5"
+          >
             <Image
-              src="/jata-negara.png"
+              src="/assets/jata-negara.png"
               width={40}
               height={32}
               style={{
