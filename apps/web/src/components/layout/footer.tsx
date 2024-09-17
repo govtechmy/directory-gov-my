@@ -16,7 +16,7 @@ export default async function Footer({ lng }: { lng: string }) {
           <div className="flex flex-col gap-4 lg:gap-4.5">
             <div className="flex items-center gap-x-2.5">
               <Image
-                src="/jata-negara.png"
+                src="/assets/jata-negara.png"
                 width={28}
                 height={28}
                 alt="Jata Negara"
