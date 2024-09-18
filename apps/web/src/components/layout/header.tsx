@@ -49,7 +49,7 @@ export function Header({ lng }: { lng: string }) {
             className="flex h-full w-full items-center gap-2.5"
           >
             <Image
-              src="/jata-negara.png"
+              src="/assets/jata-negara.png"
               width={40}
               height={32}
               style={{
