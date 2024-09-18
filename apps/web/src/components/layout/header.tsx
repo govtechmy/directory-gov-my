@@ -26,6 +26,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useState } from "react";
+import ThemeToggle from "../ui/theme";
 
 export function Header({ lng }: { lng: string }) {
   const { t } = useTranslation(lng);
@@ -43,7 +44,10 @@ export function Header({ lng }: { lng: string }) {
         )}
       >
         <div className="flex items-center justify-between gap-3 lg:gap-4">
-          <Link href={`/${lng}`} className="flex h-full w-full items-center gap-2.5">
+          <Link
+            href={`/${lng}`}
+            className="flex h-full w-full items-center gap-2.5"
+          >
             <Image
               src="/jata-negara.png"
               width={40}
@@ -185,6 +189,7 @@ export function Header({ lng }: { lng: string }) {
           </NavigationMenu.Root>
         </div>
         <div className="flex items-center gap-2">
+          <ThemeToggle lng={lng}></ThemeToggle>
           <Suspense>
             <Locale lng={lng} />
           </Suspense>

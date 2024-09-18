@@ -7,6 +7,7 @@ import { Inter, Poppins } from "next/font/google";
 import ClarityScript from "./clarity";
 import { languages } from "@/i18n/settings";
 import { useTranslation } from "@/i18n";
+import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -72,7 +73,7 @@ export default function RootLayout({
   params: { lng: string };
 }) {
   return (
-    <html lang={lng}>
+    <html lang={lng} suppressHydrationWarning>
       {process.env.APP_ENV === "production" && (
         <head>
           {/* <script
@@ -91,12 +92,14 @@ export default function RootLayout({
           "flex min-w-[320px] flex-col"
         )}
       >
-        <div className="flex min-h-screen flex-col">
-          <Masthead lng={lng} />
-          <Header lng={lng} />
-          <>{children}</>
-          <Footer lng={lng} />
-        </div>
+        <Providers>
+          <div className="flex min-h-screen flex-col">
+            <Masthead lng={lng} />
+            <Header lng={lng} />
+            <>{children}</>
+            <Footer lng={lng} />
+          </div>
+        </Providers>
       </body>
     </html>
   );
