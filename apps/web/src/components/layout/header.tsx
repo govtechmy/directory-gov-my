@@ -26,6 +26,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useState } from "react";
+import ThemeToggle from "../ui/theme";
 
 export function Header({ lng }: { lng: string }) {
   const { t } = useTranslation(lng);
@@ -188,6 +189,7 @@ export function Header({ lng }: { lng: string }) {
           </NavigationMenu.Root>
         </div>
         <div className="flex items-center gap-2">
+          <ThemeToggle lng={lng} />
           <Suspense>
             <Locale lng={lng} />
           </Suspense>

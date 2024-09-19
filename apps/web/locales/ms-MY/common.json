@@ -1,4 +1,8 @@
 {
+  "theme": {
+    "toggle_dark": "Tukar kepada mod gelap",
+    "toggle_light": "Tukar kepada mod cerah"
+  },
   "site": {
     "name": "Direktori",
     "description": ""
