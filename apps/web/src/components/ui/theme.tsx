@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/i18n/client";
 import { useEffect, useState } from "react";
@@ -15,24 +14,27 @@ export default function ThemeToggle({ lng }: { lng: string }) {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;
+
+  const isLightTheme = resolvedTheme === "light";
+
   return (
     <Button
-      title={t("theme.toggle_dark")}
+      title={isLightTheme ? t("theme.toggle_dark") : t("theme.toggle_light")}
       variant="tertiary"
       size="icon"
       className="group"
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      onClick={() => setTheme(isLightTheme ? "dark" : "light")}
     >
       <Moon
-        data-state={resolvedTheme === "light" ? "dark" : "light"}
+        data-state={isLightTheme ? "dark" : "light"}
         className="text-dim animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 size-4 group-hover:text-black data-[state=dark]:flex data-[state=light]:hidden"
       />
       <Sun
-        data-state={resolvedTheme === "light" ? "dark" : "light"}
+        data-state={isLightTheme ? "dark" : "light"}
         className="text-dim animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 -m-0.5 size-5 group-hover:text-[#FFFFFF] data-[state=light]:flex data-[state=dark]:hidden"
       />
       <div className="sr-only">
-        {theme === "light" ? t("theme.toggle_dark") : t("theme.toggle_light")}
+        {isLightTheme ? t("theme.toggle_dark") : t("theme.toggle_light")}
       </div>
     </Button>
   );
