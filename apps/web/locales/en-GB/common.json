@@ -1,4 +1,8 @@
 {
+  "theme": {
+    "toggle_dark": "Toggle dark mode",
+    "toggle_light": "Toggle light mode"
+  },
   "site": {
     "name": "Directory",
     "description": ""

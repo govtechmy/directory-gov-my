@@ -189,7 +189,7 @@ export function Header({ lng }: { lng: string }) {
           </NavigationMenu.Root>
         </div>
         <div className="flex items-center gap-2">
-          <ThemeToggle lng={lng}></ThemeToggle>
+          <ThemeToggle lng={lng} />
           <Suspense>
             <Locale lng={lng} />
           </Suspense>

@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/i18n/client";
-import { useTheme } from "../../../node_modules/next-themes/dist/index";
 import { useEffect, useState } from "react";
 import Moon from "@/icons/moon";
 import Sun from "@/icons/sun";
+import { useTheme } from "next-themes";
 
 export default function ThemeToggle({ lng }: { lng: string }) {
   const { t } = useTranslation(lng);
@@ -17,7 +17,7 @@ export default function ThemeToggle({ lng }: { lng: string }) {
   if (!mounted) return null;
   return (
     <Button
-      title={t("toggle_theme")}
+      title={t("theme.toggle_dark")}
       variant="tertiary"
       size="icon"
       className="group"
@@ -32,7 +32,7 @@ export default function ThemeToggle({ lng }: { lng: string }) {
         className="text-dim animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 -m-0.5 size-5 group-hover:text-[#FFFFFF] data-[state=light]:flex data-[state=dark]:hidden"
       />
       <div className="sr-only">
-        {theme === "light" ? t("toggle_dark") : t("toggle_light")}
+        {theme === "light" ? t("theme.toggle_dark") : t("theme.toggle_light")}
       </div>
     </Button>
   );
