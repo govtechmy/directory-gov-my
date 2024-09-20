@@ -27,6 +27,8 @@ import { useTranslation } from "@/i18n/client";
 import { ReactNode, useState } from "react";
 import ArrowDown from "@/icons/arrow-down";
 import ArrowUp from "@/icons/arrow-up";
+import exp from "constants";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   className?: string;
@@ -41,7 +43,7 @@ interface DataTableProps<TData, TValue> {
   };
   filter?: (
     table: TTable<TData>,
-    headers: Header<TData, unknown>[]
+    headers: Header<TData, unknown>[],
   ) => ReactNode;
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
@@ -59,44 +61,31 @@ export default function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
   const [pagination, setPagination] = useState({
-    pageIndex: !!paginate ? paginate.pageIndex : 0,
-    pageSize: !!paginate ? paginate.pageSize : 10,
+    pageIndex: paginate ? paginate.pageIndex : 0,
+    pageSize: paginate ? paginate.pageSize : 10,
   });
 
-  const defaultColumn: Partial<ColumnDef<TData>> = {
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-    cell: ({ getValue, column: { columnDef } }) => {
-      const value = getValue();
-      const canUseReadMore = columnDef.meta?.enableReadMore || false;
+  const [expandedColumns, setExpandedColumns] = useState<
+    Record<string, boolean>
+  >({});
 
-      return canUseReadMore ? (
-        <ReadMore
-          className="whitespace-nowrap"
-          max={["char", columnDef.meta?.maxChar ?? 50]}
-        >
-          {value as string}
-        </ReadMore>
-      ) : (
-        <p className="w-full" key={value as string}>
-          {value as string}
-        </p>
-      );
-    },
+  const toggleColumnWidth = (columnId: string) => {
+    setExpandedColumns((prev) => ({
+      ...prev,
+      [columnId]: !prev[columnId],
+    }));
   };
 
   const table = useReactTable({
     data,
     columns,
-    defaultColumn,
+    getCoreRowModel: getCoreRowModel(),
     state: { pagination },
 
     columnResizeMode: "onChange",
     enableColumnResizing: resizable,
     enableColumnFilters: filterable,
     getSortedRowModel: getSortedRowModel(),
-    getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: (value) => {
       if (!paginate) return;
@@ -133,19 +122,27 @@ export default function DataTable<TData, TValue>({
                     key={header.id}
                     colSpan={header.colSpan}
                     className={header.column.columnDef.meta?.headerClass}
-                    style={{ width: header.getSize() }}
                   >
                     {header.isPlaceholder ? null : (
                       <div className="flex items-center gap-2">
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                         {{
                           desc: <ArrowDown className="h-3 w-3" />,
                           asc: <ArrowUp className="h-3 w-3" />,
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
+                    )}
+
+                    {header.column.columnDef.meta?.enableReadMore && (
+                      <ArrowUp
+                        className="h-3 w-3"
+                        onClick={() => {
+                          toggleColumnWidth(header.id);
+                        }}
+                      />
                     )}
                   </TableHead>
                 );
@@ -157,7 +154,6 @@ export default function DataTable<TData, TValue>({
           {table?.getRowModel()?.rows?.length > 0 ? (
             table.getRowModel().rows.map((row) => {
               const mergedRow = isMerged ? isMerged(row) : undefined;
-
               return (
                 <TableRow key={row.id}>
                   {mergedRow ? (
@@ -169,25 +165,35 @@ export default function DataTable<TData, TValue>({
                     >
                       {flexRender(
                         mergedRow.column.columnDef.cell,
-                        mergedRow.getContext()
+                        mergedRow.getContext(),
                       )}
                     </TableCell>
                   ) : (
-                    row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        id={cell.id}
-                        key={cell.id}
-                        className={cell.column.columnDef.meta?.cellClass}
-                        style={{
-                          width: cell.column.getSize(),
-                        }}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))
+                    row.getVisibleCells().map((cell) => {
+                      let canExpand = false;
+                      const columnDef = cell.column.columnDef;
+                      const headerId = columnDef.accessorKey as string;
+                      if (headerId in expandedColumns) {
+                        canExpand = expandedColumns[headerId] as boolean;
+                      }
+                      return (
+                        <TableCell
+                          id={cell.id}
+                          key={cell.id}
+                          className={cn(
+                            "whitespace-nowrap",
+                            canExpand
+                              ? "truncate max-w-[489px]"
+                              : "truncate max-w-[230px]",
+                          )}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      );
+                    })
                   )}
                 </TableRow>
               );

@@ -7,10 +7,12 @@ import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { Cell } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { DirektoriFilter } from "./filter";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "@/i18n/client";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface Directory {
   id: number;
@@ -33,6 +35,8 @@ export default function Home({ lng }: { lng: string }) {
 
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search");
+
+  const [expand, setExpand] = useState({ bhg: false, jawatan: false });
 
   const column = [
     {
@@ -67,14 +71,67 @@ export default function Home({ lng }: { lng: string }) {
         maxChar: 18,
       },
     },
+    // {
+    //   header: () => (
+    //     <div className="w-full flex items-center justify-between gap-3">
+    //       {t("directory.table_header.bhg")}
+    //       <Button
+    //         onClick={() =>
+    //           setExpand((expand) => ({
+    //             jawatan: expand.jawatan,
+    //             bhg: !expand.bhg,
+    //           }))
+    //         }
+    //       >
+    //         {expand.bhg ? "Collapse" : "Expand"}
+    //       </Button>
+    //     </div>
+    //   ),
+    //   accessorKey: "bhg",
+    //   meta: {
+    //     cellClass: cn(
+    //       "whitespace-nowrap",
+    //       expand.bhg ? "" : "truncate max-w-[300px]"
+    //     ),
+    //     // enableReadMore: true,
+    //     // maxChar: 60,
+    //   },
+    // },
     {
       header: t("directory.table_header.jawatan"),
       accessorKey: "jawatan",
       meta: {
+        cellClass: "whitespace-nowrap",
         enableReadMore: true,
         maxChar: 60,
       },
     },
+    // {
+    //   header: () => (
+    //     <div className="w-full flex items-center justify-between gap-3">
+    //       {t("directory.table_header.jawatan")}
+    //       <Button
+    //         onClick={() =>
+    //           setExpand((expand) => ({
+    //             jawatan: !expand.jawatan,
+    //             bhg: expand.bhg,
+    //           }))
+    //         }
+    //       >
+    //         {expand.jawatan ? "Collapse" : "Expand"}
+    //       </Button>
+    //     </div>
+    //   ),
+    //   accessorKey: "jawatan",
+    //   meta: {
+    //     cellClass: cn(
+    //       // "whitespace-nowrap",
+    //       expand.jawatan ? "" : "truncate max-w-[300px]"
+    //     ),
+    //     // enableReadMore: true,
+    //     // maxChar: 60,
+    //   },
+    // },
     {
       header: t("directory.table_header.telefon"),
       accessorKey: "telefon",
@@ -208,7 +265,7 @@ export default function Home({ lng }: { lng: string }) {
             lng={lng}
             columns={column}
             data={data}
-            resizable={false}
+            resizable={true}
             paginate={{
               pageIndex: 0,
               pageSize: 15,
