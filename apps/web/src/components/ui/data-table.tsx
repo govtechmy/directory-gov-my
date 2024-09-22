@@ -148,7 +148,7 @@ export default function DataTable<TData, TValue>({
                     )}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-between">
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
