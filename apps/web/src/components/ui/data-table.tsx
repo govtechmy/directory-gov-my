@@ -91,9 +91,6 @@ export default function DataTable<TData, TValue>({
     }));
   };
 
-  console.log(expandedColumns);
-  console.log(data);
-
   const table = useReactTable({
     data,
     columns,
@@ -116,7 +113,6 @@ export default function DataTable<TData, TValue>({
   });
 
   const headerGroups = table.getHeaderGroups();
-  console.log(columns);
 
   return (
     <>
@@ -145,6 +141,7 @@ export default function DataTable<TData, TValue>({
                       header.column.columnDef.meta?.enableReadMore
                         ? "group"
                         : "",
+                      "hover:border-blue-500",
                     )}
                   >
                     {header.isPlaceholder ? null : (
@@ -161,7 +158,7 @@ export default function DataTable<TData, TValue>({
                           ((expandedColumns[header.id] as
                             | boolean
                             | undefined) ? (
-                            <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center  opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center">
                               <ArrowUp
                                 className="h-4 w-4 text-blue-600 "
                                 onClick={() => {
