@@ -30,9 +30,16 @@ import ArrowUp from "@/icons/arrow-up";
 import exp from "constants";
 import { cn } from "@/lib/utils";
 
+type CustomColumnDef<TData> = ColumnDef<TData, any> & {
+  accessorKey: string;
+  meta?: {
+    enableReadMore?: boolean;
+  };
+};
+
 interface DataTableProps<TData, TValue> {
   className?: string;
-  columns: ColumnDef<TData, any>[];
+  columns: CustomColumnDef<TData>[];
   data: TData[];
   lng: string;
   resizable?: boolean;
@@ -67,7 +74,15 @@ export default function DataTable<TData, TValue>({
 
   const [expandedColumns, setExpandedColumns] = useState<
     Record<string, boolean>
-  >({});
+  >(() => {
+    const initialState: Record<string, boolean> = {};
+    columns.forEach((column) => {
+      if (column.meta && column.meta.enableReadMore) {
+        initialState[column.accessorKey] = false;
+      }
+    });
+    return initialState;
+  });
 
   const toggleColumnWidth = (columnId: string) => {
     setExpandedColumns((prev) => ({
@@ -75,6 +90,9 @@ export default function DataTable<TData, TValue>({
       [columnId]: !prev[columnId],
     }));
   };
+
+  console.log(expandedColumns);
+  console.log(data);
 
   const table = useReactTable({
     data,
@@ -98,6 +116,7 @@ export default function DataTable<TData, TValue>({
   });
 
   const headerGroups = table.getHeaderGroups();
+  console.log(columns);
 
   return (
     <>
@@ -121,7 +140,12 @@ export default function DataTable<TData, TValue>({
                     id={header.id}
                     key={header.id}
                     colSpan={header.colSpan}
-                    className={header.column.columnDef.meta?.headerClass}
+                    className={cn(
+                      header.column.columnDef.meta?.headerClass,
+                      header.column.columnDef.meta?.enableReadMore
+                        ? "group"
+                        : "",
+                    )}
                   >
                     {header.isPlaceholder ? null : (
                       <div className="flex items-center gap-2">
@@ -133,16 +157,29 @@ export default function DataTable<TData, TValue>({
                           desc: <ArrowDown className="h-3 w-3" />,
                           asc: <ArrowUp className="h-3 w-3" />,
                         }[header.column.getIsSorted() as string] ?? null}
+                        {header.column.columnDef.meta?.enableReadMore &&
+                          ((expandedColumns[header.id] as
+                            | boolean
+                            | undefined) ? (
+                            <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center  opacity-0 group-hover:opacity-100 transition-opacity">
+                              <ArrowUp
+                                className="h-4 w-4 text-blue-600 "
+                                onClick={() => {
+                                  toggleColumnWidth(header.id);
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <ArrowDown
+                                className="h-4 w-4 text-blue-600"
+                                onClick={() => {
+                                  toggleColumnWidth(header.id);
+                                }}
+                              />
+                            </div>
+                          ))}
                       </div>
-                    )}
-
-                    {header.column.columnDef.meta?.enableReadMore && (
-                      <ArrowUp
-                        className="h-3 w-3"
-                        onClick={() => {
-                          toggleColumnWidth(header.id);
-                        }}
-                      />
                     )}
                   </TableHead>
                 );
@@ -170,22 +207,17 @@ export default function DataTable<TData, TValue>({
                     </TableCell>
                   ) : (
                     row.getVisibleCells().map((cell) => {
-                      let canExpand = false;
-                      const columnDef = cell.column.columnDef;
-                      const headerId = columnDef.accessorKey as string;
-                      if (headerId in expandedColumns) {
-                        canExpand = expandedColumns[headerId] as boolean;
-                      }
+                      const columnDef = cell.column
+                        .columnDef as CustomColumnDef<TData>;
+                      const headerId = columnDef.accessorKey;
+                      const canExpand = expandedColumns[headerId] || false;
                       return (
                         <TableCell
                           id={cell.id}
                           key={cell.id}
-                          className={cn(
-                            "whitespace-nowrap",
-                            canExpand
-                              ? "truncate max-w-[489px]"
-                              : "truncate max-w-[230px]",
-                          )}
+                          className={`whitespace-nowrap truncate ${
+                            canExpand ? "max-w-[489px]" : "max-w-[230px]"
+                          }`}
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
