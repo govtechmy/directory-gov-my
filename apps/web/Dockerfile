@@ -3,6 +3,9 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
+# Add ARG instruction here
+ARG APP_URL
+
 FROM base AS builder
 RUN apk update
 RUN apk add --no-cache libc6-compat
@@ -30,6 +33,11 @@ RUN pnpm turbo run build --filter=web
  
 FROM base AS runner
 WORKDIR /app
+
+# Pass ARG to this stage
+ARG APP_URL
+# Set it as an environment variable if needed
+ENV APP_URL=$APP_URL
  
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
