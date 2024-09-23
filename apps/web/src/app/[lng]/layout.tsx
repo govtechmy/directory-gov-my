@@ -8,6 +8,10 @@ import ClarityScript from "./clarity";
 import { languages } from "@/i18n/settings";
 import { useTranslation } from "@/i18n";
 import Providers from "./providers";
+import { Suspense } from "react";
+//useSearchParams() being used outside of a Suspense boundary in the page component at "/[lng]".
+// This can cause problems with server-side rendering and hydration.
+// short fix wrap the suspense on the head and body
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -74,33 +78,35 @@ export default function RootLayout({
 }) {
   return (
     <html lang={lng} suppressHydrationWarning>
-      {process.env.APP_ENV === "production" && (
-        <head>
-          {/* <script
+      <Suspense>
+        {process.env.APP_ENV === "production" && (
+          <head>
+            {/* <script
             defer
             src="https://unpkg.com/@tinybirdco/flock.js"
             data-token={`${process.env.NEXT_PUBLIC_TINYBIRD_TOKEN}`}
           /> */}
-        </head>
-      )}
-      <ClarityScript />
-
-      <body
-        className={cn(
-          inter.className,
-          poppins.variable,
-          "flex min-w-[320px] flex-col"
+          </head>
         )}
-      >
-        <Providers>
-          <div className="flex min-h-screen flex-col">
-            <Masthead lng={lng} />
-            <Header lng={lng} />
-            <>{children}</>
-            <Footer lng={lng} />
-          </div>
-        </Providers>
-      </body>
+        <ClarityScript />
+
+        <body
+          className={cn(
+            inter.className,
+            poppins.variable,
+            "flex min-w-[320px] flex-col",
+          )}
+        >
+          <Providers>
+            <div className="flex min-h-screen flex-col">
+              <Masthead lng={lng} />
+              <Header lng={lng} />
+              <>{children}</>
+              <Footer lng={lng} />
+            </div>
+          </Providers>
+        </body>
+      </Suspense>
     </html>
   );
 }
