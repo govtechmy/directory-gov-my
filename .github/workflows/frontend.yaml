@@ -1,6 +1,6 @@
 name: Deploy frontend-directory
 env:
-  IMAGE: directory-website
+  IMAGE: directory/web
 on:
   push:
     branches:
