@@ -1,53 +1,45 @@
+# Base stage
 FROM node:20-alpine AS base 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+ARG APP_URL="http://localhost:3000"
 
-# Add ARG instruction here
-ARG APP_URL
-
+# Builder stage
 FROM base AS builder
 RUN apk update
 RUN apk add --no-cache libc6-compat
-# Set working directory
 WORKDIR /app
 RUN pnpm add turbo@^2 --global
 COPY . .
- 
-# Generate a partial monorepo with a pruned lockfile for a target workspace.
 RUN turbo prune web --docker
- 
-# Add lockfile and package.json's of isolated subworkspace
+
+# Installer stage
 FROM base AS installer
 RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
- 
-# First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
 RUN pnpm install --frozen-lockfile
- 
-# Build the project
 COPY --from=builder /app/out/full/ .
+ARG APP_URL
+ENV APP_URL=$APP_URL
+
+# Add the echo command here, before the build
+RUN echo "hello ${APP_URL}!"
+
 RUN pnpm turbo run build --filter=web
- 
+
+# Runner stage
 FROM base AS runner
 WORKDIR /app
-
-# Pass ARG to this stage
 ARG APP_URL
-# Set it as an environment variable if needed
 ENV APP_URL=$APP_URL
- 
-# Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
- 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
- 
+
 CMD node apps/web/server.js
