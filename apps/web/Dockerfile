@@ -25,9 +25,6 @@ COPY --from=builder /app/out/full/ .
 ARG APP_URL
 ENV APP_URL=$APP_URL
 
-# Add the echo command here, before the build
-RUN echo "hello ${APP_URL}!"
-
 RUN pnpm turbo run build --filter=web
 
 # Runner stage
