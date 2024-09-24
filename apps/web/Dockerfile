@@ -3,7 +3,7 @@ FROM node:20-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-ARG APP_URL="http://localhost:3000"
+ARG APP_URL
 
 # Builder stage
 FROM base AS builder
