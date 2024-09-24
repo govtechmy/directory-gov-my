@@ -22,7 +22,6 @@ WORKDIR /app
 COPY --from=builder /app/out/json/ .
 RUN pnpm install --frozen-lockfile
 COPY --from=builder /app/out/full/ .
-ARG APP_URL
 ENV APP_URL=$APP_URL
 
 RUN pnpm turbo run build --filter=web
@@ -30,8 +29,6 @@ RUN pnpm turbo run build --filter=web
 # Runner stage
 FROM base AS runner
 WORKDIR /app
-ARG APP_URL
-ENV APP_URL=$APP_URL
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
