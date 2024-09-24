@@ -4,7 +4,6 @@ env:
 on:
   push:
     branches:
-      - feat/GHA
       - main
   workflow_dispatch:
 permissions:
