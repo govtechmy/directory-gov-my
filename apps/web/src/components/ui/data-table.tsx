@@ -24,11 +24,13 @@ import {
 import Paginate from "@/components/ui/pagination";
 import ReadMore from "@/components/ui/read-more";
 import { useTranslation } from "@/i18n/client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import ArrowDown from "@/icons/arrow-down";
 import ArrowUp from "@/icons/arrow-up";
 import exp from "constants";
 import { cn } from "@/lib/utils";
+import ColumnCollapse from "@/icons/collumn-collapse";
+import ColumnExpand from "@/icons/column-expand";
 
 type CustomColumnDef<TData> = ColumnDef<TData, any> & {
   accessorKey: string;
@@ -79,6 +81,7 @@ export default function DataTable<TData, TValue>({
     columns.forEach((column) => {
       if (column.meta && column.meta.enableReadMore) {
         initialState[column.accessorKey] = false;
+        // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
       }
     });
     return initialState;
@@ -113,6 +116,14 @@ export default function DataTable<TData, TValue>({
   });
 
   const headerGroups = table.getHeaderGroups();
+
+  // to check for column size, if it is bigger than 230px only will have the expandable feature enabled
+  useEffect(() => {
+    table.getAllColumns().forEach((column) => {
+      const columnWidth = column.getSize();
+      console.log("column.id", column.id, columnWidth);
+    });
+  }, [table, expandedColumns]);
 
   return (
     <>
@@ -159,7 +170,7 @@ export default function DataTable<TData, TValue>({
                             | boolean
                             | undefined) ? (
                             <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center">
-                              <ArrowUp
+                              <ColumnCollapse
                                 className="h-4 w-4 text-blue-600 "
                                 onClick={() => {
                                   toggleColumnWidth(header.id);
@@ -168,7 +179,7 @@ export default function DataTable<TData, TValue>({
                             </div>
                           ) : (
                             <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                              <ArrowDown
+                              <ColumnExpand
                                 className="h-4 w-4 text-blue-600"
                                 onClick={() => {
                                   toggleColumnWidth(header.id);
@@ -207,21 +218,36 @@ export default function DataTable<TData, TValue>({
                       const columnDef = cell.column
                         .columnDef as CustomColumnDef<TData>;
                       const headerId = columnDef.accessorKey;
-                      const canExpand = expandedColumns[headerId] || false;
-                      return (
-                        <TableCell
-                          id={cell.id}
-                          key={cell.id}
-                          className={`whitespace-nowrap truncate ${
-                            canExpand ? "max-w-[489px]" : "max-w-[230px]"
-                          }`}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </TableCell>
-                      );
+                      if (headerId in expandedColumns) {
+                        const canExpand = expandedColumns[headerId];
+                        return (
+                          <TableCell
+                            id={cell.id}
+                            key={cell.id}
+                            className={`whitespace-nowrap truncate ${
+                              !canExpand && "max-w-[230px]"
+                            }`}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell
+                            id={cell.id}
+                            key={cell.id}
+                            className="whitespace-nowrap"
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </TableCell>
+                        );
+                      }
                     })
                   )}
                 </TableRow>
