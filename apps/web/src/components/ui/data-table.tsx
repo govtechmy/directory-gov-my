@@ -184,7 +184,7 @@ export default function DataTable<TData, TValue>({
                       header.column.columnDef.meta?.enableReadMore
                         ? "group"
                         : "",
-                      "hover:border-blue-500",
+                      "hover:border-brand-300",
                     )}
                   >
                     {header.isPlaceholder ? null : (
@@ -202,9 +202,9 @@ export default function DataTable<TData, TValue>({
                           ((expandableColumns[header.id] as
                             | boolean
                             | undefined) ? (
-                            <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center">
+                            <div className="w-6 h-[18px] border border-brand-200 rounded-lg flex justify-center items-center">
                               <ColumnCollapse
-                                className="h-4 w-4 text-blue-600 "
+                                className="h-4 w-4 text-brand-600 "
                                 onClick={() => {
                                   toggleColumnWidth(header.id);
                                 }}
@@ -213,7 +213,7 @@ export default function DataTable<TData, TValue>({
                           ) : (
                             <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
                               <ColumnExpand
-                                className="h-4 w-4 text-blue-600"
+                                className="h-4 w-4 text-brand-600"
                                 onClick={() => {
                                   toggleColumnWidth(header.id);
                                 }}
@@ -262,7 +262,7 @@ export default function DataTable<TData, TValue>({
                             id={cell.id}
                             key={cell.id}
                             className={`whitespace-nowrap truncate ${
-                              !canExpand && "max-w-[230px]"
+                              !canExpand && "max-w-desktop"
                             }`}
                           >
                             {flexRender(
