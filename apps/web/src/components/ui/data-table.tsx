@@ -24,13 +24,24 @@ import {
 import Paginate from "@/components/ui/pagination";
 import ReadMore from "@/components/ui/read-more";
 import { useTranslation } from "@/i18n/client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import ArrowDown from "@/icons/arrow-down";
 import ArrowUp from "@/icons/arrow-up";
+import ColumnCollapse from "@/icons/column-collapse";
+import ColumnExpand from "@/icons/column-expand";
+import { cn } from "@/lib/utils";
+import exp from "constants";
+
+type CustomColumnDef<TData> = ColumnDef<TData, any> & {
+  accessorKey: string;
+  meta?: {
+    enableReadMore?: boolean;
+  };
+};
 
 interface DataTableProps<TData, TValue> {
   className?: string;
-  columns: ColumnDef<TData, any>[];
+  columns: CustomColumnDef<TData>[];
   data: TData[];
   lng: string;
   resizable?: boolean;
@@ -41,7 +52,7 @@ interface DataTableProps<TData, TValue> {
   };
   filter?: (
     table: TTable<TData>,
-    headers: Header<TData, unknown>[]
+    headers: Header<TData, unknown>[],
   ) => ReactNode;
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
@@ -59,31 +70,68 @@ export default function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
   const [pagination, setPagination] = useState({
-    pageIndex: !!paginate ? paginate.pageIndex : 0,
-    pageSize: !!paginate ? paginate.pageSize : 10,
+    pageIndex: paginate ? paginate.pageIndex : 0,
+    pageSize: paginate ? paginate.pageSize : 10,
   });
+
+  const [expandableColumns, setExpandableColumns] = useState<
+    Record<string, boolean>
+  >(() => {
+    const initialState: Record<string, boolean> = {};
+    columns.forEach((column) => {
+      if (column.meta && column.meta.enableReadMore) {
+        initialState[column.accessorKey] = false;
+        // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
+      }
+    });
+    return initialState;
+  });
+
+  // useeffect, check if string more than 25, if all more than 25 ok. Else, will remove the key in the expandablecolumn
+  // console.log(data);
+
+  // const defaultColumn: Partial<ColumnDef<TData>> = {
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   },
+  //   cell: ({ getValue, column: { columnDef } }) => {
+  //     const value = getValue();
+  //     const canUseReadMore = columnDef.meta?.enableReadMore || false;
+
+  //     return canUseReadMore ? (
+  //       <ReadMore
+  //         className="whitespace-nowrap"
+  //         max={["char", columnDef.meta?.maxChar ?? 50]}
+  //       >
+  //         {value as string}
+  //       </ReadMore>
+  //     ) : (
+  //       <p className="w-full" key={value as string}>
+  //         {value as string}
+  //       </p>
+  //     );
+  //   },
+  // };
 
   const defaultColumn: Partial<ColumnDef<TData>> = {
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
-    cell: ({ getValue, column: { columnDef } }) => {
-      const value = getValue();
-      const canUseReadMore = columnDef.meta?.enableReadMore || false;
-
-      return canUseReadMore ? (
-        <ReadMore
-          className="whitespace-nowrap"
-          max={["char", columnDef.meta?.maxChar ?? 50]}
-        >
-          {value as string}
-        </ReadMore>
-      ) : (
-        <p className="w-full" key={value as string}>
-          {value as string}
+    cell: ({ getValue }) => {
+      let value = getValue() as string;
+      return (
+        <p className="truncate" key={value as string}>
+          {value}
         </p>
       );
     },
+  };
+
+  const toggleColumnWidth = (columnId: string) => {
+    setExpandableColumns((prev) => ({
+      ...prev,
+      [columnId]: !prev[columnId],
+    }));
   };
 
   const table = useReactTable({
@@ -109,6 +157,36 @@ export default function DataTable<TData, TValue>({
   });
 
   const headerGroups = table.getHeaderGroups();
+  const tableRow = table.getRowModel().rows;
+
+  // console.log(expandableColumns);
+  // useEffect(() => {
+  //   let initialObj: Record<string, boolean> = { ...expandableColumns };
+
+  //   const emptyObj: Record<string, boolean> = {};
+  //   columns.forEach((column) => {
+  //     if (column.meta && column.meta.enableReadMore) {
+  //       emptyObj[column.accessorKey] = false;
+  //       // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
+  //     }
+  //   });
+
+  //   const mergedObj = { ...emptyObj, ...initialObj };
+
+  //   Object.keys(mergedObj).forEach((columnId) => {
+  //     const visibleRows = table.getRowModel().rows;
+  //     const longVisibleRows = visibleRows.filter((row) => {
+  //       const value = row.getValue(columnId) as string;
+  //       return value.length >= 30;
+  //     });
+
+  //     console.log(expandableColumns);
+  //     if (longVisibleRows.length == 0 && columnId in expandableColumns) {
+  //       delete mergedObj[columnId];
+  //       setExpandableColumns(mergedObj);
+  //     }
+  //   });
+  // }, [tableRow, expandableColumns, table, columns]);
 
   return (
     <>
@@ -132,19 +210,46 @@ export default function DataTable<TData, TValue>({
                     id={header.id}
                     key={header.id}
                     colSpan={header.colSpan}
-                    className={header.column.columnDef.meta?.headerClass}
-                    style={{ width: header.getSize() }}
+                    className={cn(
+                      header.column.columnDef.meta?.headerClass,
+                      header.column.columnDef.meta?.enableReadMore
+                        ? "group"
+                        : "",
+                      "hover:border-blue-500",
+                    )}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-between">
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                         {{
                           desc: <ArrowDown className="h-3 w-3" />,
                           asc: <ArrowUp className="h-3 w-3" />,
                         }[header.column.getIsSorted() as string] ?? null}
+                        {header.column.columnDef.meta?.enableReadMore &&
+                          ((expandableColumns[header.id] as
+                            | boolean
+                            | undefined) ? (
+                            <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center">
+                              <ColumnCollapse
+                                className="h-4 w-4 text-blue-600 "
+                                onClick={() => {
+                                  toggleColumnWidth(header.id);
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-6 h-[18px] border border-blue-200 rounded-lg flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <ColumnExpand
+                                className="h-4 w-4 text-blue-600"
+                                onClick={() => {
+                                  toggleColumnWidth(header.id);
+                                }}
+                              />
+                            </div>
+                          ))}
                       </div>
                     )}
                   </TableHead>
@@ -169,25 +274,45 @@ export default function DataTable<TData, TValue>({
                     >
                       {flexRender(
                         mergedRow.column.columnDef.cell,
-                        mergedRow.getContext()
+                        mergedRow.getContext(),
                       )}
                     </TableCell>
                   ) : (
-                    row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        id={cell.id}
-                        key={cell.id}
-                        className={cell.column.columnDef.meta?.cellClass}
-                        style={{
-                          width: cell.column.getSize(),
-                        }}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))
+                    row.getVisibleCells().map((cell) => {
+                      const columnDef = cell.column
+                        .columnDef as CustomColumnDef<TData>;
+                      const headerId = columnDef.accessorKey;
+                      if (headerId in expandableColumns) {
+                        const canExpand = expandableColumns[headerId];
+                        return (
+                          <TableCell
+                            id={cell.id}
+                            key={cell.id}
+                            className={`whitespace-nowrap truncate ${
+                              !canExpand && "max-w-[230px]"
+                            }`}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell
+                            id={cell.id}
+                            key={cell.id}
+                            className="whitespace-nowrap"
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </TableCell>
+                        );
+                      }
+                    })
                   )}
                 </TableRow>
               );
