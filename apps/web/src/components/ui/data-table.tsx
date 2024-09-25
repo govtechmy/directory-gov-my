@@ -75,7 +75,7 @@ export default function DataTable<TData, TValue>({
   });
 
   const [expandableColumns, setExpandableColumns] = useState<
-    Record<string, boolean>
+    Record<string, boolean | null>
   >(() => {
     const initialState: Record<string, boolean> = {};
     columns.forEach((column) => {
@@ -86,32 +86,6 @@ export default function DataTable<TData, TValue>({
     });
     return initialState;
   });
-
-  // useeffect, check if string more than 25, if all more than 25 ok. Else, will remove the key in the expandablecolumn
-  // console.log(data);
-
-  // const defaultColumn: Partial<ColumnDef<TData>> = {
-  //   filterFn: (row, id, value) => {
-  //     return value.includes(row.getValue(id));
-  //   },
-  //   cell: ({ getValue, column: { columnDef } }) => {
-  //     const value = getValue();
-  //     const canUseReadMore = columnDef.meta?.enableReadMore || false;
-
-  //     return canUseReadMore ? (
-  //       <ReadMore
-  //         className="whitespace-nowrap"
-  //         max={["char", columnDef.meta?.maxChar ?? 50]}
-  //       >
-  //         {value as string}
-  //       </ReadMore>
-  //     ) : (
-  //       <p className="w-full" key={value as string}>
-  //         {value as string}
-  //       </p>
-  //     );
-  //   },
-  // };
 
   const defaultColumn: Partial<ColumnDef<TData>> = {
     filterFn: (row, id, value) => {
@@ -159,34 +133,30 @@ export default function DataTable<TData, TValue>({
   const headerGroups = table.getHeaderGroups();
   const tableRow = table.getRowModel().rows;
 
-  // console.log(expandableColumns);
-  // useEffect(() => {
-  //   let initialObj: Record<string, boolean> = { ...expandableColumns };
+  useEffect(() => {
+    const emptyObj: Record<string, boolean | null> = {};
+    columns.forEach((column) => {
+      if (column.meta && column.meta.enableReadMore) {
+        emptyObj[column.accessorKey] = false;
+        // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
+      }
+    });
 
-  //   const emptyObj: Record<string, boolean> = {};
-  //   columns.forEach((column) => {
-  //     if (column.meta && column.meta.enableReadMore) {
-  //       emptyObj[column.accessorKey] = false;
-  //       // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
-  //     }
-  //   });
+    const mergedObj = { ...emptyObj };
+    Object.keys(mergedObj).forEach((columnId) => {
+      const visibleRows = table.getRowModel().rows;
+      const longVisibleRows = visibleRows.filter((row) => {
+        const value = row.getValue(columnId) as string;
+        if (value.length > 30) console.log(value);
+        return value.length >= 30;
+      });
 
-  //   const mergedObj = { ...emptyObj, ...initialObj };
-
-  //   Object.keys(mergedObj).forEach((columnId) => {
-  //     const visibleRows = table.getRowModel().rows;
-  //     const longVisibleRows = visibleRows.filter((row) => {
-  //       const value = row.getValue(columnId) as string;
-  //       return value.length >= 30;
-  //     });
-
-  //     console.log(expandableColumns);
-  //     if (longVisibleRows.length == 0 && columnId in expandableColumns) {
-  //       delete mergedObj[columnId];
-  //       setExpandableColumns(mergedObj);
-  //     }
-  //   });
-  // }, [tableRow, expandableColumns, table, columns]);
+      if (longVisibleRows.length == 0) {
+        mergedObj[columnId] = null;
+      }
+      setExpandableColumns(mergedObj);
+    });
+  }, [tableRow, table, columns]);
 
   return (
     <>
@@ -229,6 +199,7 @@ export default function DataTable<TData, TValue>({
                           asc: <ArrowUp className="h-3 w-3" />,
                         }[header.column.getIsSorted() as string] ?? null}
                         {header.column.columnDef.meta?.enableReadMore &&
+                          expandableColumns[header.id] !== null &&
                           ((expandableColumns[header.id] as
                             | boolean
                             | undefined) ? (
@@ -282,7 +253,10 @@ export default function DataTable<TData, TValue>({
                       const columnDef = cell.column
                         .columnDef as CustomColumnDef<TData>;
                       const headerId = columnDef.accessorKey;
-                      if (headerId in expandableColumns) {
+                      if (
+                        headerId in expandableColumns &&
+                        expandableColumns[headerId] !== null
+                      ) {
                         const canExpand = expandableColumns[headerId];
                         return (
                           <TableCell
