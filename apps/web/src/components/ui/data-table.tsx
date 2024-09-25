@@ -22,7 +22,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Paginate from "@/components/ui/pagination";
-import ReadMore from "@/components/ui/read-more";
 import { useTranslation } from "@/i18n/client";
 import { ReactNode, useEffect, useState } from "react";
 import ArrowDown from "@/icons/arrow-down";
@@ -30,7 +29,6 @@ import ArrowUp from "@/icons/arrow-up";
 import ColumnCollapse from "@/icons/column-collapse";
 import ColumnExpand from "@/icons/column-expand";
 import { cn } from "@/lib/utils";
-import exp from "constants";
 
 type CustomColumnDef<TData> = ColumnDef<TData, any> & {
   accessorKey: string;
@@ -151,6 +149,7 @@ export default function DataTable<TData, TValue>({
         return value.length >= 30;
       });
 
+      // if all the rows has length less than 30, then the state with the columnId will be null. It will not has the expandable column capability
       if (longVisibleRows.length == 0) {
         mergedObj[columnId] = null;
       }
