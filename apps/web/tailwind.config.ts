@@ -92,9 +92,6 @@ const config: Config = {
       spacing: {
         4.5: "18px",
       },
-      maxWidth: {
-        desktop: "230px",
-      },
     },
   },
   plugins: [],
