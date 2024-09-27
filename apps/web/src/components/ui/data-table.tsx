@@ -111,16 +111,8 @@ export default function DataTable<TData, TValue>({
   const tableRow = table.getRowModel().rows;
 
   useEffect(() => {
-    const emptyObj: Record<string, boolean | null> = {};
-    columns.forEach((column) => {
-      if (column.meta && column.meta.enableReadMore) {
-        emptyObj[column.id as string] = false;
-        // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
-      }
-    });
-
-    const mergedObj = { ...emptyObj };
-    Object.keys(mergedObj).forEach((columnId) => {
+    const mergedObj = { ...expandableColumns };
+    Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string;
         return value.length >= 30;
@@ -129,9 +121,12 @@ export default function DataTable<TData, TValue>({
       // if all the rows has length less than 30, then the state with the columnId will be null. It will not has the expandable column capability
       if (longVisibleRows.length == 0) {
         mergedObj[columnId] = null;
+      } else {
+        // we set the state back to false such that it will always stay close when we navigate to different page
+        mergedObj[columnId] = false;
       }
-      setExpandableColumns(mergedObj);
     });
+    setExpandableColumns(mergedObj);
   }, [tableRow]);
 
   return (
@@ -158,7 +153,7 @@ export default function DataTable<TData, TValue>({
                     colSpan={header.colSpan}
                     className={cn(
                       typeof expandableColumns[header.id] === "boolean"
-                        ? "group hover:border-brand-300"
+                        ? "group hover:border-brand-300 pb-1"
                         : "",
                     )}
                   >
@@ -172,28 +167,22 @@ export default function DataTable<TData, TValue>({
                           desc: <ArrowDown className="h-3 w-3" />,
                           asc: <ArrowUp className="h-3 w-3" />,
                         }[header.column.getIsSorted() as string] ?? null}
-                        {typeof expandableColumns[header.id] === "boolean" &&
-                          (expandableColumns[header.id] ? (
-                            <Button
-                              size="default"
-                              onClick={() => {
-                                toggleColumnWidth(header.id);
-                              }}
-                              className="px-1 rounded-lg border-brand-200 focus:border-brand-200 focus:ring-brand-600/20 opacity-0 group-hover:opacity-100 transition-opacity"
-                            >
-                              <ColumnCollapse className="h-4 w-4" />
-                            </Button>
-                          ) : (
-                            <Button
-                              size="default"
-                              onClick={() => {
-                                toggleColumnWidth(header.id);
-                              }}
-                              className="px-1 rounded-lg border-brand-200 focus:border-brand-200 focus:ring-brand-600/20 opacity-0 group-hover:opacity-100 transition-opacity"
-                            >
-                              <ColumnExpand className="h-4 w-4" />
-                            </Button>
-                          ))}
+                        {typeof expandableColumns[header.id] === "boolean" && (
+                          <Button
+                            size="default"
+                            variant={"secondary-colour"}
+                            onClick={() => {
+                              toggleColumnWidth(header.id);
+                            }}
+                            className="px-1 rounded-lg"
+                          >
+                            {expandableColumns[header.id] ? (
+                              <ColumnCollapse className="size-4" />
+                            ) : (
+                              <ColumnExpand className="size-4" />
+                            )}
+                          </Button>
+                        )}
                       </div>
                     )}
                   </TableHead>
@@ -231,22 +220,16 @@ export default function DataTable<TData, TValue>({
                           id={cell.id}
                           key={cell.id}
                           className={cn(
+                            "whitespace-nowrap",
+                            typeof expandableColumns[headerId] === "boolean" &&
+                              `truncate ${!canExpand && "max-w-[230px]"}`,
                             cell.column.columnDef.meta?.cellClass,
-                            typeof expandableColumns[headerId] === "boolean"
-                              ? `whitespace-nowrap truncate ${
-                                  !canExpand && "max-w-[230px]"
-                                }`
-                              : "whitespace-nowrap",
                           )}
                         >
-                          {flexRender(({ getValue }) => {
-                            const value = getValue();
-                            return (
-                              <p className="truncate" key={value as string}>
-                                {value as string}
-                              </p>
-                            );
-                          }, cell.getContext())}
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
                         </TableCell>
                       );
                     })
