@@ -177,9 +177,9 @@ export default function DataTable<TData, TValue>({
                             className="px-1 rounded-lg"
                           >
                             {expandableColumns[header.id] ? (
-                              <ColumnCollapse className="size-4" />
+                              <ColumnCollapse className="size-4 text-brand-600" />
                             ) : (
-                              <ColumnExpand className="size-4" />
+                              <ColumnExpand className="size-4 text-brand-600" />
                             )}
                           </Button>
                         )}
