@@ -31,16 +31,9 @@ import ColumnExpand from "@/icons/column-expand";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
-type CustomColumnDef<TData> = ColumnDef<TData, any> & {
-  accessorKey: string;
-  meta?: {
-    enableReadMore?: boolean;
-  };
-};
-
 interface DataTableProps<TData, TValue> {
   className?: string;
-  columns: CustomColumnDef<TData>[];
+  columns: ColumnDef<TData, any>[];
   data: TData[];
   lng: string;
   resizable?: boolean;
@@ -79,26 +72,12 @@ export default function DataTable<TData, TValue>({
     const initialState: Record<string, boolean> = {};
     columns.forEach((column) => {
       if (column.meta && column.meta.enableReadMore) {
-        initialState[column.accessorKey] = false;
+        initialState[column.id as string] = false;
         // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
       }
     });
     return initialState;
   });
-
-  const defaultColumn: Partial<ColumnDef<TData>> = {
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-    cell: ({ getValue }) => {
-      let value = getValue() as string;
-      return (
-        <p className="truncate" key={value as string}>
-          {value}
-        </p>
-      );
-    },
-  };
 
   const toggleColumnWidth = (columnId: string) => {
     setExpandableColumns((prev) => ({
@@ -110,14 +89,13 @@ export default function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    defaultColumn,
+    getCoreRowModel: getCoreRowModel(),
     state: { pagination },
 
     columnResizeMode: "onChange",
     enableColumnResizing: resizable,
     enableColumnFilters: filterable,
     getSortedRowModel: getSortedRowModel(),
-    getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: (value) => {
       if (!paginate) return;
@@ -136,7 +114,7 @@ export default function DataTable<TData, TValue>({
     const emptyObj: Record<string, boolean | null> = {};
     columns.forEach((column) => {
       if (column.meta && column.meta.enableReadMore) {
-        emptyObj[column.accessorKey] = false;
+        emptyObj[column.id as string] = false;
         // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
       }
     });
@@ -201,7 +179,7 @@ export default function DataTable<TData, TValue>({
                               onClick={() => {
                                 toggleColumnWidth(header.id);
                               }}
-                              className="px-1 rounded-lg border-blue-200"
+                              className="px-1 rounded-lg border-brand-200 focus:border-brand-200 focus:ring-brand-600/20 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
                               <ColumnCollapse className="h-4 w-4" />
                             </Button>
@@ -211,7 +189,7 @@ export default function DataTable<TData, TValue>({
                               onClick={() => {
                                 toggleColumnWidth(header.id);
                               }}
-                              className="px-1 rounded-lg border-blue-200"
+                              className="px-1 rounded-lg border-brand-200 focus:border-brand-200 focus:ring-brand-600/20 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
                               <ColumnExpand className="h-4 w-4" />
                             </Button>
@@ -245,9 +223,8 @@ export default function DataTable<TData, TValue>({
                     </TableCell>
                   ) : (
                     row.getVisibleCells().map((cell) => {
-                      const columnDef = cell.column
-                        .columnDef as CustomColumnDef<TData>;
-                      const headerId = columnDef.accessorKey;
+                      const columnDef = cell.column.columnDef;
+                      const headerId = columnDef.id as string;
                       const canExpand = expandableColumns[headerId];
                       return (
                         <TableCell
@@ -262,10 +239,14 @@ export default function DataTable<TData, TValue>({
                               : "whitespace-nowrap",
                           )}
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
+                          {flexRender(({ getValue }) => {
+                            const value = getValue();
+                            return (
+                              <p className="truncate" key={value as string}>
+                                {value as string}
+                              </p>
+                            );
+                          }, cell.getContext())}
                         </TableCell>
                       );
                     })

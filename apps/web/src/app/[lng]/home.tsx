@@ -38,6 +38,7 @@ export default function Home({ lng }: { lng: string }) {
     {
       header: t("directory.table_header.nama"),
       accessorKey: "nama",
+      id: "nama",
       meta: {
         cellClass: "whitespace-nowrap",
       },
@@ -61,6 +62,7 @@ export default function Home({ lng }: { lng: string }) {
     {
       header: t("directory.table_header.bhg"),
       accessorKey: "bhg",
+      id: "bhg",
       meta: {
         cellClass: "whitespace-nowrap",
         enableReadMore: true,
@@ -70,6 +72,7 @@ export default function Home({ lng }: { lng: string }) {
     {
       header: t("directory.table_header.jawatan"),
       accessorKey: "jawatan",
+      id: "jawatan",
       meta: {
         enableReadMore: true,
         maxChar: 60,
@@ -78,6 +81,7 @@ export default function Home({ lng }: { lng: string }) {
     {
       header: t("directory.table_header.telefon"),
       accessorKey: "telefon",
+      id: "telefon",
       meta: {
         cellClass: "whitespace-nowrap",
       },
@@ -85,6 +89,7 @@ export default function Home({ lng }: { lng: string }) {
     {
       header: t("directory.table_header.emel"),
       accessorKey: "emel",
+      id: "emel",
       size: 100,
       meta: {
         headerClass: "whitespace-nowrap",
@@ -96,6 +101,7 @@ export default function Home({ lng }: { lng: string }) {
     {
       header: "",
       accessorKey: "bhg",
+      id: "bhg",
       accessorFn: (item: Directory) =>
         typeof item.id_bhg !== "string" && item.bhg,
       cell: (info: any) => {
