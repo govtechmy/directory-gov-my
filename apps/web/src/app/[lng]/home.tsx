@@ -46,7 +46,7 @@ export default function Home({ lng }: { lng: string }) {
         info.row.original.id === -1 ? (
           `${info.row.original.bhg} - ${info.getValue()}`
         ) : info.row.original.id === 0 ? (
-          <span className="text-red-600">KOSONG</span>
+          <span>—</span>
         ) : (
           info.getValue()
         ),
@@ -119,11 +119,7 @@ export default function Home({ lng }: { lng: string }) {
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
                 <span className="text-base font-semibold text-foreground">
-                  {id === 0 ? (
-                    <span className="text-red-600">KOSONG</span>
-                  ) : (
-                    nama
-                  )}
+                  {id === 0 ? <span>—</span> : nama}
                 </span>
                 {/* {gred !== "-" ? (
                   <span className="rounded-md bg-outline-200 px-1 text-black-700">

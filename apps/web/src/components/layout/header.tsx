@@ -40,8 +40,9 @@ export function Header({ lng }: { lng: string }) {
       <div
         className={cn(
           "container flex h-16 items-center justify-between gap-3 border-outline-200 bg-background py-3 max-xl:pr-3 max-lg:border-b lg:gap-4",
-          showMenu ? "" : "xl:bg-transparent"
+          showMenu ? "" : "xl:bg-transparent",
         )}
+        data-nosnippet
       >
         <div className="flex items-center justify-between gap-3 lg:gap-4">
           <Link
@@ -82,7 +83,7 @@ export function Header({ lng }: { lng: string }) {
                       <AccordionTrigger
                         className={cn(
                           buttonVariants({ variant: "tertiary", size: "md" }),
-                          "justify-start bg-background text-base hover:bg-none focus:ring-0"
+                          "justify-start bg-background text-base hover:bg-none focus:ring-0",
                         )}
                       >
                         {name}
@@ -99,7 +100,7 @@ export function Header({ lng }: { lng: string }) {
                                   variant: "tertiary",
                                   size: "md",
                                 }),
-                                "w-full justify-start text-sm data-[state=open]:bg-washed-100"
+                                "w-full justify-start text-sm data-[state=open]:bg-washed-100",
                               )}
                             >
                               {item.name}
@@ -116,13 +117,13 @@ export function Header({ lng }: { lng: string }) {
                       data-state={active(href) ? "open" : "close"}
                       className={cn(
                         buttonVariants({ variant: "tertiary", size: "md" }),
-                        "w-full justify-start text-base data-[state=open]:bg-washed-100"
+                        "w-full justify-start text-base data-[state=open]:bg-washed-100",
                       )}
                     >
                       {name}
                     </Link>
                   </SheetClose>
-                )
+                ),
               )}
             </SheetContent>
             <SheetPortal>
@@ -138,7 +139,7 @@ export function Header({ lng }: { lng: string }) {
                     <NavigationMenu.Trigger
                       className={cn(
                         buttonVariants({ variant: "tertiary" }),
-                        "group w-max select-none bg-transparent transition-colors data-[state=open]:bg-washed-100"
+                        "group w-max select-none bg-transparent transition-colors data-[state=open]:bg-washed-100",
                       )}
                     >
                       {name}
@@ -158,7 +159,7 @@ export function Header({ lng }: { lng: string }) {
                             rel="noopener noreferrer"
                             className={cn(
                               buttonVariants({ variant: "tertiary" }),
-                              "w-full justify-start bg-transparent transition-colors data-[state=open]:bg-washed-100"
+                              "w-full justify-start bg-transparent transition-colors data-[state=open]:bg-washed-100",
                             )}
                           >
                             {item.name}
@@ -174,13 +175,13 @@ export function Header({ lng }: { lng: string }) {
                       data-state={active(href) ? "open" : "close"}
                       className={cn(
                         buttonVariants({ variant: "tertiary" }),
-                        "w-max bg-transparent transition-colors data-[state=open]:bg-washed-100"
+                        "w-max bg-transparent transition-colors data-[state=open]:bg-washed-100",
                       )}
                     >
                       {name}
                     </Link>
                   </NavigationMenu.Item>
-                )
+                ),
               )}
             </NavigationMenu.List>
             <div className="absolute right-0 top-full">
