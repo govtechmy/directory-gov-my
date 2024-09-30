@@ -11,6 +11,7 @@ import { useMemo } from "react";
 import { DirektoriFilter } from "./filter";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "@/i18n/client";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface Directory {
   id: number;
@@ -46,7 +47,7 @@ export default function Home({ lng }: { lng: string }) {
         info.row.original.id === -1 ? (
           `${info.row.original.bhg} - ${info.getValue()}`
         ) : info.row.original.id === 0 ? (
-          <span className="text-red-600">KOSONG</span>
+          <span>—</span>
         ) : (
           info.getValue()
         ),
@@ -124,11 +125,7 @@ export default function Home({ lng }: { lng: string }) {
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
                 <span className="text-base font-semibold text-foreground">
-                  {id === 0 ? (
-                    <span className="text-red-600">KOSONG</span>
-                  ) : (
-                    nama
-                  )}
+                  {id === 0 ? <span>—</span> : nama}
                 </span>
                 {/* {gred !== "-" ? (
                   <span className="rounded-md bg-outline-200 px-1 text-black-700">
@@ -194,6 +191,8 @@ export default function Home({ lng }: { lng: string }) {
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
+  const isMobile = useMediaQuery("(max-width: 640px)");
+
   return (
     <main>
       <Hero
@@ -209,10 +208,10 @@ export default function Home({ lng }: { lng: string }) {
       />
 
       <Section>
-        <div className="hidden w-full border-washed-100 py-12 sm:flex flex-col lg:border-x lg:px-6">
+        <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
           <DataTable
             lng={lng}
-            columns={column}
+            columns={isMobile ? mobileColumn : column}
             data={data}
             resizable={false}
             paginate={{
@@ -228,35 +227,15 @@ export default function Home({ lng }: { lng: string }) {
                 subtitle={t("directory.table_header.bhg")}
               />
             )}
-            isMerged={(row) => {
-              if (row.original.staff_id === -1) return row.getVisibleCells()[0];
-              return false;
-            }}
-          />
-        </div>
-      </Section>
-
-      {/* Mobile */}
-      <Section>
-        <div className="flex w-full flex-col border-x-washed-100 py-12 sm:hidden lg:border-x">
-          <DataTable
-            lng={lng}
-            columns={mobileColumn}
-            data={data}
-            resizable={false}
-            paginate={{
-              pageIndex: 0,
-              pageSize: 15,
-            }}
-            filter={(table, headers) => (
-              <DirektoriFilter
-                lng={lng}
-                table={table}
-                headers={headers}
-                column="bhg"
-                subtitle={t("directory.table_header.bhg")}
-              />
-            )}
+            isMerged={
+              !isMobile
+                ? (row) => {
+                    if (row.original.staff_id === -1)
+                      return row.getVisibleCells()[0];
+                    return false;
+                  }
+                : undefined
+            }
           />
         </div>
       </Section>

@@ -44,19 +44,19 @@ jobs:
             APP_URL=${{ vars.APP_URL }}
       - name: Log out of Amazon ECR
         run: docker logout ${{ steps.login-ecr.outputs.registry }}
-      # - name: Deploy with Spinnaker
-      #   run: |
-      #     curl --request POST \
-      #         --url https://spin-gate.govtechmy.dev/webhooks/webhook/github \
-      #         --header 'Content-Type: application/json' \
-      #         --data '{
-      #           "secret": "${{ secrets.SPINNAKER_SECRET }}",
-      #           "artifacts": [
-      #             {
-      #               "type": "docker/image",
-      #               "reference": "${{ steps.meta.outputs.tags }}",
-      #               "name": "${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE }}",
-      #               "version": "${{ steps.meta.outputs.version }}"
-      #             }
-      #           ]
-      #         }'
+      - name: Deploy with Spinnaker
+        run: |
+          curl --request POST \
+              --url https://spin-gate.govtechmy.dev/webhooks/webhook/github \
+              --header 'Content-Type: application/json' \
+              --data '{
+                "secret": "${{ secrets.SPINNAKER_SECRET }}",
+                "artifacts": [
+                  {
+                    "type": "docker/image",
+                    "reference": "${{ steps.meta.outputs.tags }}",
+                    "name": "${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE }}",
+                    "version": "${{ steps.meta.outputs.version }}"
+                  }
+                ]
+              }'
