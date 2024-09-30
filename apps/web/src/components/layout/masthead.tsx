@@ -37,7 +37,10 @@ export default function Masthead({ lng }: { lng: string }) {
   }, []);
 
   return (
-    <div className="z-[60] bg-gradient-to-b from-washed-100 from-[84.74%] to-outline-200 to-100% print:hidden">
+    <div
+      className="z-[60] bg-gradient-to-b from-washed-100 from-[84.74%] to-outline-200 to-100% print:hidden"
+      data-nosnippet
+    >
       <details
         id="Masthead"
         className="group peer max-w-full overflow-hidden bg-washed-100"
@@ -68,7 +71,9 @@ export default function Masthead({ lng }: { lng: string }) {
           <div className="flex gap-3">
             <GovMY className="shrink-0 text-dim-500" />
             <div className="space-y-1.5">
-              <p className="font-medium max-sm:text-sm">{t("masthead.official")}</p>
+              <p className="font-medium max-sm:text-sm">
+                {t("masthead.official")}
+              </p>
               <p className="max-w-prose text-balance text-sm text-black-700">
                 {t("masthead.not_govmy")}
                 <span className="font-semibold">.gov.my</span>
@@ -79,7 +84,9 @@ export default function Masthead({ lng }: { lng: string }) {
           <div className="flex gap-3">
             <EncryptedLock className="shrink-0 text-dim-500" />
             <div className="space-y-1.5">
-              <p className="font-medium max-sm:text-sm">{t("masthead.secure")}</p>
+              <p className="font-medium max-sm:text-sm">
+                {t("masthead.secure")}
+              </p>
               <div className="max-w-prose text-balance text-sm text-black-700">
                 {t("masthead.find_lock")}{" "}
                 <SolidLock className="-ml-[3px] mb-0.5 mr-px inline size-3.5" />
