@@ -25,14 +25,13 @@ interface Directory {
   emel?: string | null;
 }
 
-let list = require("./directory_kd.json");
-
-export default function Home({ lng }: { lng: string }) {
+export default function Home({ lng, dataES }: { lng: string; dataES: any[] }) {
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
   const pathname = usePathname();
 
   const searchParams = useSearchParams();
+  let list = dataES;
   const searchQuery = searchParams.get("search");
 
   const column = [

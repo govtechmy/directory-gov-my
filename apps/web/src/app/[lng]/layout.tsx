@@ -78,25 +78,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang={lng} suppressHydrationWarning>
-      <Suspense>
-        {process.env.APP_ENV === "production" && (
-          <head>
-            {/* <script
+      {process.env.APP_ENV === "production" && (
+        <head>
+          {/* <script
             defer
             src="https://unpkg.com/@tinybirdco/flock.js"
             data-token={`${process.env.NEXT_PUBLIC_TINYBIRD_TOKEN}`}
           /> */}
-          </head>
-        )}
-        <ClarityScript />
+        </head>
+      )}
+      <ClarityScript />
 
-        <body
-          className={cn(
-            inter.className,
-            poppins.variable,
-            "flex min-w-[320px] flex-col",
-          )}
-        >
+      <body
+        className={cn(
+          inter.className,
+          poppins.variable,
+          "flex min-w-[320px] flex-col",
+        )}
+      >
+        <Suspense>
           <Providers>
             <div className="flex min-h-screen flex-col">
               <Masthead lng={lng} />
@@ -105,8 +105,8 @@ export default function RootLayout({
               <Footer lng={lng} />
             </div>
           </Providers>
-        </body>
-      </Suspense>
+        </Suspense>
+      </body>
     </html>
   );
 }
