@@ -8,7 +8,9 @@
     "gred": "-",
     "jawatan": "MENTERI",
     "telefon": "-",
-    "emel": "menteri"
+    "emel": "menteri",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -19,7 +21,9 @@
     "gred": "-",
     "jawatan": "PEMBANTU KHAS KEPADA YB MENTERI",
     "telefon": "03-8880 5043",
-    "emel": "mages"
+    "emel": "mages",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -30,7 +34,9 @@
     "gred": "YA6",
     "jawatan": "PENGAWAL PENGIRING KEPADA YB MENTERI",
     "telefon": "-",
-    "emel": "triple14"
+    "emel": "triple14",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -41,7 +47,9 @@
     "gred": "52 TERBUKA",
     "jawatan": "SETIAUSAHA SULIT KANAN (SUSK) KEPADA YB MENTERI",
     "telefon": "-",
-    "emel": "sheha"
+    "emel": "sheha",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -52,7 +60,9 @@
     "gred": "-",
     "jawatan": "SETIAUSAHA PEJABAT KEPADA SUSK",
     "telefon": "-",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -63,7 +73,9 @@
     "gred": "-",
     "jawatan": "SETIAUSAHA POLITIK (SUPOL) KEPADA YB MENTERI",
     "telefon": "-",
-    "emel": "r.suresh"
+    "emel": "r.suresh",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -74,7 +86,9 @@
     "gred": "N22 TBK1",
     "jawatan": "SETIAUSAHA PEJABAT KEPADA SUPOL (TBK1/TBK2)",
     "telefon": "03-8880 5029",
-    "emel": "suhanamutalib"
+    "emel": "suhanamutalib",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -85,7 +99,9 @@
     "gred": "-",
     "jawatan": "PEGAWAI KHAS KEPADA YB MENTERI",
     "telefon": "-",
-    "emel": "mandeep"
+    "emel": "mandeep",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -96,7 +112,9 @@
     "gred": "-",
     "jawatan": "PENASIHAT KEPADA YB MENTERI",
     "telefon": "-",
-    "emel": "ai"
+    "emel": "ai",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -107,7 +125,9 @@
     "gred": "54 TERBUKA",
     "jawatan": "PEGAWAI TUGAS-TUGAS KHAS (PTTK) I (PARLIMEN)",
     "telefon": "-",
-    "emel": "rafiz"
+    "emel": "rafiz",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -118,7 +138,9 @@
     "gred": "-",
     "jawatan": "PEGAWAI TUGAS-TUGAS KHAS (PTTK) II (DASAR & STRATEGIK)",
     "telefon": "-",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -129,7 +151,9 @@
     "gred": "52 TERBUKA",
     "jawatan": "PEGAWAI TUGAS-TUGAS KHAS (PTTK) III (OPERASI)",
     "telefon": "-",
-    "emel": "izzati"
+    "emel": "izzati",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -140,7 +164,9 @@
     "gred": "S54",
     "jawatan": "SETIAUSAHA AKHBAR (SUA) KEPADA YB MENTERI",
     "telefon": "-",
-    "emel": "madaline.chang"
+    "emel": "madaline.chang",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -151,7 +177,9 @@
     "gred": "M41",
     "jawatan": "SETIAUSAHA SULIT (SUS) KEPADA YB MENTERI",
     "telefon": "03-8880 5014",
-    "emel": "nurnajiha"
+    "emel": "nurnajiha",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -162,7 +190,9 @@
     "gred": "N41",
     "jawatan": "PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5136",
-    "emel": "razak"
+    "emel": "razak",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -173,7 +203,9 @@
     "gred": "N41",
     "jawatan": "PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5136",
-    "emel": "natasha.n"
+    "emel": "natasha.n",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -184,7 +216,9 @@
     "gred": "N29",
     "jawatan": "PENOLONG PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5136",
-    "emel": "zulaikha"
+    "emel": "zulaikha",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -195,7 +229,9 @@
     "gred": "N29",
     "jawatan": "PENOLONG PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5136",
-    "emel": "kumuthaarumugam"
+    "emel": "kumuthaarumugam",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -206,7 +242,9 @@
     "gred": "N22",
     "jawatan": "PEMBANTU TADBIR (P/O)",
     "telefon": "03-8880 5136",
-    "emel": "dianalanih"
+    "emel": "dianalanih",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -217,7 +255,9 @@
     "gred": "N22 TBK1",
     "jawatan": "PEGAWAI KHIDMAT PELANGGAN (TBK1/TBK2)",
     "telefon": "03-8880 5145",
-    "emel": "noorain"
+    "emel": "noorain",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -228,7 +268,9 @@
     "gred": "N19",
     "jawatan": "PEGAWAI KHIDMAT PELANGGAN (TBK1/TBK2)",
     "telefon": "03-8880 5145",
-    "emel": "shuzawati"
+    "emel": "shuzawati",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -239,7 +281,9 @@
     "gred": "N11",
     "jawatan": "PEMBANTU OPERASI",
     "telefon": "03-8880 5136",
-    "emel": "norezwan"
+    "emel": "norezwan",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -250,7 +294,9 @@
     "gred": "-",
     "jawatan": "PEMANDU KENDERAAN KEPADA YBM",
     "telefon": "-",
-    "emel": "rahmathulla"
+    "emel": "rahmathulla",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -261,7 +307,9 @@
     "gred": "-",
     "jawatan": "PEMANDU KENDERAAN KEPADA SUPOL YBM",
     "telefon": "-",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 1,
@@ -272,7 +320,9 @@
     "gred": "-",
     "jawatan": "PEMANDU KENDERAAN",
     "telefon": "-",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -283,7 +333,9 @@
     "gred": "-",
     "jawatan": "TIMBALAN MENTERI",
     "telefon": "03-8880 5050",
-    "emel": "wilson"
+    "emel": "wilson",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -294,7 +346,9 @@
     "gred": "N19",
     "jawatan": "PEMBANTU KHAS KEPADA YBTM",
     "telefon": "03-8880 5097",
-    "emel": "sheera"
+    "emel": "sheera",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -305,7 +359,9 @@
     "gred": "YA2",
     "jawatan": "PENGAWAL PENGIRING KEPADA YBTM",
     "telefon": "03-8880 5064",
-    "emel": "darren"
+    "emel": "darren",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -316,7 +372,9 @@
     "gred": "M52",
     "jawatan": "SETIAUSAHA SULIT KANAN (SUSK) KEPADA YBTM",
     "telefon": "03-8880 5001",
-    "emel": "luat"
+    "emel": "luat",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -327,7 +385,9 @@
     "gred": "N52",
     "jawatan": "PEGAWAI TUGAS-TUGAS KHAS (PTTK)",
     "telefon": "03-8880 5061",
-    "emel": "ravi"
+    "emel": "ravi",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -338,7 +398,9 @@
     "gred": "M44",
     "jawatan": "SETIAUSAHA SULIT (SUS) KEPADA YBTM",
     "telefon": "03-8880 5047",
-    "emel": "sangai"
+    "emel": "sangai",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -349,7 +411,9 @@
     "gred": "N41",
     "jawatan": "PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5189",
-    "emel": "emy"
+    "emel": "emy",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -360,7 +424,9 @@
     "gred": "N41",
     "jawatan": "PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5064",
-    "emel": "elissa"
+    "emel": "elissa",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -371,7 +437,9 @@
     "gred": "N41",
     "jawatan": "PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5064",
-    "emel": "gilbert"
+    "emel": "gilbert",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -382,7 +450,9 @@
     "gred": "N41",
     "jawatan": "PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5064",
-    "emel": "robert"
+    "emel": "robert",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -393,7 +463,9 @@
     "gred": "N29",
     "jawatan": "PENOLONG PEGAWAI TADBIR (MYSTEP)",
     "telefon": "03-8880 5040",
-    "emel": "wan.fazlin"
+    "emel": "wan.fazlin",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -404,7 +476,9 @@
     "gred": "N19",
     "jawatan": "PEGAWAI KHIDMAT PELANGGAN",
     "telefon": "03-8880 5016",
-    "emel": "khairul"
+    "emel": "khairul",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -415,7 +489,9 @@
     "gred": "N14",
     "jawatan": "PEMBANTU OPERASI",
     "telefon": "03-8880 5184",
-    "emel": "ramlah"
+    "emel": "ramlah",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 2,
@@ -426,7 +502,9 @@
     "gred": "H11",
     "jawatan": "PEMANDU KENDERAAN",
     "telefon": "03-8880 5064",
-    "emel": "halim"
+    "emel": "halim",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 3,
@@ -437,7 +515,9 @@
     "gred": "JUSA B",
     "jawatan": "KETUA SETIAUSAHA",
     "telefon": "-",
-    "emel": "ksu"
+    "emel": "ksu",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 3,
@@ -448,7 +528,9 @@
     "gred": "N29",
     "jawatan": "SETIAUSAHA PEJABAT (TBK1/ TBK2)",
     "telefon": "03-8880 5802",
-    "emel": "norshahira"
+    "emel": "norshahira",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 3,
@@ -459,7 +541,9 @@
     "gred": "M44",
     "jawatan": "PEGAWAI KHAS I",
     "telefon": "03-8880 5993",
-    "emel": "nurain.khairi"
+    "emel": "nurain.khairi",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 3,
@@ -470,7 +554,9 @@
     "gred": "F44",
     "jawatan": "PEGAWAI KHAS II",
     "telefon": "03-8880 5922",
-    "emel": "firdauskhairi"
+    "emel": "firdauskhairi",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 3,
@@ -481,7 +567,9 @@
     "gred": "N22 TBK1",
     "jawatan": "PEMBANTU TADBIR (P/O) (TBK1/TBK2)",
     "telefon": "03-8880 5998",
-    "emel": "roslinarosli"
+    "emel": "roslinarosli",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 3,
@@ -492,7 +580,9 @@
     "gred": "H11 (K)",
     "jawatan": "PEMANDU KENDERAAN",
     "telefon": "03-8880 5998",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 3,
@@ -503,7 +593,9 @@
     "gred": "N11",
     "jawatan": "PEMBANTU OPERASI",
     "telefon": "03-8880 5998",
-    "emel": "khairulanuar"
+    "emel": "khairulanuar",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 4,
@@ -514,7 +606,9 @@
     "gred": "JUSA B",
     "jawatan": "TIMBALAN KETUA SETIAUSAHA                                      (STRATEGIK & PENGURUSAN)",
     "telefon": "03-8880 5992",
-    "emel": "shakib"
+    "emel": "shakib",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 4,
@@ -525,7 +619,9 @@
     "gred": "N29",
     "jawatan": "SETIAUSAHA PEJABAT (TBK1/ TBK2)",
     "telefon": "03-8880 5943",
-    "emel": "aziemah"
+    "emel": "aziemah",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 4,
@@ -536,7 +632,9 @@
     "gred": "H11",
     "jawatan": "PEMANDU KENDERAAN",
     "telefon": "-",
-    "emel": "hazimhalim"
+    "emel": "hazimhalim",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 5,
@@ -547,7 +645,9 @@
     "gred": "JUSA B",
     "jawatan": "TIMBALAN KETUA SETIAUSAHA                                (PEMBANGUNAN DIGITAL)",
     "telefon": "03-8880 5944",
-    "emel": "siva"
+    "emel": "siva",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 5,
@@ -558,7 +658,9 @@
     "gred": "N32 TBK",
     "jawatan": "SETIAUSAHA PEJABAT (TBK2)",
     "telefon": "03-8880 5945",
-    "emel": "nikazlizan"
+    "emel": "nikazlizan",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 5,
@@ -569,7 +671,9 @@
     "gred": "-",
     "jawatan": "PEGAWAI KHAS KEPADA TKSU (PD)",
     "telefon": "-",
-    "emel": "izeti"
+    "emel": "izeti",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 5,
@@ -580,7 +684,9 @@
     "gred": "H11",
     "jawatan": "PEMANDU KENDERAAN",
     "telefon": "-",
-    "emel": "mohdkamsul"
+    "emel": "mohdkamsul",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -591,7 +697,9 @@
     "gred": "WA54",
     "jawatan": "SETIAUSAHA BAHAGIAN",
     "telefon": "03-8880 5954",
-    "emel": "nadzemah"
+    "emel": "nadzemah",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -602,7 +710,9 @@
     "gred": "N19",
     "jawatan": "PEMBANTU SETIAUSAHA PEJABAT",
     "telefon": "03-88 586380",
-    "emel": "norhidayah"
+    "emel": "norhidayah",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -613,7 +723,9 @@
     "gred": "WA48 (M)",
     "jawatan": "AKAUNTAN",
     "telefon": "03-8880 5901",
-    "emel": "nazlina"
+    "emel": "nazlina",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -624,7 +736,9 @@
     "gred": "WA48 (M)",
     "jawatan": "AKAUNTAN",
     "telefon": "03-8880 5901",
-    "emel": "surida"
+    "emel": "surida",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -635,7 +749,9 @@
     "gred": "WA48 (M)",
     "jawatan": "AKAUNTAN",
     "telefon": "03-8880 5987",
-    "emel": "shahira"
+    "emel": "shahira",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -646,7 +762,9 @@
     "gred": "WA41",
     "jawatan": "AKAUNTAN",
     "telefon": "03-8880 5987",
-    "emel": "mahfuzah.mansur"
+    "emel": "mahfuzah.mansur",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -657,7 +775,9 @@
     "gred": "WA41",
     "jawatan": "AKAUNTAN",
     "telefon": "03-8880 5947",
-    "emel": "zuraimie.raiman"
+    "emel": "zuraimie.raiman",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -668,7 +788,9 @@
     "gred": "WA41/ WA44",
     "jawatan": "AKAUNTAN",
     "telefon": "-",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -679,7 +801,9 @@
     "gred": "WA41/ WA44",
     "jawatan": "AKAUNTAN",
     "telefon": "-",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
@@ -690,7 +814,9 @@
     "gred": "WA41/ WA44",
     "jawatan": "AKAUNTAN",
     "telefon": "-",
-    "emel": "-"
+    "emel": "-",
+    "unit": "-",
+    "fax": "-"
   },
   {
     "id_bhg": 6,
