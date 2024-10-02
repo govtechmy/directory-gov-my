@@ -11,7 +11,8 @@ import Providers from "./providers";
 import { Suspense } from "react";
 //useSearchParams() being used outside of a Suspense boundary in the page component at "/[lng]".
 // This can cause problems with server-side rendering and hydration.
-// short fix wrap the suspense on the head and body
+// Do not wrap head or body with anything, Already causes render issue .
+// Moved Suspense to inside body to wrap them.
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
