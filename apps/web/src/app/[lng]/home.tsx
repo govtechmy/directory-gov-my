@@ -1,11 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "@/i18n/client";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { ColumnDef } from "@tanstack/react-table";
-
 import Hero from "@/components/layout/hero";
 import Section from "@/components/layout/section";
 import DataTable from "../../components/ui/data-table";
@@ -29,119 +27,99 @@ interface Directory {
   person_fax: string | null;
   parent_org_id: string | null;
   person_sort: number;
-  grade: string | null;
+  // grade: string | null;
 }
 
 export default function Home({
   lng,
-  dataES,
+  directory,
 }: {
   lng: string;
-  dataES: Directory[];
+  directory: Directory[];
 }) {
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
   const pathname = usePathname();
 
   const searchParams = useSearchParams();
-  let list = dataES;
   const searchQuery = searchParams.get("search");
-
-  const replaceValue = (value: string | null | undefined): string => {
-    return value === null || value === undefined ? "—" : value;
-  };
 
   const column: ColumnDef<Directory>[] = [
     {
       header: t("directory.table_header.nama"),
       accessorKey: "person_name",
       id: "person_name",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
+      cell: (row) => row.getValue() ?? "—",
       meta: {
-        cellClass: "whitespace-nowrap",
+        headerClass: "whitespace-nowrap",
       },
     },
     {
       header: t("directory.table_header.jawatan"),
       accessorKey: "person_position",
       id: "person_position",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
+      cell: (row) => row.getValue(),
       meta: {
         enableReadMore: true,
-        maxChar: 60,
       },
     },
     {
       header: t("directory.table_header.kementerian"),
       accessorKey: "org_id",
       id: "org_id",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
+      cell: (row) => row.getValue(),
       meta: {
         enableReadMore: true,
-        maxChar: 60,
       },
     },
     {
       header: t("directory.table_header.bhg"),
       accessorKey: "division_name",
       id: "division_name",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
+      cell: (row) => row.getValue() ?? "—",
       meta: {
-        cellClass: "whitespace-nowrap",
+        headerClass: "whitespace-nowrap",
         enableReadMore: true,
-        maxChar: 18,
       },
     },
     {
       header: t("directory.table_header.seksyen"),
       accessorKey: "unit_name",
       id: "unit_name",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
-      meta: {
-        cellClass: "whitespace-nowrap",
-      },
+      cell: (row) => row.getValue() ?? "—",
     },
-    {
-      header: t("directory.table_header.gred"),
-      accessorKey: "grade",
-      id: "grade",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
-      meta: {
-        cellClass: "whitespace-nowrap",
-      },
-    },
+    // {
+    //   header: t("directory.table_header.gred"),
+    //   accessorKey: "grade",
+    //   id: "grade",
+    //   cell: (row) => row.getValue() ?? "—",
+    //   meta: {
+    //     headerClass: "whitespace-nowrap",
+    //   },
+    // },
     {
       header: t("directory.table_header.telefon"),
       accessorKey: "person_phone",
       id: "person_phone",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
+      cell: (row) => row.getValue() ?? "—",
       meta: {
-        cellClass: "whitespace-nowrap",
+        headerClass: "whitespace-nowrap",
       },
     },
     {
       header: t("directory.table_header.fax"),
       accessorKey: "person_fax",
       id: "person_fax",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
+      cell: (row) => row.getValue() ?? "—",
       meta: {
-        cellClass: "whitespace-nowrap",
+        headerClass: "whitespace-nowrap",
       },
     },
     {
       header: t("directory.table_header.emel"),
       accessorKey: "person_email",
       id: "person_email",
-      cell: ({ getValue }) =>
-        replaceValue(getValue() as string | null | undefined),
+      cell: (row) => row.getValue() ?? "—",
       meta: {
         headerClass: "whitespace-nowrap",
       },
@@ -160,55 +138,55 @@ export default function Home({
           person_name,
           person_position,
           person_phone,
+          person_fax,
           person_email,
         } = row.original;
 
         return (
           <div className="space-y-2 font-medium text-dim-500">
             <p className="text-balance text-xs font-semibold">
-              {replaceValue(division_name)}
+              {division_name}
             </p>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
                 <span className="text-base font-semibold text-foreground">
-                  {replaceValue(person_name)}
+                  {person_name ?? "—"}
                 </span>
               </div>
-              <p className="text-black-700">{replaceValue(person_position)}</p>
+              <p className="text-black-700">{person_position}</p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-              <Phone className="text-outline-400" />
-              <span>{replaceValue(person_phone)}</span>|
-              <div className="flex items-center gap-x-1.5">
-                <Envelope className="text-outline-400" />
-                <span>{replaceValue(person_email)}</span>
+            {person_phone || person_email ? (
+              <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+                {person_phone && (
+                  <>
+                    <Phone className="text-outline-400" />
+                    <span>{person_phone}</span>
+                  </>
+                )}
+                {person_phone && person_email ? "|" : ""}
+                {person_email && (
+                  <div className="flex items-center gap-x-1.5">
+                    <Envelope className="text-outline-400" />
+                    <span>{person_email}</span>
+                  </div>
+                )}
               </div>
-            </div>
+            ) : (
+              <></>
+            )}
           </div>
         );
       },
     },
   ];
 
-  const data = useMemo(() => {
-    const query = searchQuery ? searchQuery.toLowerCase() : "";
-    return list.filter((item: Directory) => {
-      const matchesQuery =
-        (item.person_name?.toLowerCase().includes(query) ?? false) ||
-        (item.person_email?.toLowerCase().includes(query) ?? false) ||
-        (item.person_position?.toLowerCase().includes(query) ?? false) ||
-        (item.division_name?.toLowerCase().includes(query) ?? false);
-      return matchesQuery;
-    });
-  }, [list, searchQuery]);
-
-  const searchArray = (searchQuery: string) => {
+  const searchArray = (query: string) => {
     const params = new URLSearchParams(searchParams);
-    if (searchQuery) {
-      params.set("search", searchQuery.toLowerCase());
+    if (query) {
+      params.set("q", query.toLowerCase());
     } else {
-      params.delete("search");
+      params.delete("q");
     }
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
@@ -234,7 +212,7 @@ export default function Home({
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
-            data={data}
+            data={directory}
             resizable={false}
             paginate={{
               pageIndex: 0,

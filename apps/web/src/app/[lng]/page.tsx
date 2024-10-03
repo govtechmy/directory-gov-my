@@ -1,16 +1,14 @@
-import { fetchAllData } from "./actions/elasticsearchActions";
+import { searchKakitangan } from "./actions/kakitangan";
 import Homepage from "./home";
 
 export default async function Page({
   params: { lng },
+  searchParams,
 }: {
   params: { lng: string };
+  searchParams: { page: string; q: string };
 }) {
-  const dataES = await fetchAllData();
-  return (
-    <div>
-      {/* <pre>{JSON.stringify(dataES, null, 2)}</pre> */}
-      <Homepage lng={lng} dataES={dataES} />;
-    </div>
-  );
+  const { q, page } = searchParams;
+  const directory = await searchKakitangan(page ? Number(page) : 1, q);
+  return <Homepage lng={lng} directory={directory} />;
 }
