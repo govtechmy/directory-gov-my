@@ -53,14 +53,14 @@ export default function Home({ lng }: { lng: string }) {
           info.getValue()
         ),
     },
-    {
-      header: t("directory.table_header.gred"),
-      accessorKey: "gred",
-      meta: {
-        enableReadMore: true,
-        maxChar: 10,
-      },
-    },
+    // {
+    //   header: t("directory.table_header.gred"),
+    //   accessorKey: "gred",
+    //   meta: {
+    //     enableReadMore: true,
+    //     maxChar: 10,
+    //   },
+    // },
     {
       header: t("directory.table_header.bhg"),
       accessorKey: "bhg",
