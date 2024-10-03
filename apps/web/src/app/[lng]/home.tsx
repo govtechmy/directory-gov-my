@@ -1,31 +1,43 @@
 "use client";
 
+import { useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "@/i18n/client";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { ColumnDef } from "@tanstack/react-table";
+
 import Hero from "@/components/layout/hero";
 import Section from "@/components/layout/section";
 import DataTable from "../../components/ui/data-table";
 import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
-import { Cell } from "@tanstack/react-table";
-import { useMemo } from "react";
 import { DirektoriFilter } from "./filter";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTranslation } from "@/i18n/client";
-import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface Directory {
-  id: number;
-  id_bhg: string;
-  bhg: string;
-  staff_id?: number;
-  nama?: string | null;
-  gred?: string | null;
-  jawatan?: string | null;
-  telefon?: string | null;
-  emel?: string | null;
+  org_sort: number;
+  org_id: string;
+  org_name: string;
+  org_type: string;
+  division_sort: number;
+  division_name: string | null;
+  unit_name: string | null;
+  person_name: string | null;
+  person_position: string | null;
+  person_phone: string | null;
+  person_email: string | null;
+  person_fax: string | null;
+  parent_org_id: string | null;
+  person_sort: number;
 }
 
-export default function Home({ lng, dataES }: { lng: string; dataES: any[] }) {
+export default function Home({
+  lng,
+  dataES,
+}: {
+  lng: string;
+  dataES: Directory[];
+}) {
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -34,35 +46,37 @@ export default function Home({ lng, dataES }: { lng: string; dataES: any[] }) {
   let list = dataES;
   const searchQuery = searchParams.get("search");
 
-  const column = [
+  const column: ColumnDef<Directory>[] = [
     {
       header: t("directory.table_header.nama"),
-      accessorKey: "nama",
-      id: "nama",
+      accessorKey: "person_name",
+      id: "person_name",
       meta: {
         cellClass: "whitespace-nowrap",
       },
-      cell: (info: any) =>
-        info.row.original.id === -1 ? (
-          `${info.row.original.bhg} - ${info.getValue()}`
-        ) : info.row.original.id === 0 ? (
-          <span>—</span>
-        ) : (
-          info.getValue()
-        ),
     },
-    // {
-    //   header: t("directory.table_header.gred"),
-    //   accessorKey: "gred",
-    //   meta: {
-    //     enableReadMore: true,
-    //     maxChar: 10,
-    //   },
-    // },
+    {
+      header: t("directory.table_header.jawatan"),
+      accessorKey: "person_position",
+      id: "person_position",
+      meta: {
+        enableReadMore: true,
+        maxChar: 60,
+      },
+    },
+    {
+      header: t("directory.table_header.kementerian"),
+      accessorKey: "org_id",
+      id: "org_id",
+      meta: {
+        enableReadMore: true,
+        maxChar: 60,
+      },
+    },
     {
       header: t("directory.table_header.bhg"),
-      accessorKey: "bhg",
-      id: "bhg",
+      accessorKey: "division_name",
+      id: "division_name",
       meta: {
         cellClass: "whitespace-nowrap",
         enableReadMore: true,
@@ -70,96 +84,84 @@ export default function Home({ lng, dataES }: { lng: string; dataES: any[] }) {
       },
     },
     {
-      header: t("directory.table_header.jawatan"),
-      accessorKey: "jawatan",
-      id: "jawatan",
+      header: t("directory.table_header.seksyen"),
+      accessorKey: "person_phone",
+      id: "person_phone",
       meta: {
-        enableReadMore: true,
-        maxChar: 60,
+        cellClass: "whitespace-nowrap",
+      },
+    },
+    {
+      header: t("directory.table_header.gred"),
+      accessorKey: "person_phone",
+      id: "person_phone",
+      meta: {
+        cellClass: "whitespace-nowrap",
       },
     },
     {
       header: t("directory.table_header.telefon"),
-      accessorKey: "telefon",
-      id: "telefon",
+      accessorKey: "person_phone",
+      id: "person_phone",
+      meta: {
+        cellClass: "whitespace-nowrap",
+      },
+    },
+    {
+      header: t("directory.table_header.fax"),
+      accessorKey: "person_phone",
+      id: "person_phone",
       meta: {
         cellClass: "whitespace-nowrap",
       },
     },
     {
       header: t("directory.table_header.emel"),
-      accessorKey: "emel",
-      id: "emel",
-      size: 100,
+      accessorKey: "person_email",
+      id: "person_email",
       meta: {
         headerClass: "whitespace-nowrap",
       },
     },
   ];
 
-  const mobileColumn = [
+  const mobileColumn: ColumnDef<Directory>[] = [
     {
       header: "",
-      accessorKey: "bhg",
-      id: "bhg",
-      accessorFn: (item: Directory) =>
-        typeof item.id_bhg !== "string" && item.bhg,
-      cell: (info: any) => {
-        const { id_bhg, bhg, emel, gred, id, jawatan, nama, telefon } = (
-          info as Cell<Directory, unknown>
-        ).row.original;
-
-        if (id === -1)
-          return (
-            <p className="text-center font-semibold">
-              {typeof id_bhg !== "string" && bhg} - {nama}
-            </p>
-          );
+      accessorKey: "division_name",
+      id: "division_name",
+      cell: ({ row }) => {
+        const {
+          division_name,
+          unit_name,
+          person_name,
+          person_position,
+          person_phone,
+          person_email,
+        } = row.original;
 
         return (
           <div className="space-y-2 font-medium text-dim-500">
             <p className="text-balance text-xs font-semibold">
-              {typeof id_bhg !== "string" && bhg}
+              {division_name}
             </p>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
                 <span className="text-base font-semibold text-foreground">
-                  {id === 0 ? <span>—</span> : nama}
+                  {person_name}
                 </span>
-                {/* {gred !== "-" ? (
-                  <span className="rounded-md bg-outline-200 px-1 text-black-700">
-                    {gred}
-                  </span>
-                ) : (
-                  <></>
-                )} */}
               </div>
-              <p className="text-black-700">{jawatan}</p>
+              <p className="text-black-700">{person_position}</p>
             </div>
 
-            {telefon !== "-" || emel !== "-" ? (
-              <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                {telefon !== "-" ? (
-                  <>
-                    <Phone className="text-outline-400" />
-                    <span>{telefon}</span>
-                  </>
-                ) : (
-                  <></>
-                )}
-                {telefon !== "-" && emel !== "-" ? "|" : ""}
-                {emel !== "-" ? (
-                  <div className="flex items-center gap-x-1.5">
-                    <Envelope className="text-outline-400" />
-                    <span>{`${emel}@${""}.gov.my`}</span>
-                  </div>
-                ) : (
-                  <></>
-                )}
+            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+              <Phone className="text-outline-400" />
+              <span>{person_phone}</span>|
+              <div className="flex items-center gap-x-1.5">
+                <Envelope className="text-outline-400" />
+                <span>{person_email}</span>
               </div>
-            ) : (
-              <></>
-            )}
+            </div>
           </div>
         );
       },
@@ -168,14 +170,12 @@ export default function Home({ lng, dataES }: { lng: string; dataES: any[] }) {
 
   const data = useMemo(() => {
     const query = searchQuery ? searchQuery.toLowerCase() : "";
-
     return list.filter((item: Directory) => {
       const matchesQuery =
-        (item.nama && item.nama.toLowerCase().includes(query)) ||
-        (item.emel && item.emel.toLowerCase().includes(query)) ||
-        // (item.gred && item.gred.toLowerCase().includes(query)) ||
-        (item.jawatan && item.jawatan.toLowerCase().includes(query));
-
+        (item.person_name?.toLowerCase().includes(query) ?? false) ||
+        (item.person_email?.toLowerCase().includes(query) ?? false) ||
+        (item.person_position?.toLowerCase().includes(query) ?? false) ||
+        (item.division_name?.toLowerCase().includes(query) ?? false);
       return matchesQuery;
     });
   }, [list, searchQuery]);
@@ -222,19 +222,10 @@ export default function Home({ lng, dataES }: { lng: string; dataES: any[] }) {
                 lng={lng}
                 table={table}
                 headers={headers}
-                column="bhg"
+                column="division_name"
                 subtitle={t("directory.table_header.bhg")}
               />
             )}
-            isMerged={
-              !isMobile
-                ? (row) => {
-                    if (row.original.staff_id === -1)
-                      return row.getVisibleCells()[0];
-                    return false;
-                  }
-                : undefined
-            }
           />
         </div>
       </Section>

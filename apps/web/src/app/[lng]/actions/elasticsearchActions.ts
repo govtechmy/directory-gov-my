@@ -23,19 +23,6 @@ const client = new Client({
   },
 });
 
-// Get Elasticsearch Info - working for pull or push data
-export async function getElasticsearchInfo() {
-  try {
-    const resp = await client.info();
-    console.log("Elasticsearch Info:");
-    console.log(JSON.stringify(resp, null, 2));
-    return resp;
-  } catch (error) {
-    console.error("Error getting Elasticsearch info:", error);
-    throw error;
-  }
-}
-
 // Fetch all data from test-directory index
 export async function fetchAllData(): Promise<any[]> {
   try {
@@ -45,7 +32,7 @@ export async function fetchAllData(): Promise<any[]> {
         query: {
           match_all: {},
         },
-        size: 3, // Adjust this value, now limit to 3
+        size: 2, // Adjust this value, now limit to 3
       },
     });
 

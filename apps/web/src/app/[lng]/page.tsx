@@ -7,9 +7,9 @@ export default async function Page({
   params: { lng: string };
 }) {
   const dataES = await fetchAllData();
-  console.log(dataES);
   return (
     <div>
+      <pre>{JSON.stringify(dataES, null, 2)}</pre>
       <Homepage lng={lng} dataES={dataES} />;
     </div>
   );
