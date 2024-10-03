@@ -32,7 +32,7 @@ export async function fetchAllData(): Promise<any[]> {
         query: {
           match_all: {},
         },
-        size: 2, // Adjust this value, now limit to 3
+        size: 10000, // Adjust this value, now limit to 3
       },
     });
 

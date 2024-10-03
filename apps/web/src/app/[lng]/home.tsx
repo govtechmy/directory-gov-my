@@ -29,6 +29,7 @@ interface Directory {
   person_fax: string | null;
   parent_org_id: string | null;
   person_sort: number;
+  grade: string | null;
 }
 
 export default function Home({
@@ -46,11 +47,17 @@ export default function Home({
   let list = dataES;
   const searchQuery = searchParams.get("search");
 
+  const replaceValue = (value: string | null | undefined): string => {
+    return value === null || value === undefined ? "—" : value;
+  };
+
   const column: ColumnDef<Directory>[] = [
     {
       header: t("directory.table_header.nama"),
       accessorKey: "person_name",
       id: "person_name",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         cellClass: "whitespace-nowrap",
       },
@@ -59,6 +66,8 @@ export default function Home({
       header: t("directory.table_header.jawatan"),
       accessorKey: "person_position",
       id: "person_position",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         enableReadMore: true,
         maxChar: 60,
@@ -68,6 +77,8 @@ export default function Home({
       header: t("directory.table_header.kementerian"),
       accessorKey: "org_id",
       id: "org_id",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         enableReadMore: true,
         maxChar: 60,
@@ -77,6 +88,8 @@ export default function Home({
       header: t("directory.table_header.bhg"),
       accessorKey: "division_name",
       id: "division_name",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         cellClass: "whitespace-nowrap",
         enableReadMore: true,
@@ -85,16 +98,20 @@ export default function Home({
     },
     {
       header: t("directory.table_header.seksyen"),
-      accessorKey: "person_phone",
-      id: "person_phone",
+      accessorKey: "unit_name",
+      id: "unit_name",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         cellClass: "whitespace-nowrap",
       },
     },
     {
       header: t("directory.table_header.gred"),
-      accessorKey: "person_phone",
-      id: "person_phone",
+      accessorKey: "grade",
+      id: "grade",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         cellClass: "whitespace-nowrap",
       },
@@ -103,14 +120,18 @@ export default function Home({
       header: t("directory.table_header.telefon"),
       accessorKey: "person_phone",
       id: "person_phone",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         cellClass: "whitespace-nowrap",
       },
     },
     {
       header: t("directory.table_header.fax"),
-      accessorKey: "person_phone",
-      id: "person_phone",
+      accessorKey: "person_fax",
+      id: "person_fax",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         cellClass: "whitespace-nowrap",
       },
@@ -119,6 +140,8 @@ export default function Home({
       header: t("directory.table_header.emel"),
       accessorKey: "person_email",
       id: "person_email",
+      cell: ({ getValue }) =>
+        replaceValue(getValue() as string | null | undefined),
       meta: {
         headerClass: "whitespace-nowrap",
       },
@@ -143,23 +166,23 @@ export default function Home({
         return (
           <div className="space-y-2 font-medium text-dim-500">
             <p className="text-balance text-xs font-semibold">
-              {division_name}
+              {replaceValue(division_name)}
             </p>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
                 <span className="text-base font-semibold text-foreground">
-                  {person_name}
+                  {replaceValue(person_name)}
                 </span>
               </div>
-              <p className="text-black-700">{person_position}</p>
+              <p className="text-black-700">{replaceValue(person_position)}</p>
             </div>
 
             <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
               <Phone className="text-outline-400" />
-              <span>{person_phone}</span>|
+              <span>{replaceValue(person_phone)}</span>|
               <div className="flex items-center gap-x-1.5">
                 <Envelope className="text-outline-400" />
-                <span>{person_email}</span>
+                <span>{replaceValue(person_email)}</span>
               </div>
             </div>
           </div>
@@ -215,7 +238,7 @@ export default function Home({
             resizable={false}
             paginate={{
               pageIndex: 0,
-              pageSize: 15,
+              pageSize: 20,
             }}
             filter={(table, headers) => (
               <DirektoriFilter

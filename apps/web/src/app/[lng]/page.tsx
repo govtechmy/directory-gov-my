@@ -9,7 +9,7 @@ export default async function Page({
   const dataES = await fetchAllData();
   return (
     <div>
-      <pre>{JSON.stringify(dataES, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(dataES, null, 2)}</pre> */}
       <Homepage lng={lng} dataES={dataES} />;
     </div>
   );
