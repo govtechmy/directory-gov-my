@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
@@ -94,6 +95,20 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".sticky-column-border": {
+          "@apply sticky left-0 z-10 bg-white": {},
+          "&::after": {
+            content: "''",
+            "@apply absolute top-0 right-0 bottom-0 w-px bg-outline-200 z-20":
+              {},
+          },
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };
 export default config;
