@@ -1,11 +1,12 @@
 "use server";
 
+import { SearchTotalHits } from "@elastic/elasticsearch/lib/api/types";
 import { client } from "./elastic-client";
 
 export async function searchKakitangan(
   page: number,
   q?: string,
-): Promise<any[]> {
+): Promise<{ directory: any[]; totalPages: number }> {
   const index = "test-directory";
   const size = 20;
   try {
@@ -19,9 +20,10 @@ export async function searchKakitangan(
       size,
       from: page * size,
     });
-    const allData = result.hits.hits.map((hit) => hit._source);
-    console.log(`Fetched ${allData.length} documents from ${index}`);
-    return allData;
+    const total = result.hits.total as SearchTotalHits;
+    const directory = result.hits.hits.map((hit) => hit._source);
+    console.log(`Fetched ${directory.length} documents from ${index}`);
+    return { directory, totalPages: Math.round(total.value / size) };
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;

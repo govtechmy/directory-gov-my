@@ -33,9 +33,11 @@ interface Directory {
 export default function Home({
   lng,
   directory,
+  totalPages,
 }: {
   lng: string;
   directory: Directory[];
+  totalPages: number;
 }) {
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
