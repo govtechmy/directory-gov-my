@@ -71,9 +71,9 @@
       "seksyen": "Seksyen/Unit",
       "gred": "Gred",
       "telefon": "No. Telefon",
-      "fax": "No. Fax",
-      "emel": "Email (@.gov.my)",
-      "semua": "All Divisions"
+      "fax": "No. Faks",
+      "emel": "Emel",
+      "semua": "Semua Bahagian"
     }
   },
   "datepicker": {
