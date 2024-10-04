@@ -3,8 +3,7 @@ import type { HTMLInputTypeAttribute } from "react";
 
 declare module "@tanstack/react-table" {
   interface ColumnMeta {
-    enableReadMore?: boolean;
-    maxChar?: number;
+    expandable?: boolean;
     headerClass?: string;
     cellClass?: string;
   }

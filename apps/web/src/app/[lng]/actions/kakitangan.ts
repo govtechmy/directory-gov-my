@@ -18,7 +18,7 @@ export async function searchKakitangan(
         match_all: {},
       },
       size,
-      from: page * size,
+      from: (page - 1) * size,
     });
     const total = result.hits.total as SearchTotalHits;
     const kakitangan = result.hits.hits.map((hit) => hit._source);

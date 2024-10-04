@@ -1,8 +1,4 @@
 {
-  "theme": {
-    "toggle_dark": "Toggle dark mode",
-    "toggle_light": "Toggle light mode"
-  },
   "site": {
     "name": "Directory",
     "description": ""
@@ -20,6 +16,10 @@
   },
   "header": {
     "home": "Home"
+  },
+  "theme": {
+    "toggle_dark": "Toggle dark mode",
+    "toggle_light": "Toggle light mode"
   },
   "search": {
     "type": "Type",
@@ -65,7 +65,7 @@
       "jawatan": "Position",
       "kementerian": "Ministry",
       "bhg": "Division",
-      "seksyen": "Seksyen/Unit",
+      "seksyen": "Section/Unit",
       "gred": "Grade",
       "telefon": "Phone No.",
       "fax": "Fax No.",

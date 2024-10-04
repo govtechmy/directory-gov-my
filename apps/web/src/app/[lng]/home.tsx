@@ -44,7 +44,7 @@ export default function Home({
   const pathname = usePathname();
 
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search");
+  const searchQuery = searchParams.get("q");
 
   const column: ColumnDef<Kakitangan>[] = [
     {
@@ -53,7 +53,7 @@ export default function Home({
       id: "person_name",
       cell: (row) => row.getValue() ?? "—",
       meta: {
-        headerClass: "whitespace-nowrap border-r sticky bg-background left-0 z-10",
+        headerClass: "border-r sticky bg-background left-0 z-10",
         cellClass: "border-r sticky bg-background left-0 z-10",
       },
     },
@@ -63,7 +63,7 @@ export default function Home({
       id: "person_position",
       cell: (row) => row.getValue(),
       meta: {
-        enableReadMore: true,
+        expandable: true,
       },
     },
     {
@@ -72,7 +72,7 @@ export default function Home({
       id: "org_id",
       cell: (row) => row.getValue(),
       meta: {
-        enableReadMore: true,
+        expandable: true,
       },
     },
     {
@@ -81,8 +81,7 @@ export default function Home({
       id: "division_name",
       cell: (row) => row.getValue() ?? "—",
       meta: {
-        headerClass: "whitespace-nowrap",
-        enableReadMore: true,
+        expandable: true,
       },
     },
     {
@@ -90,42 +89,33 @@ export default function Home({
       accessorKey: "unit_name",
       id: "unit_name",
       cell: (row) => row.getValue() ?? "—",
+      meta: {
+        expandable: true,
+      },
     },
     // {
     //   header: t("directory.table_header.gred"),
     //   accessorKey: "grade",
     //   id: "grade",
     //   cell: (row) => row.getValue() ?? "—",
-    //   meta: {
-    //     headerClass: "whitespace-nowrap",
-    //   },
     // },
     {
       header: t("directory.table_header.telefon"),
       accessorKey: "person_phone",
       id: "person_phone",
       cell: (row) => row.getValue() ?? "—",
-      meta: {
-        headerClass: "whitespace-nowrap",
-      },
     },
     {
       header: t("directory.table_header.fax"),
       accessorKey: "person_fax",
       id: "person_fax",
       cell: (row) => row.getValue() ?? "—",
-      meta: {
-        headerClass: "whitespace-nowrap",
-      },
     },
     {
       header: t("directory.table_header.emel"),
       accessorKey: "person_email",
       id: "person_email",
       cell: (row) => row.getValue() ?? "—",
-      meta: {
-        headerClass: "whitespace-nowrap",
-      },
     },
   ];
 
