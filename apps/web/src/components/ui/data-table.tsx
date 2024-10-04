@@ -111,7 +111,7 @@ export default function DataTable<TData, TValue>({
   const tableRow = table.getRowModel().rows;
 
   useEffect(() => {
-    const mergedObj = expandableColumns;
+    const mergedObj = { ...expandableColumns };
     Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string | null;

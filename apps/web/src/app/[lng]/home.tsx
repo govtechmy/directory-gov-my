@@ -53,7 +53,8 @@ export default function Home({
       id: "person_name",
       cell: (row) => row.getValue() ?? "—",
       meta: {
-        headerClass: "whitespace-nowrap",
+        headerClass: "whitespace-nowrap border-r sticky bg-background left-0 z-10",
+        cellClass: "border-r sticky bg-background left-0 z-10",
       },
     },
     {
