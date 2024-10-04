@@ -68,8 +68,8 @@
   }
 
   body {
-    color: var(--foreground);
-    background: var(--background);
+    color: oklch(var(--black-900));
+    background-color: oklch(var(--base-white));
   }
 
   :focus:not(:focus-visible) {

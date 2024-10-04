@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
-import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],

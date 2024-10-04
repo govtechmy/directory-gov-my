@@ -41,8 +41,8 @@ export default function Home({ lng }: { lng: string }) {
       accessorKey: "nama",
       id: "nama",
       meta: {
-        headerClass: `whitespace-nowrap border-r sticky bg-white left-0 z-10`,
-        cellClass: `whitespace-nowrap border-r sticky bg-white left-0 z-10`,
+        headerClass: `whitespace-nowrap border-r sticky bg-background left-0 z-10`,
+        cellClass: `whitespace-nowrap border-r sticky bg-background left-0 z-10`,
       },
       cell: (info: any) =>
         info.row.original.id === -1 ? (
