@@ -65,11 +65,14 @@
     "search_placeholder": "Cari kata kunci (nama, jawatan, emel, dsb)",
     "table_header": {
       "nama": "Nama",
-      "bhg": "Bahagian",
-      "gred": "Gred",
       "jawatan": "Jawatan",
+      "kementerian": "Kementerian",
+      "bhg": "Bahagian",
+      "seksyen": "Seksyen/Unit",
+      "gred": "Gred",
       "telefon": "No. Telefon",
-      "emel": "Emel (@.gov.my)",
+      "fax": "No. Faks",
+      "emel": "Emel",
       "semua": "Semua Bahagian"
     }
   },

@@ -62,11 +62,14 @@
     "search_placeholder": "Search for keyword (e.g. name, position, email)",
     "table_header": {
       "nama": "Name",
-      "bhg": "Division",
-      "gred": "Grade",
       "jawatan": "Position",
+      "kementerian": "Ministry",
+      "bhg": "Division",
+      "seksyen": "Seksyen/Unit",
+      "gred": "Grade",
       "telefon": "Phone No.",
-      "emel": "Email (@.gov.my)",
+      "fax": "Fax No.",
+      "emel": "Email",
       "semua": "All Divisions"
     }
   },
