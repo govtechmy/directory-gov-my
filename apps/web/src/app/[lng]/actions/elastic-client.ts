@@ -1,10 +1,9 @@
 import { Client } from "@elastic/elasticsearch";
 
 const ES_URL = process.env.ES_URL;
-const API_ID_ES = process.env.API_ID_ES;
-const API_KEY_ES = process.env.API_KEY_ES;
+const ES_API_KEY = process.env.ES_API_KEY;
 
-if (!ES_URL || !API_ID_ES || !API_KEY_ES) {
+if (!ES_URL || !ES_API_KEY) {
   throw new Error(
     "Missing Elasticsearch configuration in environment variables",
   );
@@ -14,9 +13,6 @@ if (!ES_URL || !API_ID_ES || !API_KEY_ES) {
 export const client = new Client({
   node: ES_URL,
   auth: {
-    apiKey: {
-      id: API_ID_ES,
-      api_key: API_KEY_ES,
-    },
+    apiKey: ES_API_KEY,
   },
 });

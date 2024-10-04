@@ -9,5 +9,8 @@ declare namespace NodeJS {
     NEXT_PUBLIC_TINYBIRD_HOST: string;
     NEXT_PUBLIC_TINYBIRD_TOKEN: string;
     LAST_UPDATED: string;
+
+    ES_URL: string;
+    ES_API_KEY: string;
   }
 }
