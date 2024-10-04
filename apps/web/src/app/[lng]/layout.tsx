@@ -11,7 +11,8 @@ import Providers from "./providers";
 import { Suspense } from "react";
 //useSearchParams() being used outside of a Suspense boundary in the page component at "/[lng]".
 // This can cause problems with server-side rendering and hydration.
-// short fix wrap the suspense on the head and body
+// Do not wrap head or body with anything, Already causes render issue .
+// Moved Suspense to inside body to wrap them.
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -78,25 +79,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang={lng} suppressHydrationWarning>
-      <Suspense>
-        {process.env.APP_ENV === "production" && (
-          <head>
-            {/* <script
+      {process.env.APP_ENV === "production" && (
+        <head>
+          {/* <script
             defer
             src="https://unpkg.com/@tinybirdco/flock.js"
             data-token={`${process.env.NEXT_PUBLIC_TINYBIRD_TOKEN}`}
           /> */}
-          </head>
-        )}
-        <ClarityScript />
+        </head>
+      )}
+      <ClarityScript />
 
-        <body
-          className={cn(
-            inter.className,
-            poppins.variable,
-            "flex min-w-[320px] flex-col",
-          )}
-        >
+      <body
+        className={cn(
+          inter.className,
+          poppins.variable,
+          "flex min-w-[320px] flex-col",
+        )}
+      >
+        <Suspense>
           <Providers>
             <div className="flex min-h-screen flex-col">
               <Masthead lng={lng} />
@@ -105,8 +106,8 @@ export default function RootLayout({
               <Footer lng={lng} />
             </div>
           </Providers>
-        </body>
-      </Suspense>
+        </Suspense>
+      </body>
     </html>
   );
 }

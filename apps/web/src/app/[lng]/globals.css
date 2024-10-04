@@ -68,8 +68,7 @@
   }
 
   body {
-    color: var(--foreground);
-    background: var(--background);
+    @apply bg-background text-foreground;
   }
 
   :focus:not(:focus-visible) {

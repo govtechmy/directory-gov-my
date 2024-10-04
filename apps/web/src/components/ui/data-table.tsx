@@ -71,7 +71,7 @@ export default function DataTable<TData, TValue>({
   >(() => {
     const initialState: Record<string, boolean> = {};
     columns.forEach((column) => {
-      if (column.id && column.meta && column.meta.enableReadMore) {
+      if (column.id && column.meta && column.meta.expandable) {
         initialState[column.id as string] = false;
         // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
       }
@@ -111,7 +111,7 @@ export default function DataTable<TData, TValue>({
   const tableRow = table.getRowModel().rows;
 
   useEffect(() => {
-    const mergedObj = expandableColumns;
+    const mergedObj = { ...expandableColumns };
     Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string | null;
@@ -159,7 +159,7 @@ export default function DataTable<TData, TValue>({
                     )}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className="flex items-center gap-2 justify-between">
+                      <div className="flex items-center gap-2 justify-between whitespace-nowrap">
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext(),

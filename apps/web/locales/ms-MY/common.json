@@ -1,8 +1,4 @@
 {
-  "theme": {
-    "toggle_dark": "Tukar kepada mod gelap",
-    "toggle_light": "Tukar kepada mod cerah"
-  },
   "site": {
     "name": "Direktori",
     "description": ""
@@ -20,6 +16,10 @@
   },
   "header": {
     "home": "Utama"
+  },
+  "theme": {
+    "toggle_dark": "Tukar kepada mod gelap",
+    "toggle_light": "Tukar kepada mod cerah"
   },
   "search": {
     "type": "Tekan",
@@ -65,11 +65,14 @@
     "search_placeholder": "Cari kata kunci (nama, jawatan, emel, dsb)",
     "table_header": {
       "nama": "Nama",
-      "bhg": "Bahagian",
-      "gred": "Gred",
       "jawatan": "Jawatan",
+      "kementerian": "Kementerian",
+      "bhg": "Bahagian",
+      "seksyen": "Seksyen/Unit",
+      "gred": "Gred",
       "telefon": "No. Telefon",
-      "emel": "Emel (@.gov.my)",
+      "fax": "No. Faks",
+      "emel": "Emel",
       "semua": "Semua Bahagian"
     }
   },

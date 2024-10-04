@@ -1,161 +1,168 @@
 "use client";
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "@/i18n/client";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { ColumnDef } from "@tanstack/react-table";
 import Hero from "@/components/layout/hero";
 import Section from "@/components/layout/section";
 import DataTable from "../../components/ui/data-table";
 import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
-import { Cell } from "@tanstack/react-table";
-import { useMemo } from "react";
 import { DirektoriFilter } from "./filter";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTranslation } from "@/i18n/client";
-import { useMediaQuery } from "@/hooks/use-media-query";
 
-interface Directory {
-  id: number;
-  id_bhg: string;
-  bhg: string;
-  staff_id?: number;
-  nama?: string | null;
-  gred?: string | null;
-  jawatan?: string | null;
-  telefon?: string | null;
-  emel?: string | null;
+interface Kakitangan {
+  org_sort: number;
+  org_id: string;
+  org_name: string;
+  org_type: string;
+  division_sort: number;
+  division_name: string | null;
+  unit_name: string | null;
+  person_name: string | null;
+  person_position: string | null;
+  person_phone: string | null;
+  person_email: string | null;
+  person_fax: string | null;
+  parent_org_id: string | null;
+  person_sort: number;
+  // grade: string | null;
 }
 
-let list = require("./directory_kd.json");
-
-export default function Home({ lng }: { lng: string }) {
+export default function Home({
+  lng,
+  kakitangan,
+  totalPages,
+}: {
+  lng: string;
+  kakitangan: Kakitangan[];
+  totalPages: number;
+}) {
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
   const pathname = usePathname();
 
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search");
+  const searchQuery = searchParams.get("q");
 
-  const column = [
+  const column: ColumnDef<Kakitangan>[] = [
     {
       header: t("directory.table_header.nama"),
-      accessorKey: "nama",
-      id: "nama",
+      accessorKey: "person_name",
+      id: "person_name",
+      cell: (row) => row.getValue() ?? "—",
       meta: {
-        cellClass: "whitespace-nowrap",
-      },
-      cell: (info: any) =>
-        info.row.original.id === -1 ? (
-          `${info.row.original.bhg} - ${info.getValue()}`
-        ) : info.row.original.id === 0 ? (
-          <span>—</span>
-        ) : (
-          info.getValue()
-        ),
-    },
-    // {
-    //   header: t("directory.table_header.gred"),
-    //   accessorKey: "gred",
-    //   meta: {
-    //     enableReadMore: true,
-    //     maxChar: 10,
-    //   },
-    // },
-    {
-      header: t("directory.table_header.bhg"),
-      accessorKey: "bhg",
-      id: "bhg",
-      meta: {
-        cellClass: "whitespace-nowrap",
-        enableReadMore: true,
-        maxChar: 18,
+        headerClass: "border-r sticky bg-background left-0 z-10",
+        cellClass: "border-r sticky bg-background left-0 z-10",
       },
     },
     {
       header: t("directory.table_header.jawatan"),
-      accessorKey: "jawatan",
-      id: "jawatan",
+      accessorKey: "person_position",
+      id: "person_position",
+      cell: (row) => row.getValue(),
       meta: {
-        enableReadMore: true,
-        maxChar: 60,
+        expandable: true,
       },
     },
     {
-      header: t("directory.table_header.telefon"),
-      accessorKey: "telefon",
-      id: "telefon",
+      header: t("directory.table_header.kementerian"),
+      accessorKey: "org_id",
+      id: "org_id",
+      cell: (row) => row.getValue(),
       meta: {
-        cellClass: "whitespace-nowrap",
+        expandable: true,
       },
+    },
+    {
+      header: t("directory.table_header.bhg"),
+      accessorKey: "division_name",
+      id: "division_name",
+      cell: (row) => row.getValue() ?? "—",
+      meta: {
+        expandable: true,
+      },
+    },
+    {
+      header: t("directory.table_header.seksyen"),
+      accessorKey: "unit_name",
+      id: "unit_name",
+      cell: (row) => row.getValue() ?? "—",
+      meta: {
+        expandable: true,
+      },
+    },
+    // {
+    //   header: t("directory.table_header.gred"),
+    //   accessorKey: "grade",
+    //   id: "grade",
+    //   cell: (row) => row.getValue() ?? "—",
+    // },
+    {
+      header: t("directory.table_header.telefon"),
+      accessorKey: "person_phone",
+      id: "person_phone",
+      cell: (row) => row.getValue() ?? "—",
+    },
+    {
+      header: t("directory.table_header.fax"),
+      accessorKey: "person_fax",
+      id: "person_fax",
+      cell: (row) => row.getValue() ?? "—",
     },
     {
       header: t("directory.table_header.emel"),
-      accessorKey: "emel",
-      id: "emel",
-      size: 100,
-      meta: {
-        headerClass: "whitespace-nowrap",
-      },
+      accessorKey: "person_email",
+      id: "person_email",
+      cell: (row) => row.getValue() ?? "—",
     },
   ];
 
-  const mobileColumn = [
+  const mobileColumn: ColumnDef<Kakitangan>[] = [
     {
       header: "",
-      accessorKey: "bhg",
-      id: "bhg",
-      accessorFn: (item: Directory) =>
-        typeof item.id_bhg !== "string" && item.bhg,
-      cell: (info: any) => {
-        const { id_bhg, bhg, emel, gred, id, jawatan, nama, telefon } = (
-          info as Cell<Directory, unknown>
-        ).row.original;
-
-        if (id === -1)
-          return (
-            <p className="text-center font-semibold">
-              {typeof id_bhg !== "string" && bhg} - {nama}
-            </p>
-          );
+      accessorKey: "division_name",
+      id: "division_name",
+      cell: ({ row }) => {
+        const {
+          division_name,
+          unit_name,
+          person_name,
+          person_position,
+          person_phone,
+          person_fax,
+          person_email,
+        } = row.original;
 
         return (
           <div className="space-y-2 font-medium text-dim-500">
             <p className="text-balance text-xs font-semibold">
-              {typeof id_bhg !== "string" && bhg}
+              {division_name}
             </p>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
                 <span className="text-base font-semibold text-foreground">
-                  {id === 0 ? <span>—</span> : nama}
+                  {person_name ?? "—"}
                 </span>
-                {/* {gred !== "-" ? (
-                  <span className="rounded-md bg-outline-200 px-1 text-black-700">
-                    {gred}
-                  </span>
-                ) : (
-                  <></>
-                )} */}
               </div>
-              <p className="text-black-700">{jawatan}</p>
+              <p className="text-black-700">{person_position}</p>
             </div>
 
-            {telefon !== "-" || emel !== "-" ? (
+            {person_phone || person_email ? (
               <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                {telefon !== "-" ? (
+                {person_phone && (
                   <>
                     <Phone className="text-outline-400" />
-                    <span>{telefon}</span>
+                    <span>{person_phone}</span>
                   </>
-                ) : (
-                  <></>
                 )}
-                {telefon !== "-" && emel !== "-" ? "|" : ""}
-                {emel !== "-" ? (
+                {person_phone && person_email ? "|" : ""}
+                {person_email && (
                   <div className="flex items-center gap-x-1.5">
                     <Envelope className="text-outline-400" />
-                    <span>{`${emel}@${""}.gov.my`}</span>
+                    <span>{person_email}</span>
                   </div>
-                ) : (
-                  <></>
                 )}
               </div>
             ) : (
@@ -167,26 +174,12 @@ export default function Home({ lng }: { lng: string }) {
     },
   ];
 
-  const data = useMemo(() => {
-    const query = searchQuery ? searchQuery.toLowerCase() : "";
-
-    return list.filter((item: Directory) => {
-      const matchesQuery =
-        (item.nama && item.nama.toLowerCase().includes(query)) ||
-        (item.emel && item.emel.toLowerCase().includes(query)) ||
-        // (item.gred && item.gred.toLowerCase().includes(query)) ||
-        (item.jawatan && item.jawatan.toLowerCase().includes(query));
-
-      return matchesQuery;
-    });
-  }, [list, searchQuery]);
-
-  const searchArray = (searchQuery: string) => {
+  const searchArray = (query: string) => {
     const params = new URLSearchParams(searchParams);
-    if (searchQuery) {
-      params.set("search", searchQuery.toLowerCase());
+    if (query) {
+      params.set("q", query.toLowerCase());
     } else {
-      params.delete("search");
+      params.delete("q");
     }
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
@@ -212,30 +205,21 @@ export default function Home({ lng }: { lng: string }) {
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
-            data={data}
+            data={kakitangan}
             resizable={false}
             paginate={{
               pageIndex: 0,
-              pageSize: 15,
+              pageSize: 20,
             }}
             filter={(table, headers) => (
               <DirektoriFilter
                 lng={lng}
                 table={table}
                 headers={headers}
-                column="bhg"
+                column="division_name"
                 subtitle={t("directory.table_header.bhg")}
               />
             )}
-            isMerged={
-              !isMobile
-                ? (row) => {
-                    if (row.original.staff_id === -1)
-                      return row.getVisibleCells()[0];
-                    return false;
-                  }
-                : undefined
-            }
           />
         </div>
       </Section>
