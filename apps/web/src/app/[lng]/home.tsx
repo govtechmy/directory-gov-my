@@ -12,7 +12,7 @@ import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { DirektoriFilter } from "./filter";
 
-interface Directory {
+interface Kakitangan {
   org_sort: number;
   org_id: string;
   org_name: string;
@@ -32,11 +32,11 @@ interface Directory {
 
 export default function Home({
   lng,
-  directory,
+  kakitangan,
   totalPages,
 }: {
   lng: string;
-  directory: Directory[];
+  kakitangan: Kakitangan[];
   totalPages: number;
 }) {
   const { t } = useTranslation(lng);
@@ -46,7 +46,7 @@ export default function Home({
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search");
 
-  const column: ColumnDef<Directory>[] = [
+  const column: ColumnDef<Kakitangan>[] = [
     {
       header: t("directory.table_header.nama"),
       accessorKey: "person_name",
@@ -128,7 +128,7 @@ export default function Home({
     },
   ];
 
-  const mobileColumn: ColumnDef<Directory>[] = [
+  const mobileColumn: ColumnDef<Kakitangan>[] = [
     {
       header: "",
       accessorKey: "division_name",
@@ -214,7 +214,7 @@ export default function Home({
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
-            data={directory}
+            data={kakitangan}
             resizable={false}
             paginate={{
               pageIndex: 0,

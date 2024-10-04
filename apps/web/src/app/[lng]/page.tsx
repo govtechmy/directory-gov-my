@@ -9,9 +9,9 @@ export default async function Page({
   searchParams: { page: string; q: string };
 }) {
   const { q, page } = searchParams;
-  const { directory, totalPages } = await searchKakitangan(
+  const { kakitangan, totalPages } = await searchKakitangan(
     page ? Number(page) : 1,
     q,
   );
-  return <Homepage lng={lng} directory={directory} totalPages={totalPages} />;
+  return <Homepage lng={lng} kakitangan={kakitangan} totalPages={totalPages} />;
 }
