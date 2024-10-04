@@ -68,8 +68,7 @@
   }
 
   body {
-    color: oklch(var(--black-900));
-    background-color: oklch(var(--base-white));
+    @apply bg-background text-foreground;
   }
 
   :focus:not(:focus-visible) {
