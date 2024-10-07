@@ -1,7 +1,7 @@
 "use server";
 
 import { SearchTotalHits } from "@elastic/elasticsearch/lib/api/types";
-import { client } from "./elastic-client";
+import { getElasticClient } from "./elastic-client";
 
 export async function searchKakitangan(
   page: number,
@@ -10,7 +10,7 @@ export async function searchKakitangan(
   const index = "test-directory";
   const size = 20;
   try {
-    const result = await client.search({
+    const result = await getElasticClient().search({
       index,
       q,
       sort: ["org_sort", "division_sort", "person_sort"],
