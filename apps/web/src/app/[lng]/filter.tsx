@@ -1,7 +1,7 @@
 "use client";
 
 import { Header, Table as TTable } from "@tanstack/react-table";
-import { FC, useState, useMemo } from "react";
+import { FC, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -14,6 +14,7 @@ import ChevronDown from "@/icons/chevron-down";
 import { SelectIcon } from "@radix-ui/react-select";
 import { useTranslation } from "@/i18n/client";
 import { cn } from "@/lib/utils";
+import { filterDropdown } from "./actions/filter-dropdown";
 
 interface DirektoriFilter {
   table: TTable<any>;
@@ -33,22 +34,29 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
   const { t } = useTranslation(lng);
   const all = t("directory.table_header.semua");
 
+  console.log("column", column);
+  console.log("headers", headers);
+
   const header = headers.find((h) => h.id === column)!;
-  const { getFacetedUniqueValues, getFilterValue, setFilterValue } =
-    header.column;
+  const { getFilterValue, setFilterValue } = header.column;
 
   const [selectedFilters, setSelectedFilters] = useState<string>(
-    (getFilterValue() as string) || all
+    (getFilterValue() as string) || all,
   );
 
-  const sortedUniqueValues = useMemo(() => {
-    const uniqueValues = Array.from(getFacetedUniqueValues().keys());
-    const filteredValues = uniqueValues.filter((value) => {
-      if (!Boolean(value)) return false;
-      return value;
-    });
-    return filteredValues.sort((a, b) => b.bhg - a.bhg);
-  }, [getFacetedUniqueValues()]);
+  const [filterArr, setFilterArr] = useState<string[]>([]);
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const { aggregations } = await filterDropdown();
+        setFilterArr(ministryArr);
+      } catch (error) {
+        console.error("Error fetching dropdown options:", error);
+      }
+    };
+
+    fetchOptions();
+  }, []);
 
   const handleValueChange = (selected: string) => {
     setSelectedFilters(selected);
@@ -84,18 +92,18 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
             value={all}
             className={cn(
               "max-sm:w-[calc(100svw-40px)]",
-              all === selectedFilters ? "font-medium" : ""
+              all === selectedFilters ? "font-medium" : "",
             )}
           >
             {all}
           </SelectItem>
-          {sortedUniqueValues.map((l) => (
+          {filterArr.map((l) => (
             <SelectItem
               key={l}
               value={l}
               className={cn(
                 "max-sm:w-[calc(100svw-40px)]",
-                l === selectedFilters ? "font-medium" : ""
+                l === selectedFilters ? "font-medium" : "",
               )}
             >
               {l}
