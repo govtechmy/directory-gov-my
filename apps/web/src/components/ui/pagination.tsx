@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button, ButtonProps, buttonVariants } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
@@ -85,25 +85,24 @@ const PaginationEllipsis = ({
 );
 PaginationEllipsis.displayName = "PaginationEllipsis";
 
-export default function _Pagination({
+export default function Paginate({
   curr,
+  totalPages,
+  lng,
   disable_next,
   disable_prev,
   setPage,
-  totalPages,
-  lng,
 }: {
   curr: number;
-  disable_next?: boolean;
-  disable_prev?: boolean;
-  setPage?: (page: number) => void;
   totalPages: number;
   lng: string;
+  disable_next: boolean;
+  disable_prev: boolean;
+  setPage: (page: number) => void;
 }) {
   const { t } = useTranslation(lng, "Pagination");
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
 
   const range = (start: number, end: number) => {
     const length = end - start + 1;
@@ -112,6 +111,7 @@ export default function _Pagination({
 
   const DOTS = "...";
   const siblings = 1; // square(s) beside curr
+
   const pageRange = useMemo(() => {
     // If num of pages < the squares we want to show, return the range [1..totalPages]
     if (totalPages <= 5 + siblings) {
@@ -145,16 +145,8 @@ export default function _Pagination({
     }
   }, [curr, totalPages]);
 
-  const changePage = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const getUrl = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
+  const changePage = (pageNumber: number) => {
+    setPage(pageNumber);
   };
 
   return (
@@ -165,8 +157,8 @@ export default function _Pagination({
             variant="secondary"
             size="default"
             className="p-2 lg:p-2.5 mr-3"
-            disabled={disable_prev || curr <= 0}
-            onClick={() => (setPage ? setPage(curr - 1) : changePage(curr))}
+            disabled={disable_prev}
+            onClick={() => changePage(curr)}
           >
             <ChevronLeft className="size-4" />
             <span className="sr-only">{t("previous")}</span>
@@ -176,23 +168,16 @@ export default function _Pagination({
         {pageRange?.map((page, i) => {
           return typeof page === "number" ? (
             <PaginationItem className="hidden min-[360px]:flex" key={i}>
-              {/* {pathname ? (
-                <PaginationLink
-                  href={getUrl(page)}
-                  variant={curr === page - 1 ? "tertiary-colour" : "tertiary"}
-                  isActive={curr === page- 1}
-                >
-                  {page}
-                </PaginationLink>
-              ) : ( */}
               <Button
-                onClick={() => (setPage ? setPage(page - 1) : changePage(page))}
+                onClick={() => changePage(page)}
                 variant={curr === page - 1 ? "tertiary-colour" : "tertiary"}
-                className={cn("sm:size-[40px]", curr === page - 1 ? "bg-brand-50" : "")}
+                className={cn(
+                  "sm:size-[40px]",
+                  curr === page - 1 ? "bg-brand-50" : "",
+                )}
               >
                 {page}
               </Button>
-              {/* )} */}
             </PaginationItem>
           ) : (
             <PaginationItem className="hidden min-[360px]:flex" key={i}>
@@ -202,7 +187,7 @@ export default function _Pagination({
         })}
         <span className="flex items-center gap-1 text-center min-[360px]:hidden">
           {t("page_of", {
-            current: curr,
+            current: curr + 1,
             total: totalPages,
           })}
         </span>
@@ -212,8 +197,8 @@ export default function _Pagination({
             variant="secondary"
             size="default"
             className="p-2 lg:p-2.5 ml-3"
-            disabled={disable_next || curr >= totalPages - 1}
-            onClick={() => (setPage ? setPage(curr + 1) : changePage(curr + 2))}
+            disabled={disable_next}
+            onClick={() => changePage(curr + 2)}
           >
             <span className="sr-only">{t("next")}</span>
             <ChevronRight className="size-4" />

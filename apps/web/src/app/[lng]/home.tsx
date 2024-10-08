@@ -11,6 +11,7 @@ import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { DirektoriFilter } from "./filter";
+import Paginate from "@/components/ui/pagination";
 
 interface Kakitangan {
   org_sort: number;
@@ -45,6 +46,7 @@ export default function Home({
 
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q");
+  const currentPage = Number(searchParams.get("page") || "1");
 
   const column: ColumnDef<Kakitangan>[] = [
     {
@@ -211,6 +213,7 @@ export default function Home({
               pageIndex: 0,
               pageSize: 20,
             }}
+            totalPages={totalPages}
             filter={(table, headers) => (
               <DirektoriFilter
                 lng={lng}
@@ -221,6 +224,20 @@ export default function Home({
               />
             )}
           />
+          <div className="flex items-center justify-center gap-2 pt-8">
+            <Paginate
+              curr={currentPage - 1}
+              totalPages={totalPages}
+              lng={lng}
+              disable_next={currentPage >= totalPages}
+              disable_prev={currentPage <= 1}
+              setPage={(page) => {
+                const params = new URLSearchParams(searchParams);
+                params.set("page", page.toString());
+                replace(`${pathname}?${params.toString()}`, { scroll: false });
+              }}
+            />
+          </div>
         </div>
       </Section>
     </main>

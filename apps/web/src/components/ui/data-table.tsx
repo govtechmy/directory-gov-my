@@ -48,6 +48,7 @@ interface DataTableProps<TData, TValue> {
   ) => ReactNode;
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
+  totalPages: number;
 }
 
 export default function DataTable<TData, TValue>({
@@ -59,6 +60,7 @@ export default function DataTable<TData, TValue>({
   filter,
   paginate,
   isMerged,
+  totalPages,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
   const [pagination, setPagination] = useState({
@@ -251,18 +253,18 @@ export default function DataTable<TData, TValue>({
         </TableBody>
       </Table>
 
-      {data.length > 0 && paginate && (
+      {/* {data.length > 0 && paginate && (
         <div className="flex items-center justify-center gap-2 pt-8">
           <Paginate
             curr={table.getState().pagination.pageIndex}
             disable_next={!table.getCanNextPage()}
             disable_prev={!table.getCanPreviousPage()}
             setPage={(page) => table.setPageIndex(page)}
-            totalPages={table.getPageCount()}
+            totalPages={totalPages}
             lng={lng}
           />
         </div>
-      )}
+      )} */}
     </>
   );
 }
