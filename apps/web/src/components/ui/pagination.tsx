@@ -1,13 +1,11 @@
 "use client";
 
 import { Button, ButtonProps, buttonVariants } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
 import ChevronLeft from "@/icons/chevron-left";
 import ChevronRight from "@/icons/chevron-right";
 import Ellipsis from "@/icons/ellipsis";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { ComponentProps, forwardRef, useMemo } from "react";
 import { useTranslation } from "@/i18n/client";
 
@@ -101,9 +99,6 @@ export default function Paginate({
   setPage: (page: number) => void;
 }) {
   const { t } = useTranslation(lng, "Pagination");
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
   const range = (start: number, end: number) => {
     const length = end - start + 1;
     return Array.from({ length }, (_, idx) => idx + start);
