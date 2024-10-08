@@ -252,19 +252,6 @@ export default function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-
-      {/* {data.length > 0 && paginate && (
-        <div className="flex items-center justify-center gap-2 pt-8">
-          <Paginate
-            curr={table.getState().pagination.pageIndex}
-            disable_next={!table.getCanNextPage()}
-            disable_prev={!table.getCanPreviousPage()}
-            setPage={(page) => table.setPageIndex(page)}
-            totalPages={totalPages}
-            lng={lng}
-          />
-        </div>
-      )} */}
     </>
   );
 }
