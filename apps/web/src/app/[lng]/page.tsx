@@ -7,12 +7,19 @@ export default async function Page({
   searchParams,
 }: {
   params: { lng: string };
-  searchParams: { page: string; q: string };
+  searchParams: {
+    page: string;
+    q: string;
+    division_name: string;
+    unit_name: string;
+  };
 }) {
-  const { q, page } = searchParams;
+  const { q, page, division_name, unit_name } = searchParams;
   const { kakitangan, totalPages } = await searchKakitangan(
     page ? Number(page) : 1,
     q,
+    unit_name,
+    division_name,
   );
   return <Homepage lng={lng} kakitangan={kakitangan} totalPages={totalPages} />;
 }

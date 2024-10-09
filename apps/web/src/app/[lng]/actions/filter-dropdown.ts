@@ -20,7 +20,7 @@ export async function filterDropdown(): Promise<{
         aggs: {
           ministry_agg: {
             terms: {
-              field: "org_name.raw",
+              field: "org_name.keyword",
               size: 10000,
             },
             aggs: {
@@ -34,13 +34,13 @@ export async function filterDropdown(): Promise<{
           },
           division_agg: {
             terms: {
-              field: "division_name.raw",
+              field: "division_name.keyword",
               size: 1000,
             },
           },
           unit_agg: {
             terms: {
-              field: "unit_name.raw",
+              field: "unit_name.keyword",
               size: 1000,
             },
           },
@@ -67,7 +67,6 @@ export async function filterDropdown(): Promise<{
         };
       },
     );
-
     return { aggregations };
   } catch (error) {
     console.error("Error fetching data:", error);

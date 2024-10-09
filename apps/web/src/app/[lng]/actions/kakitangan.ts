@@ -7,13 +7,13 @@ export async function searchKakitangan(
   page: number,
   q?: string,
 ): Promise<{ kakitangan: any[]; totalPages: number }> {
-  const index = "test-directory";
+  const index = "directory";
   const size = 20;
   try {
     const result = await getElasticClient().search({
       index,
       q,
-      sort: ["org_sort", "division_sort", "person_sort"],
+      sort: ["org_sort", "division_sort", "position_sort"],
       query: {
         match_all: {},
       },

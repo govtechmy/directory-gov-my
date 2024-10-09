@@ -21,7 +21,7 @@ interface Kakitangan {
   division_name: string | null;
   unit_name: string | null;
   person_name: string | null;
-  person_position: string | null;
+  position: string | null;
   person_phone: string | null;
   person_email: string | null;
   person_fax: string | null;
@@ -59,8 +59,8 @@ export default function Home({
     },
     {
       header: t("directory.table_header.jawatan"),
-      accessorKey: "person_position",
-      id: "person_position",
+      accessorKey: "position",
+      id: "position",
       cell: (row) => row.getValue(),
       meta: {
         expandable: true,
@@ -129,7 +129,7 @@ export default function Home({
           division_name,
           unit_name,
           person_name,
-          person_position,
+          position,
           person_phone,
           person_fax,
           person_email,
@@ -146,7 +146,7 @@ export default function Home({
                   {person_name ?? "—"}
                 </span>
               </div>
-              <p className="text-black-700">{person_position}</p>
+              <p className="text-black-700">{position}</p>
             </div>
 
             {person_phone || person_email ? (
@@ -202,6 +202,20 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
+          <>
+            <DirektoriFilter
+              lng={lng}
+              column="division_name"
+              subtitle={t("directory.table_header.bhg")}
+              aggKey="division_agg"
+            />
+            <DirektoriFilter
+              lng={lng}
+              column="unit_name"
+              subtitle="Unit" // translation
+              aggKey="unit_agg"
+            />
+          </>
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
@@ -211,15 +225,6 @@ export default function Home({
               pageIndex: 0,
               pageSize: 20,
             }}
-            filter={(table, headers) => (
-              <DirektoriFilter
-                lng={lng}
-                table={table}
-                headers={headers}
-                column="division_name"
-                subtitle={t("directory.table_header.bhg")}
-              />
-            )}
           />
         </div>
       </Section>

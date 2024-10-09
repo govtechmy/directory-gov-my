@@ -1,7 +1,7 @@
 "use client";
 
-import { Header, Table as TTable } from "@tanstack/react-table";
 import { FC, useState, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -17,39 +17,49 @@ import { cn } from "@/lib/utils";
 import { filterDropdown } from "./actions/filter-dropdown";
 
 interface DirektoriFilter {
-  table: TTable<any>;
-  headers: Header<any, unknown>[];
   column: string;
   subtitle?: string;
   lng: string;
+  aggKey: string;
 }
 
 export const DirektoriFilter: FC<DirektoriFilter> = ({
-  table,
-  headers,
   column,
   subtitle,
   lng,
+  aggKey,
 }) => {
   const { t } = useTranslation(lng);
   const all = t("directory.table_header.semua");
 
-  console.log("column", column);
-  console.log("headers", headers);
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const searchQuery = searchParams.get(column);
+  const [selectedFilters, setSelectedFilters] = useState<string>(() => {
+    if (searchQuery) {
+      return searchQuery;
+    } else {
+      return all;
+    }
+  });
 
-  const header = headers.find((h) => h.id === column)!;
-  const { getFilterValue, setFilterValue } = header.column;
-
-  const [selectedFilters, setSelectedFilters] = useState<string>(
-    (getFilterValue() as string) || all,
-  );
+  const searchArray = (query: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (query !== all) {
+      params.set(column, query.toLowerCase());
+    } else {
+      params.delete(column);
+    }
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const [filterArr, setFilterArr] = useState<string[]>([]);
   useEffect(() => {
     const fetchOptions = async () => {
       try {
         const { aggregations } = await filterDropdown();
-        setFilterArr(ministryArr);
+        setFilterArr(aggregations[aggKey]);
       } catch (error) {
         console.error("Error fetching dropdown options:", error);
       }
@@ -59,13 +69,9 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
   }, []);
 
   const handleValueChange = (selected: string) => {
+    searchArray(selected);
     setSelectedFilters(selected);
-
-    if (selected === all) {
-      table.resetColumnFilters(true);
-      return;
-    }
-    setFilterValue(selected);
+    // TODO: check if setSelectedFilters and selectedFilters are needed
   };
 
   return (

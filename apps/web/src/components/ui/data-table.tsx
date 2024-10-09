@@ -115,6 +115,9 @@ export default function DataTable<TData, TValue>({
     Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string | null;
+        console.log("row", row);
+        console.log("columnId", columnId);
+        console.log("value", value);
         return value !== null && value.length >= 30;
       });
 
