@@ -213,7 +213,6 @@ export default function Home({
               pageIndex: 0,
               pageSize: 20,
             }}
-            totalPages={totalPages}
             filter={(table, headers) => (
               <DirektoriFilter
                 lng={lng}

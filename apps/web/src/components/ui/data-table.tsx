@@ -21,7 +21,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Paginate from "@/components/ui/pagination";
 import { useTranslation } from "@/i18n/client";
 import { ReactNode, useEffect, useState } from "react";
 import ArrowDown from "@/icons/arrow-down";
@@ -48,7 +47,6 @@ interface DataTableProps<TData, TValue> {
   ) => ReactNode;
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
-  totalPages: number;
 }
 
 export default function DataTable<TData, TValue>({
@@ -60,7 +58,6 @@ export default function DataTable<TData, TValue>({
   filter,
   paginate,
   isMerged,
-  totalPages,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
   const [pagination, setPagination] = useState({
