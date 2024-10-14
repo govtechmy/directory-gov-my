@@ -226,11 +226,11 @@ export default function Home({
           />
           <div className="flex items-center justify-center gap-2 pt-8">
             <Paginate
-              curr={currentPage - 1}
+              currentPage={currentPage}
               totalPages={totalPages}
               lng={lng}
-              disable_next={currentPage >= totalPages}
-              disable_prev={currentPage <= 1}
+              disableNext={currentPage >= totalPages}
+              disablePrev={currentPage <= 1}
               setPage={(page) => {
                 const params = new URLSearchParams(searchParams);
                 params.set("page", page.toString());

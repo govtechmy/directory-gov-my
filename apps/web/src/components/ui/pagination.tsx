@@ -84,18 +84,18 @@ const PaginationEllipsis = ({
 PaginationEllipsis.displayName = "PaginationEllipsis";
 
 export default function Paginate({
-  curr,
+  currentPage,
   totalPages,
   lng,
-  disable_next,
-  disable_prev,
+  disableNext,
+  disablePrev,
   setPage,
 }: {
-  curr: number;
+  currentPage: number;
   totalPages: number;
   lng: string;
-  disable_next: boolean;
-  disable_prev: boolean;
+  disableNext: boolean;
+  disablePrev: boolean;
   setPage: (page: number) => void;
 }) {
   const { t } = useTranslation(lng, "Pagination");
@@ -105,7 +105,7 @@ export default function Paginate({
   };
 
   const DOTS = "...";
-  const siblings = 1; // square(s) beside curr
+  const siblings = 1; // square(s) beside currentPage
 
   const pageRange = useMemo(() => {
     // If num of pages < the squares we want to show, return the range [1..totalPages]
@@ -113,8 +113,8 @@ export default function Paginate({
       return range(1, totalPages);
     }
 
-    const leftSibIdx = Math.max(curr + 1 - siblings, 1);
-    const rightSibIdx = Math.min(curr + 1 + siblings, totalPages);
+    const leftSibIdx = Math.max(currentPage - siblings, 1);
+    const rightSibIdx = Math.min(currentPage + siblings, totalPages);
 
     const showLeftDots = leftSibIdx > 2;
     const showRightDots = rightSibIdx < totalPages - 2;
@@ -138,11 +138,7 @@ export default function Paginate({
       const middleRange = range(leftSibIdx, rightSibIdx);
       return [firstPageIdx, DOTS, ...middleRange, DOTS, lastPageIdx];
     }
-  }, [curr, totalPages]);
-
-  const changePage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  }, [currentPage, totalPages]);
 
   return (
     <Pagination>
@@ -152,8 +148,8 @@ export default function Paginate({
             variant="secondary"
             size="default"
             className="p-2 lg:p-2.5 mr-3"
-            disabled={disable_prev}
-            onClick={() => changePage(curr)}
+            disabled={disablePrev}
+            onClick={() => setPage(currentPage - 1)}
           >
             <ChevronLeft className="size-4" />
             <span className="sr-only">{t("previous")}</span>
@@ -164,11 +160,11 @@ export default function Paginate({
           return typeof page === "number" ? (
             <PaginationItem className="hidden min-[360px]:flex" key={i}>
               <Button
-                onClick={() => changePage(page)}
-                variant={curr === page - 1 ? "tertiary-colour" : "tertiary"}
+                onClick={() => setPage(page)}
+                variant={currentPage === page ? "tertiary-colour" : "tertiary"}
                 className={cn(
                   "sm:size-[40px]",
-                  curr === page - 1 ? "bg-brand-50" : "",
+                  currentPage === page ? "bg-brand-50" : "",
                 )}
               >
                 {page}
@@ -182,7 +178,7 @@ export default function Paginate({
         })}
         <span className="flex items-center gap-1 text-center min-[360px]:hidden">
           {t("page_of", {
-            current: curr + 1,
+            current: currentPage,
             total: totalPages,
           })}
         </span>
@@ -192,8 +188,8 @@ export default function Paginate({
             variant="secondary"
             size="default"
             className="p-2 lg:p-2.5 ml-3"
-            disabled={disable_next}
-            onClick={() => changePage(curr + 2)}
+            disabled={disableNext}
+            onClick={() => setPage(currentPage + 1)}
           >
             <span className="sr-only">{t("next")}</span>
             <ChevronRight className="size-4" />
