@@ -8,7 +8,6 @@ import {
   Header,
   getSortedRowModel,
   Table as TTable,
-  getPaginationRowModel,
   getFacetedUniqueValues,
   Row,
   Cell,
@@ -37,10 +36,6 @@ interface DataTableProps<TData, TValue> {
   lng: string;
   resizable?: boolean;
   filterable?: boolean;
-  paginate?: {
-    pageIndex: number;
-    pageSize: number;
-  };
   filter?: (
     table: TTable<TData>,
     headers: Header<TData, unknown>[],
@@ -56,14 +51,9 @@ export default function DataTable<TData, TValue>({
   resizable = false,
   filterable = false,
   filter,
-  paginate,
   isMerged,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
-  const [pagination, setPagination] = useState({
-    pageIndex: paginate ? paginate.pageIndex : 0,
-    pageSize: paginate ? paginate.pageSize : 10,
-  });
 
   const [expandableColumns, setExpandableColumns] = useState<
     Record<string, boolean | null>
@@ -72,7 +62,6 @@ export default function DataTable<TData, TValue>({
     columns.forEach((column) => {
       if (column.id && column.meta && column.meta.expandable) {
         initialState[column.id as string] = false;
-        // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
       }
     });
     return initialState;
@@ -89,19 +78,11 @@ export default function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    state: { pagination },
-
     columnResizeMode: "onChange",
     enableColumnResizing: resizable,
     enableColumnFilters: filterable,
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: (value) => {
-      if (!paginate) return;
-      setPagination(value);
-    },
     getFacetedUniqueValues: getFacetedUniqueValues(),
-
     debugTable: false,
     debugHeaders: false,
   });
@@ -117,11 +98,9 @@ export default function DataTable<TData, TValue>({
         return value !== null && value.length >= 30;
       });
 
-      // if all the rows has length less than 30, then the state with the columnId will be null. It will not has the expandable column capability
       if (longVisibleRows.length == 0) {
         mergedObj[columnId] = null;
       } else {
-        // we set the state back to false such that it will always stay close when we navigate to different page
         mergedObj[columnId] = false;
       }
     });
@@ -130,7 +109,6 @@ export default function DataTable<TData, TValue>({
 
   return (
     <>
-      {/* Action */}
       {filter ? filter(table, headerGroups[0]!.headers) : <></>}
 
       <Table

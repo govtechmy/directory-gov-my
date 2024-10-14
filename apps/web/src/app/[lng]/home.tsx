@@ -209,10 +209,6 @@ export default function Home({
             columns={isMobile ? mobileColumn : column}
             data={kakitangan}
             resizable={false}
-            paginate={{
-              pageIndex: 0,
-              pageSize: 20,
-            }}
             filter={(table, headers) => (
               <DirektoriFilter
                 lng={lng}
