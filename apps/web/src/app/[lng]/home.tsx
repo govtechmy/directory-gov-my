@@ -42,7 +42,7 @@ export default function Home({
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
   const pathname = usePathname();
-
+  console.log(kakitangan[0]);
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q");
 
@@ -68,8 +68,8 @@ export default function Home({
     },
     {
       header: t("directory.table_header.kementerian"),
-      accessorKey: "org_id",
-      id: "org_id",
+      accessorKey: "org_name",
+      id: "org_name",
       cell: (row) => row.getValue(),
       meta: {
         expandable: true,
@@ -202,7 +202,13 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
-          <>
+          <div className="flex space-x-3">
+            <DirektoriFilter
+              lng={lng}
+              column="org_name"
+              subtitle={t("directory.table_header.bhg")}
+              aggKey="ministry_agg"
+            />
             <DirektoriFilter
               lng={lng}
               column="division_name"
@@ -215,7 +221,7 @@ export default function Home({
               subtitle="Unit" // translation
               aggKey="unit_agg"
             />
-          </>
+          </div>
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}

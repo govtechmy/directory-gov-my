@@ -23,14 +23,6 @@ export async function filterDropdown(): Promise<{
               field: "org_name.keyword",
               size: 10000,
             },
-            aggs: {
-              org_details: {
-                top_hits: {
-                  size: 1,
-                  _source: ["org_id", "org_name"],
-                },
-              },
-            },
           },
           division_agg: {
             terms: {
@@ -52,20 +44,14 @@ export async function filterDropdown(): Promise<{
       division_agg: [],
       unit_agg: [],
     };
+    aggregations.ministry_agg = result?.aggregations?.ministry_agg?.buckets.map(
+      (bucket) => bucket.key,
+    );
     aggregations.division_agg = result?.aggregations?.division_agg?.buckets.map(
       (bucket) => bucket.key,
     );
     aggregations.unit_agg = result?.aggregations?.unit_agg?.buckets.map(
       (bucket) => bucket.key,
-    );
-    aggregations.ministry_agg = result?.aggregations?.ministry_agg?.buckets.map(
-      (bucket) => {
-        const orgDetails = bucket.org_details.hits.hits[0]._source;
-        return {
-          org_id: orgDetails.org_id,
-          org_name: orgDetails.org_name,
-        };
-      },
     );
     return { aggregations };
   } catch (error) {

@@ -6,6 +6,9 @@ import { getElasticClient } from "./elastic-client";
 export async function searchKakitangan(
   page: number,
   q?: string,
+  org_name?: string,
+  unit_name?: string,
+  division_name?: string,
 ): Promise<{ kakitangan: any[]; totalPages: number }> {
   const index = "directory";
   const size = 20;
