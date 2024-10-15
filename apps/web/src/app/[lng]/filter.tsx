@@ -47,7 +47,7 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
   const searchArray = (query: string) => {
     const params = new URLSearchParams(searchParams);
     if (query !== all) {
-      params.set(column, query.toLowerCase());
+      params.set(column, query);
     } else {
       params.delete(column);
     }

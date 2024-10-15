@@ -48,10 +48,10 @@ export async function filterDropdown(): Promise<{
       (bucket) => bucket.key,
     );
     aggregations.division_agg = result?.aggregations?.division_agg?.buckets.map(
-      (bucket) => bucket.key,
+      (bucket) => bucket.key.toUpperCase(),
     );
     aggregations.unit_agg = result?.aggregations?.unit_agg?.buckets.map(
-      (bucket) => bucket.key,
+      (bucket) => bucket.key.toUpperCase(),
     );
     return { aggregations };
   } catch (error) {
