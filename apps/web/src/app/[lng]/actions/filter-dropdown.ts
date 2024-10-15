@@ -2,14 +2,18 @@
 
 import { getElasticClient } from "./elastic-client";
 
-interface aggregationsInterface {
+export interface Aggregations {
   ministry_agg: string[];
   division_agg: string[];
-  unit_agg: [];
+  unit_agg: string[];
+}
+interface Bucket {
+  key: string;
+  doc_count: number;
 }
 
 export async function filterDropdown(): Promise<{
-  aggregations: aggregationsInterface;
+  aggregations: Aggregations;
 }> {
   const index = "directory";
   try {
@@ -21,7 +25,7 @@ export async function filterDropdown(): Promise<{
           ministry_agg: {
             terms: {
               field: "org_name.keyword",
-              size: 10000,
+              size: 1000,
             },
           },
           division_agg: {
@@ -39,20 +43,22 @@ export async function filterDropdown(): Promise<{
         },
       },
     });
-    let aggregations: aggregationsInterface = {
+
+    let aggregations: Aggregations = {
       ministry_agg: [],
       division_agg: [],
       unit_agg: [],
     };
-    aggregations.ministry_agg = result?.aggregations?.ministry_agg?.buckets.map(
-      (bucket) => bucket.key,
-    );
-    aggregations.division_agg = result?.aggregations?.division_agg?.buckets.map(
-      (bucket) => bucket.key.toUpperCase(),
-    );
-    aggregations.unit_agg = result?.aggregations?.unit_agg?.buckets.map(
-      (bucket) => bucket.key.toUpperCase(),
-    );
+
+    aggregations.ministry_agg = (
+      result?.aggregations?.ministry_agg as any
+    )?.buckets.map((bucket: Bucket) => bucket.key.toUpperCase());
+    aggregations.division_agg = (
+      result?.aggregations?.division_agg as any
+    )?.buckets.map((bucket: Bucket) => bucket.key.toUpperCase());
+    aggregations.unit_agg = (
+      result?.aggregations?.unit_agg as any
+    )?.buckets.map((bucket: Bucket) => bucket.key.toUpperCase());
     return { aggregations };
   } catch (error) {
     console.error("Error fetching data:", error);

@@ -14,7 +14,7 @@ import ChevronDown from "@/icons/chevron-down";
 import { SelectIcon } from "@radix-ui/react-select";
 import { useTranslation } from "@/i18n/client";
 import { cn } from "@/lib/utils";
-import { filterDropdown } from "./actions/filter-dropdown";
+import { Aggregations, filterDropdown } from "./actions/filter-dropdown";
 
 interface DirektoriFilter {
   column: string;
@@ -22,6 +22,8 @@ interface DirektoriFilter {
   lng: string;
   aggKey: string;
 }
+
+type AggKey = keyof Aggregations;
 
 export const DirektoriFilter: FC<DirektoriFilter> = ({
   column,
@@ -59,7 +61,7 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
     const fetchOptions = async () => {
       try {
         const { aggregations } = await filterDropdown();
-        setFilterArr(aggregations[aggKey]);
+        setFilterArr(aggregations[aggKey as AggKey]);
       } catch (error) {
         console.error("Error fetching dropdown options:", error);
       }

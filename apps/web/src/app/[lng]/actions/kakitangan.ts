@@ -1,6 +1,9 @@
 "use server";
 
-import { SearchTotalHits } from "@elastic/elasticsearch/lib/api/types";
+import {
+  QueryDslQueryContainer,
+  SearchTotalHits,
+} from "@elastic/elasticsearch/lib/api/types";
 import { getElasticClient } from "./elastic-client";
 
 export async function searchKakitangan(
@@ -37,7 +40,7 @@ export async function searchKakitangan(
               ...(division_name
                 ? [{ term: { "division_name.keyword": division_name } }]
                 : []),
-            ],
+            ] as QueryDslQueryContainer[],
           },
         },
         sort: ["org_sort", "division_sort", "position_sort"],
@@ -45,12 +48,8 @@ export async function searchKakitangan(
         from: (page - 1) * size,
       },
     });
-    console.log(q, org_name, division_name, unit_name);
-    const results = JSON.stringify(result, null, 2);
-    console.log("Query result:", results);
     const total = result.hits.total as SearchTotalHits;
     const kakitangan = result.hits.hits.map((hit) => hit._source);
-    // console.log(`Fetched ${kakitangan.length} documents from ${index}`);
     return { kakitangan, totalPages: Math.round(total.value / size) };
   } catch (error) {
     console.error("Error fetching data:", error);

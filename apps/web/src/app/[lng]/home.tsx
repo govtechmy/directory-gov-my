@@ -42,7 +42,6 @@ export default function Home({
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
   const pathname = usePathname();
-  console.log(kakitangan[0]);
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q");
 
@@ -202,7 +201,7 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
-          <div className="flex space-x-3">
+          <div className="flex space-x-4">
             <DirektoriFilter
               lng={lng}
               column="org_name"
