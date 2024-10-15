@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +16,7 @@ import { useTranslation } from "@/i18n/client";
 import { cn } from "@/lib/utils";
 import { Aggregations, filterDropdown } from "./actions/filter-dropdown";
 
-interface DirektoriFilter {
+interface DirektoriFilterI {
   column: string;
   subtitle?: string;
   lng: string;
@@ -25,7 +25,7 @@ interface DirektoriFilter {
 
 type AggKey = keyof Aggregations;
 
-export const DirektoriFilter: FC<DirektoriFilter> = ({
+export const DirektoriFilter: FC<DirektoriFilterI> = ({
   column,
   subtitle,
   lng,
@@ -57,6 +57,8 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
   };
 
   const [filterArr, setFilterArr] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     const fetchOptions = async () => {
       try {
@@ -69,6 +71,12 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
 
     fetchOptions();
   }, []);
+
+  const filteredOptions = useMemo(() => {
+    return filterArr.filter((option) =>
+      option.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }, [filterArr, searchTerm]);
 
   const handleValueChange = (selected: string) => {
     searchArray(selected);
@@ -96,6 +104,14 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
           className="max-h-[250px] w-full py-2"
           align="start"
         >
+          <div className="px-2 pb-2">
+            <input
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full"
+            />
+          </div>
           <SelectItem
             value={all}
             className={cn(
@@ -105,7 +121,7 @@ export const DirektoriFilter: FC<DirektoriFilter> = ({
           >
             {all}
           </SelectItem>
-          {filterArr.map((l) => (
+          {filteredOptions.map((l) => (
             <SelectItem
               key={l}
               value={l}

@@ -17,6 +17,7 @@ const AccordionItem = React.forwardRef<
     {children}
   </AccordionPrimitives.Item>
 ));
+AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<
   React.ComponentRef<typeof AccordionPrimitives.Trigger>,
@@ -39,6 +40,7 @@ const AccordionTrigger = React.forwardRef<
     </AccordionPrimitives.Trigger>
   </AccordionPrimitives.Header>
 ));
+AccordionTrigger.displayName = "AccordionTrigger";
 
 const AccordionContent = React.forwardRef<
   React.ComponentRef<typeof AccordionPrimitives.Content>,
@@ -55,5 +57,5 @@ const AccordionContent = React.forwardRef<
     <div className="p-3">{children}</div>
   </AccordionPrimitives.Content>
 ));
-
+AccordionContent.displayName = "AccordionContent";
 export { Accordion, AccordionContent, AccordionTrigger, AccordionItem };
