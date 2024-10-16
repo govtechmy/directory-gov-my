@@ -28,7 +28,6 @@ interface Kakitangan {
   person_fax: string | null;
   parent_org_id: string | null;
   person_sort: number;
-  // grade: string | null;
 }
 
 export default function Home({
@@ -43,8 +42,8 @@ export default function Home({
   const { t } = useTranslation(lng);
   const { replace } = useRouter();
   const pathname = usePathname();
-
   const searchParams = useSearchParams();
+
   const searchQuery = searchParams.get("q");
   const currentPage = Number(searchParams.get("page") || "1");
 
@@ -95,12 +94,6 @@ export default function Home({
         expandable: true,
       },
     },
-    // {
-    //   header: t("directory.table_header.gred"),
-    //   accessorKey: "grade",
-    //   id: "grade",
-    //   cell: (row) => row.getValue() ?? "—",
-    // },
     {
       header: t("directory.table_header.telefon"),
       accessorKey: "person_phone",
@@ -176,14 +169,20 @@ export default function Home({
     },
   ];
 
-  const searchArray = (query: string) => {
+  const updateParams = (updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams);
-    if (query) {
-      params.set("q", query.toLowerCase());
-    } else {
-      params.delete("q");
-    }
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
     replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const searchArray = (query: string) => {
+    updateParams({ q: query || null });
   };
 
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -227,9 +226,7 @@ export default function Home({
               disableNext={currentPage >= totalPages}
               disablePrev={currentPage <= 1}
               setPage={(page) => {
-                const params = new URLSearchParams(searchParams);
-                params.set("page", page.toString());
-                replace(`${pathname}?${params.toString()}`, { scroll: false });
+                updateParams({ page: page.toString() });
               }}
             />
           </div>
