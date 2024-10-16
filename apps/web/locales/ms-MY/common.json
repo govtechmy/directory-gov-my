@@ -85,7 +85,7 @@
   },
   "pagination": {
     "previous": "Sebelum",
-    "page_of": "{ current } daripada { total }",
+    "page_of": "{{ current }} daripada {{ total }}",
     "next": "Seterusnya"
   },
   "404": {

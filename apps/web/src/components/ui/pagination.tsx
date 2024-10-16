@@ -98,17 +98,16 @@ export default function Paginate({
   disablePrev: boolean;
   setPage: (page: number) => void;
 }) {
-  const { t } = useTranslation(lng, "Pagination");
+  const { t } = useTranslation(lng);
   const range = (start: number, end: number) => {
     const length = end - start + 1;
     return Array.from({ length }, (_, idx) => idx + start);
   };
 
   const DOTS = "...";
-  const siblings = 1; // square(s) beside currentPage
+  const siblings = 1;
 
   const pageRange = useMemo(() => {
-    // If num of pages < the squares we want to show, return the range [1..totalPages]
     if (totalPages <= 5 + siblings) {
       return range(1, totalPages);
     }
@@ -152,7 +151,7 @@ export default function Paginate({
             onClick={() => setPage(currentPage - 1)}
           >
             <ChevronLeft className="size-4" />
-            <span className="sr-only">{t("previous")}</span>
+            <span className="sr-only">{t("pagination.previous")}</span>
           </Button>
         </PaginationItem>
 
@@ -177,21 +176,21 @@ export default function Paginate({
           );
         })}
         <span className="flex items-center gap-1 text-center min-[360px]:hidden">
-          {t("page_of", {
+          {t("pagination.page_of", {
             current: currentPage,
             total: totalPages,
           })}
         </span>
         <PaginationItem>
           <Button
-            aria-label={t("next")}
+            aria-label={t("pagination.next")}
             variant="secondary"
             size="default"
             className="p-2 lg:p-2.5 ml-3"
             disabled={disableNext}
             onClick={() => setPage(currentPage + 1)}
           >
-            <span className="sr-only">{t("next")}</span>
+            <span className="sr-only">{t("pagination.next")}</span>
             <ChevronRight className="size-4" />
           </Button>
         </PaginationItem>

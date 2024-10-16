@@ -79,7 +79,7 @@
   },
   "pagination": {
     "previous": "Previous",
-    "page_of": "{ current } of { total }",
+    "page_of": "{{ current }} of {{ total }}",
     "next": "Next"
   },
   "table": {
