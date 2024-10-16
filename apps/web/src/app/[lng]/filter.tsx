@@ -62,15 +62,39 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const { aggregations } = await filterDropdown();
-        setFilterArr(aggregations[aggKey as AggKey]);
+        let ministryFilter = null;
+        let divisionFilter = null;
+        if (aggKey == "division_agg") {
+          ministryFilter = searchParams.get("org_name");
+        } else if (aggKey == "unit_agg") {
+          ministryFilter = searchParams.get("org_name");
+          divisionFilter = searchParams.get("division_name");
+        }
+
+        if (aggKey == "division_agg" && ministryFilter != null) {
+          const { aggregations } = await filterDropdown(ministryFilter);
+          setFilterArr(aggregations[aggKey as AggKey]);
+        } else if (
+          aggKey == "unit_agg" &&
+          ministryFilter != null &&
+          divisionFilter != null
+        ) {
+          const { aggregations } = await filterDropdown(
+            ministryFilter,
+            divisionFilter,
+          );
+          setFilterArr(aggregations[aggKey as AggKey]);
+        } else if (aggKey == "ministry_agg") {
+          const { aggregations } = await filterDropdown();
+          setFilterArr(aggregations[aggKey as AggKey]);
+        }
       } catch (error) {
         console.error("Error fetching dropdown options:", error);
       }
     };
 
     fetchOptions();
-  }, []);
+  }, [searchParams]);
 
   const filteredOptions = useMemo(() => {
     return filterArr.filter((option) =>
@@ -81,16 +105,25 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const handleValueChange = (selected: string) => {
     searchArray(selected);
     setSelectedFilters(selected);
-    // TODO: check if setSelectedFilters and selectedFilters are needed
   };
 
   return (
     <div className="pb-4">
-      <Select value={selectedFilters} onValueChange={handleValueChange}>
+      <Select
+        value={selectedFilters}
+        onValueChange={handleValueChange}
+        disabled={
+          (aggKey === "division_agg" &&
+            searchParams.get("org_name") === null) ||
+          (aggKey === "unit_agg" &&
+            (searchParams.get("org_name") === null ||
+              searchParams.get("division_name") === null))
+        }
+      >
         <SelectTrigger asChild>
           <Button variant="secondary">
             {selectedFilters !== all ? null : (
-              <span className="text-sm text-dim-500">{subtitle}:</span>
+              <span className="text-sm text-dim-500">{localSubtitle}:</span>
             )}
             <SelectValue>{selectedFilters}</SelectValue>
             <SelectIcon>
@@ -121,9 +154,9 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
           >
             {all}
           </SelectItem>
-          {filteredOptions.map((l) => (
+          {filteredOptions.map((l, index) => (
             <SelectItem
-              key={l}
+              key={index} // changed to index because different division might have the same unit, eg SEKSYEN PENGURUSAN ASET
               value={l}
               className={cn(
                 "max-sm:w-[calc(100svw-40px)]",

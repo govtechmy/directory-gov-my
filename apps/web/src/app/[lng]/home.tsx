@@ -205,7 +205,7 @@ export default function Home({
             <DirektoriFilter
               lng={lng}
               column="org_name"
-              subtitle={t("directory.table_header.bhg")}
+              subtitle={t("directory.table_header.kementerian")}
               aggKey="ministry_agg"
             />
             <DirektoriFilter
@@ -217,7 +217,7 @@ export default function Home({
             <DirektoriFilter
               lng={lng}
               column="unit_name"
-              subtitle="Unit" // translation
+              subtitle={t("directory.table_header.seksyen")}
               aggKey="unit_agg"
             />
           </div>
