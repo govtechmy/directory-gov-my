@@ -123,7 +123,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
         <SelectTrigger asChild>
           <Button variant="secondary">
             {selectedFilters !== all ? null : (
-              <span className="text-sm text-dim-500">{localSubtitle}:</span>
+              <span className="text-sm text-dim-500">{subtitle}:</span>
             )}
             <SelectValue>{selectedFilters}</SelectValue>
             <SelectIcon>
