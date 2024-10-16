@@ -38,13 +38,11 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const { replace } = useRouter();
   const pathname = usePathname();
   const searchQuery = searchParams.get(column);
-  const [selectedFilters, setSelectedFilters] = useState<string>(() => {
-    if (searchQuery) {
-      return searchQuery;
-    } else {
-      return all;
-    }
-  });
+  const [selectedFilters, setSelectedFilters] = useState<string>();
+
+  useEffect(() => {
+    setSelectedFilters(searchQuery || all);
+  }, [searchQuery, all]);
 
   const searchArray = (query: string) => {
     const params = new URLSearchParams(searchParams);
@@ -52,6 +50,15 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
       params.set(column, query);
     } else {
       params.delete(column);
+    }
+
+    // to delete the children when reset
+    if (column === "org_name") {
+      params.delete("division_name");
+      params.delete("unit_name");
+    }
+    if (column === "division_name") {
+      params.delete("unit_name");
     }
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
