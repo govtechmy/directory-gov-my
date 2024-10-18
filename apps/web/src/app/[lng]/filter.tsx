@@ -40,10 +40,6 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const searchQuery = searchParams.get(column);
   const [selectedFilters, setSelectedFilters] = useState<string>();
 
-  useEffect(() => {
-    setSelectedFilters(searchQuery || all);
-  }, [searchQuery, all]);
-
   const searchArray = (query: string) => {
     const params = new URLSearchParams(searchParams);
     if (query !== all) {
@@ -67,10 +63,15 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    // Fetch all the options in the dropdown, when the searchParams changes
     const fetchOptions = async () => {
       try {
         let ministryFilter = null;
         let divisionFilter = null;
+
+        let dropdownArr: string[] = [];
+
+        // get query params
         if (aggKey == "division_agg") {
           ministryFilter = searchParams.get("org_name");
         } else if (aggKey == "unit_agg") {
@@ -79,21 +80,53 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
         }
 
         if (aggKey == "division_agg" && ministryFilter != null) {
+          // Only want to fetch the division dropdown if the ministry filter is not null (save resources instead of fetch everytime)
           const { aggregations } = await filterDropdown(ministryFilter);
-          setFilterArr(aggregations[aggKey as AggKey]);
+          dropdownArr = aggregations[aggKey as AggKey];
+          setFilterArr(dropdownArr);
         } else if (
           aggKey == "unit_agg" &&
           ministryFilter != null &&
           divisionFilter != null
         ) {
+          // Only want to fetch the unit dropdown if the ministry and division filter are not null (save resources instead of fetch everytime)
           const { aggregations } = await filterDropdown(
             ministryFilter,
             divisionFilter,
           );
-          setFilterArr(aggregations[aggKey as AggKey]);
+          dropdownArr = aggregations[aggKey as AggKey];
+          setFilterArr(dropdownArr);
         } else if (aggKey == "ministry_agg") {
           const { aggregations } = await filterDropdown();
-          setFilterArr(aggregations[aggKey as AggKey]);
+          dropdownArr = aggregations[aggKey as AggKey];
+          setFilterArr(dropdownArr);
+        }
+
+        if (!searchQuery || !dropdownArr) {
+          setSelectedFilters(all);
+        } else {
+          // search query exists
+          if (dropdownArr.includes(searchQuery)) {
+            setSelectedFilters(searchQuery);
+          } else {
+            // searchQuery does not exists in the dropdown value (user temper)
+            const params = new URLSearchParams(searchParams);
+            if (column === "org_name") {
+              // if the dropdown is for the ministry and the query params is invalid then delete from query params all three, then set the selection to 'all'
+              params.delete("org_name");
+              params.delete("division_name");
+              params.delete("unit_name");
+            } else if (column === "division_name") {
+              // if the dropdown is for the division and the query params is invalid then delete from query params the division and unit value, then set the selection to 'all'
+              params.delete("division_name");
+              params.delete("unit_name");
+            } else {
+              // if the dropdown is for the unit and the query params is invalid then delete from query params the unit value, then set the selection to 'all'
+              params.delete("unit_name");
+            }
+            replace(`${pathname}?${params.toString()}`, { scroll: false });
+            setSelectedFilters(all);
+          }
         }
       } catch (error) {
         console.error("Error fetching dropdown options:", error);
@@ -161,9 +194,9 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
           >
             {all}
           </SelectItem>
-          {filteredOptions.map((l, index) => (
+          {filteredOptions.map((l) => (
             <SelectItem
-              key={index} // changed to index because different division might have the same unit, eg SEKSYEN PENGURUSAN ASET
+              key={l}
               value={l}
               className={cn(
                 "max-sm:w-[calc(100svw-40px)]",
