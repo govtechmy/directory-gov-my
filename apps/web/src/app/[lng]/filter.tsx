@@ -34,6 +34,8 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const { t } = useTranslation(lng);
   const all = t("directory.table_header.semua");
 
+  const allValue = "ALL_VALUE";
+
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -103,7 +105,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
         }
 
         if (!searchQuery || !dropdownArr) {
-          setSelectedFilters(all);
+          setSelectedFilters(allValue);
         } else {
           // search query exists
           if (dropdownArr.includes(searchQuery)) {
@@ -125,7 +127,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
               params.delete("unit_name");
             }
             replace(`${pathname}?${params.toString()}`, { scroll: false });
-            setSelectedFilters(all);
+            setSelectedFilters(allValue);
           }
         }
       } catch (error) {
@@ -162,10 +164,12 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
       >
         <SelectTrigger asChild>
           <Button variant="secondary">
-            {selectedFilters !== all ? null : (
+            {selectedFilters !== allValue ? null : (
               <span className="text-sm text-dim-500">{subtitle}:</span>
             )}
-            <SelectValue>{selectedFilters}</SelectValue>
+            <SelectValue>
+              {selectedFilters == allValue ? all : selectedFilters}
+            </SelectValue>
             <SelectIcon>
               <ChevronDown />
             </SelectIcon>
@@ -186,10 +190,10 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
             />
           </div>
           <SelectItem
-            value={all}
+            value={allValue}
             className={cn(
               "max-sm:w-[calc(100svw-40px)]",
-              all === selectedFilters ? "font-medium" : "",
+              allValue === selectedFilters ? "font-medium" : "",
             )}
           >
             {all}
