@@ -71,6 +71,9 @@
       "fax": "Fax No.",
       "emel": "Email",
       "semua": "All"
+    },
+    "dropdown": {
+      "search_placeholder": "Type to search"
     }
   },
   "datepicker": {

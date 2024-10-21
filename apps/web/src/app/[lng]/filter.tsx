@@ -15,6 +15,21 @@ import { SelectIcon } from "@radix-ui/react-select";
 import { useTranslation } from "@/i18n/client";
 import { cn } from "@/lib/utils";
 import { Aggregations, filterDropdown } from "./actions/filter-dropdown";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import Search from "@/icons/search";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import { CommandList } from "cmdk";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DirektoriFilterI {
   column: string;
@@ -33,6 +48,8 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
 }) => {
   const { t } = useTranslation(lng);
   const all = t("directory.table_header.semua");
+  const searchPlaceholder = t("directory.dropdown.search_placeholder");
+  const noData = t("table.no_data");
 
   const allValue = "ALL_VALUE";
 
@@ -62,7 +79,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   };
 
   const [filterArr, setFilterArr] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     // Fetch all the options in the dropdown, when the searchParams changes
@@ -138,80 +155,144 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
     fetchOptions();
   }, [searchParams]);
 
-  const filteredOptions = useMemo(() => {
-    return filterArr.filter((option) =>
-      option.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
-  }, [filterArr, searchTerm]);
+  // const filteredOptions = useMemo(() => {
+  //   return filterArr.filter((option) =>
+  //     option.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  // }, [filterArr, searchTerm]);
 
   const handleValueChange = (selected: string) => {
     searchArray(selected);
     setSelectedFilters(selected);
   };
 
+  // return (
+  //   <div className="pb-4">
+  //     <Select
+  //       value={selectedFilters}
+  //       onValueChange={handleValueChange}
+  //       disabled={
+  //         (aggKey === "division_agg" &&
+  //           searchParams.get("org_name") === null) ||
+  //         (aggKey === "unit_agg" &&
+  //           (searchParams.get("org_name") === null ||
+  //             searchParams.get("division_name") === null))
+  //       }
+  //     >
+  //       <SelectTrigger asChild>
+  //         <Button variant="secondary">
+  //           {selectedFilters !== allValue ? null : (
+  //             <span className="text-sm text-dim-500">{subtitle}:</span>
+  //           )}
+  //           <SelectValue>
+  //             {selectedFilters == allValue ? all : selectedFilters}
+  //           </SelectValue>
+  //           <SelectIcon>
+  //             <ChevronDown />
+  //           </SelectIcon>
+  //         </Button>
+  //       </SelectTrigger>
+  //       <SelectContent
+  //         avoidCollisions={true}
+  //         side="bottom"
+  //         className="max-h-[250px] w-full py-2"
+  //         align="start"
+  //       >
+  //         <div className="px-2 pb-2">
+  //           <input
+  //             placeholder="Search..."
+  //             value={searchTerm}
+  //             onChange={(e) => setSearchTerm(e.target.value)}
+  //             className="w-full"
+  //           />
+  //         </div>
+  //         <SelectItem
+  //           value={allValue}
+  //           className={cn(
+  //             "max-sm:w-[calc(100svw-40px)]",
+  //             allValue === selectedFilters ? "font-medium" : "",
+  //           )}
+  //         >
+  //           {all}
+  //         </SelectItem>
+  //         {filteredOptions.map((l) => (
+  //           <SelectItem
+  //             key={l}
+  //             value={l}
+  //             className={cn(
+  //               "max-sm:w-[calc(100svw-40px)]",
+  //               l === selectedFilters ? "font-medium" : "",
+  //             )}
+  //           >
+  //             {l}
+  //           </SelectItem>
+  //         ))}
+  //       </SelectContent>
+  //     </Select>
+  //   </div>
+  // );
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+
+  const truncateText = (text: string, maxLength: number) => {
+    // console.log("text", text);
+    return text?.length > maxLength
+      ? text?.substring(0, maxLength) + "..."
+      : text;
+  };
   return (
     <div className="pb-4">
-      <Select
-        value={selectedFilters}
-        onValueChange={handleValueChange}
-        disabled={
-          (aggKey === "division_agg" &&
-            searchParams.get("org_name") === null) ||
-          (aggKey === "unit_agg" &&
-            (searchParams.get("org_name") === null ||
-              searchParams.get("division_name") === null))
-        }
-      >
-        <SelectTrigger asChild>
-          <Button variant="secondary">
-            {selectedFilters !== allValue ? null : (
-              <span className="text-sm text-dim-500">{subtitle}:</span>
-            )}
-            <SelectValue>
-              {selectedFilters == allValue ? all : selectedFilters}
-            </SelectValue>
-            <SelectIcon>
-              <ChevronDown />
-            </SelectIcon>
-          </Button>
-        </SelectTrigger>
-        <SelectContent
-          avoidCollisions={true}
-          side="bottom"
-          className="max-h-[250px] w-full py-2"
-          align="start"
+      <Popover open={open} onOpenChange={setOpen} modal={true}>
+        <PopoverTrigger
+          asChild
+          disabled={
+            (aggKey === "division_agg" &&
+              searchParams.get("org_name") === null) ||
+            (aggKey === "unit_agg" &&
+              (searchParams.get("org_name") === null ||
+                searchParams.get("division_name") === null))
+          }
         >
-          <div className="px-2 pb-2">
-            <input
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full"
-            />
-          </div>
-          <SelectItem
-            value={allValue}
-            className={cn(
-              "max-sm:w-[calc(100svw-40px)]",
-              allValue === selectedFilters ? "font-medium" : "",
-            )}
+          <Button
+            variant="secondary"
+            className="max-w-[260px] justify-between bg-white"
           >
-            {all}
-          </SelectItem>
-          {filteredOptions.map((l) => (
-            <SelectItem
-              key={l}
-              value={l}
-              className={cn(
-                "max-sm:w-[calc(100svw-40px)]",
-                l === selectedFilters ? "font-medium" : "",
-              )}
-            >
-              {l}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+            <span className="text-sm text-dim-500 gap-[6px]">{subtitle}:</span>
+            <span className="flex-grow">
+              {selectedFilters == allValue
+                ? all
+                : truncateText(selectedFilters as string, 15)}
+            </span>
+            <ChevronDown />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="max-w-[260px] p-0 bg-white">
+          <Command>
+            <CommandInput placeholder={searchPlaceholder} />
+            <ScrollArea className="max-h-[185px] overflow-auto">
+              <CommandList>
+                <CommandEmpty>{noData}</CommandEmpty>
+                <CommandGroup>
+                  {filterArr.map((item) => (
+                    <CommandItem
+                      key={item}
+                      value={item}
+                      onSelect={(currentValue) => {
+                        handleValueChange(currentValue);
+                        setOpen(false);
+                      }}
+                      className="hover:bg-washed-100 border-r-[4px]"
+                    >
+                      {item}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </ScrollArea>
+          </Command>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };

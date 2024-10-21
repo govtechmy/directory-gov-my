@@ -74,6 +74,9 @@
       "fax": "No. Faks",
       "emel": "Emel",
       "semua": "Semua"
+    },
+    "dropdown": {
+      "search_placeholder": "Taip untuk cari"
     }
   },
   "datepicker": {
