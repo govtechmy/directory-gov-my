@@ -58,6 +58,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const pathname = usePathname();
   const searchQuery = searchParams.get(column);
   const [selectedFilters, setSelectedFilters] = useState<string>();
+  const [open, setOpen] = useState(false);
 
   const searchArray = (query: string) => {
     const params = new URLSearchParams(searchParams);
@@ -155,88 +156,12 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
     fetchOptions();
   }, [searchParams]);
 
-  // const filteredOptions = useMemo(() => {
-  //   return filterArr.filter((option) =>
-  //     option.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  // }, [filterArr, searchTerm]);
-
   const handleValueChange = (selected: string) => {
     searchArray(selected);
     setSelectedFilters(selected);
   };
 
-  // return (
-  //   <div className="pb-4">
-  //     <Select
-  //       value={selectedFilters}
-  //       onValueChange={handleValueChange}
-  //       disabled={
-  //         (aggKey === "division_agg" &&
-  //           searchParams.get("org_name") === null) ||
-  //         (aggKey === "unit_agg" &&
-  //           (searchParams.get("org_name") === null ||
-  //             searchParams.get("division_name") === null))
-  //       }
-  //     >
-  //       <SelectTrigger asChild>
-  //         <Button variant="secondary">
-  //           {selectedFilters !== allValue ? null : (
-  //             <span className="text-sm text-dim-500">{subtitle}:</span>
-  //           )}
-  //           <SelectValue>
-  //             {selectedFilters == allValue ? all : selectedFilters}
-  //           </SelectValue>
-  //           <SelectIcon>
-  //             <ChevronDown />
-  //           </SelectIcon>
-  //         </Button>
-  //       </SelectTrigger>
-  //       <SelectContent
-  //         avoidCollisions={true}
-  //         side="bottom"
-  //         className="max-h-[250px] w-full py-2"
-  //         align="start"
-  //       >
-  //         <div className="px-2 pb-2">
-  //           <input
-  //             placeholder="Search..."
-  //             value={searchTerm}
-  //             onChange={(e) => setSearchTerm(e.target.value)}
-  //             className="w-full"
-  //           />
-  //         </div>
-  //         <SelectItem
-  //           value={allValue}
-  //           className={cn(
-  //             "max-sm:w-[calc(100svw-40px)]",
-  //             allValue === selectedFilters ? "font-medium" : "",
-  //           )}
-  //         >
-  //           {all}
-  //         </SelectItem>
-  //         {filteredOptions.map((l) => (
-  //           <SelectItem
-  //             key={l}
-  //             value={l}
-  //             className={cn(
-  //               "max-sm:w-[calc(100svw-40px)]",
-  //               l === selectedFilters ? "font-medium" : "",
-  //             )}
-  //           >
-  //             {l}
-  //           </SelectItem>
-  //         ))}
-  //       </SelectContent>
-  //     </Select>
-  //   </div>
-  // );
-
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-
   const truncateText = (text: string, maxLength: number) => {
-    // console.log("text", text);
     return text?.length > maxLength
       ? text?.substring(0, maxLength) + "..."
       : text;
@@ -256,9 +181,9 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
         >
           <Button
             variant="secondary"
-            className="max-w-[260px] justify-between bg-white"
+            className="w-fit max-w-[260px] justify-between bg-white focus:ring-brand-600/20"
           >
-            <span className="text-sm text-dim-500 gap-[6px]">{subtitle}:</span>
+            <span className="text-sm text-dim-500 gap-[6px]">{subtitle}</span>
             <span className="flex-grow">
               {selectedFilters == allValue
                 ? all
@@ -267,13 +192,24 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
             <ChevronDown />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="max-w-[260px] p-0 bg-white">
+        <PopoverContent className="w-fit max-w-[260px] p-0 bg-white">
           <Command>
             <CommandInput placeholder={searchPlaceholder} />
-            <ScrollArea className="max-h-[185px] overflow-auto">
+            <ScrollArea className="max-h-[185px] overflow-auto mt-2">
               <CommandList>
                 <CommandEmpty>{noData}</CommandEmpty>
                 <CommandGroup>
+                  <CommandItem
+                    key={allValue}
+                    value={allValue}
+                    onSelect={(currentValue) => {
+                      handleValueChange(currentValue);
+                      setOpen(false);
+                    }}
+                    className="hover:bg-washed-100"
+                  >
+                    {all}
+                  </CommandItem>
                   {filterArr.map((item) => (
                     <CommandItem
                       key={item}
@@ -282,7 +218,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
                         handleValueChange(currentValue);
                         setOpen(false);
                       }}
-                      className="hover:bg-washed-100 border-r-[4px]"
+                      className="hover:bg-washed-100"
                     >
                       {item}
                     </CommandItem>
