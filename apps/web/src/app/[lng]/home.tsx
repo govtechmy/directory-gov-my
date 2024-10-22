@@ -11,7 +11,8 @@ import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { DirektoriFilter } from "./filter";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { filterDropdown } from "./actions/filter-dropdown";
 
 interface Kakitangan {
   org_sort: number;
@@ -45,6 +46,9 @@ export default function Home({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q");
+  const orgNameSelected = searchParams.get("org_name");
+  const divisionNameSelected = searchParams.get("division_name");
+  const unitNameSelected = searchParams.get("unit_name");
 
   const column: ColumnDef<Kakitangan>[] = [
     {
@@ -204,10 +208,10 @@ export default function Home({
   });
 
   const resetSearchQuery = (
-    searchQuery?: string,
-    org_name?: string,
-    division_name?: string,
-    unit_name?: string,
+    searchQuery: string | null,
+    org_name: string | null,
+    division_name: string | null,
+    unit_name: string | null,
   ) => {
     const params = new URLSearchParams(searchParams);
     if (searchQuery) {
@@ -219,6 +223,7 @@ export default function Home({
     // check for valid query params
     const validItem = checkValidItem(org_name, division_name, unit_name);
 
+    // delete or set the query params depends on the validity of the params
     if (org_name == allValue || !org_name || !validItem.orgNameCheck) {
       params.delete("org_name");
     } else {
@@ -241,9 +246,9 @@ export default function Home({
   };
 
   const checkValidItem = (
-    org_name?: string,
-    division_name?: string,
-    unit_name?: string,
+    org_name: string | null,
+    division_name: string | null,
+    unit_name: string | null,
   ) => {
     let orgNameCheck = false;
     let divisionNameCheck = false;
@@ -288,6 +293,66 @@ export default function Home({
     return { orgNameCheck, divisionNameCheck, unitNameCheck };
   };
 
+  // Fetch ministry dropdown options (on mount) only
+  useEffect(() => {
+    const fetchDropdownOptions = async () => {
+      try {
+        const { aggregations } = await filterDropdown();
+        const dropdownArr = aggregations["ministry_agg"];
+        setDropdownItems((prev) => ({ ...prev, org_name: dropdownArr }));
+      } catch (error) {
+        console.error("Error fetching dropdown options:", error);
+      }
+    };
+
+    fetchDropdownOptions();
+  }, []);
+
+  // Fetch division dropdown options when ministry selection changes
+  useEffect(() => {
+    const fetchDropdownOptions = async () => {
+      if (orgNameSelected) {
+        try {
+          const { aggregations } = await filterDropdown(orgNameSelected);
+          const dropdownArr = aggregations["division_agg"];
+          setDropdownItems((prev) => ({ ...prev, division_name: dropdownArr }));
+        } catch (error) {
+          console.error("Error fetching dropdown options:", error);
+        }
+      }
+    };
+
+    fetchDropdownOptions();
+  }, [orgNameSelected]);
+
+  // Fetch unit dropdown options when division selection changes
+  useEffect(() => {
+    const fetchDropdownOptions = async () => {
+      if (orgNameSelected && divisionNameSelected) {
+        try {
+          const { aggregations } = await filterDropdown(
+            orgNameSelected,
+            divisionNameSelected,
+          );
+          const dropdownArr = aggregations["division_agg"];
+          setDropdownItems((prev) => ({ ...prev, unit_name: dropdownArr }));
+        } catch (error) {
+          console.error("Error fetching dropdown options:", error);
+        }
+      }
+    };
+
+    fetchDropdownOptions();
+  }, [divisionNameSelected]);
+
+  // on every render will check if query params are valid and reset query params if applicable
+  resetSearchQuery(
+    searchQuery,
+    orgNameSelected,
+    divisionNameSelected,
+    unitNameSelected,
+  );
+
   return (
     <main>
       <Hero
@@ -310,18 +375,38 @@ export default function Home({
               column="org_name"
               subtitle={t("directory.table_header.kementerian")}
               aggKey="ministry_agg"
+              disabled={dropdownItems.org_name.length == 0}
+              dropdownItems={dropdownItems.org_name}
+              selectedItem={orgNameSelected}
+              onChange={resetSearchQuery}
             />
             <DirektoriFilter
               lng={lng}
               column="division_name"
               subtitle={t("directory.table_header.bhg")}
               aggKey="division_agg"
+              disabled={
+                // will be disabled if the dropdown items not fetched or organisation name (ministry)not selected
+                dropdownItems.division_name.length == 0 || !orgNameSelected
+              }
+              dropdownItems={dropdownItems.division_name}
+              selectedItem={divisionNameSelected}
+              onChange={resetSearchQuery}
             />
             <DirektoriFilter
               lng={lng}
               column="unit_name"
               subtitle={t("directory.table_header.seksyen")}
               aggKey="unit_agg"
+              disabled={
+                // will be disabled if the dropdown items not fetched or organisation name (ministry) or division not selected
+                dropdownItems.unit_name.length == 0 ||
+                !orgNameSelected ||
+                !divisionNameSelected
+              }
+              dropdownItems={dropdownItems.unit_name}
+              selectedItem={unitNameSelected}
+              onChange={resetSearchQuery}
             />
           </div>
           <DataTable

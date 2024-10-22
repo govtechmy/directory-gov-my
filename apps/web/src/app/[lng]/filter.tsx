@@ -26,6 +26,15 @@ interface DirektoriFilterI {
   subtitle?: string;
   lng: string;
   aggKey: string;
+  disabled: boolean;
+  dropdownItems: string[];
+  selectedItem: string | null;
+  onChange: (
+    searchQuery: string | null,
+    org_name: string | null,
+    division_name: string | null,
+    unit_name: string | null,
+  ) => void;
 }
 
 type AggKey = keyof Aggregations;
@@ -35,6 +44,10 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   subtitle,
   lng,
   aggKey,
+  disabled,
+  dropdownItems,
+  selectedItem,
+  onChange,
 }) => {
   // const [selectedItem, setselectedItem] = useState<string>();
   // const [dropdownOptions, setdropdownOptions] = useState<string[]>([]);
@@ -161,16 +174,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   return (
     <div className="pb-4">
       <Popover open={open} onOpenChange={setOpen} modal={true}>
-        <PopoverTrigger
-          asChild
-          disabled={
-            (aggKey === "division_agg" &&
-              searchParams.get("org_name") === null) ||
-            (aggKey === "unit_agg" &&
-              (searchParams.get("org_name") === null ||
-                searchParams.get("division_name") === null))
-          }
-        >
+        <PopoverTrigger asChild disabled={disabled}>
           <Button
             variant="secondary"
             className="w-fit max-w-[260px] justify-between bg-white focus:ring-brand-600/20"
@@ -195,19 +199,33 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
                     key={allValue}
                     value={allValue}
                     onSelect={(currentValue) => {
-                      handleValueChange(currentValue);
+                      // handleValueChange(currentValue);
+                      if (aggKey == "ministry_agg") {
+                        onChange(null, currentValue, null, null);
+                      } else if (aggKey == "division_agg") {
+                        onChange(null, null, currentValue, null);
+                      } else if (aggKey == "unit_agg") {
+                        onChange(null, null, null, currentValue);
+                      }
                       setOpen(false);
                     }}
                     className="hover:bg-washed-100"
                   >
                     {all}
                   </CommandItem>
-                  {dropdownOptions.map((item) => (
+                  {dropdownItems.map((item) => (
                     <CommandItem
                       key={item}
                       value={item}
                       onSelect={(currentValue) => {
-                        handleValueChange(currentValue);
+                        // handleValueChange(currentValue);
+                        if (aggKey == "ministry_agg") {
+                          onChange(null, currentValue, null, null);
+                        } else if (aggKey == "division_agg") {
+                          onChange(null, null, currentValue, null);
+                        } else if (aggKey == "unit_agg") {
+                          onChange(null, null, null, currentValue);
+                        }
                         setOpen(false);
                       }}
                       className="hover:bg-washed-100"
