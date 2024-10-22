@@ -1,26 +1,16 @@
 "use client";
 
-import { FC, useState, useEffect, useMemo } from "react";
+import { FC, useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import ChevronDown from "@/icons/chevron-down";
-import { SelectIcon } from "@radix-ui/react-select";
 import { useTranslation } from "@/i18n/client";
-import { cn } from "@/lib/utils";
 import { Aggregations, filterDropdown } from "./actions/filter-dropdown";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import Search from "@/icons/search";
 import {
   Command,
   CommandEmpty,
@@ -46,21 +36,22 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   lng,
   aggKey,
 }) => {
+  const [selectedItem, setselectedItem] = useState<string>();
+  const [dropdownOptions, setdropdownOptions] = useState<string[]>([]);
+  const [open, setOpen] = useState(false);
+
   const { t } = useTranslation(lng);
+  const allValue = "ALL_VALUE";
   const all = t("directory.table_header.semua");
   const searchPlaceholder = t("directory.dropdown.search_placeholder");
   const noData = t("table.no_data");
-
-  const allValue = "ALL_VALUE";
 
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
   const searchQuery = searchParams.get(column);
-  const [selectedFilters, setSelectedFilters] = useState<string>();
-  const [open, setOpen] = useState(false);
 
-  const searchArray = (query: string) => {
+  const resetSearchQuery = (query: string) => {
     const params = new URLSearchParams(searchParams);
     if (query !== all) {
       params.set(column, query);
@@ -68,7 +59,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
       params.delete(column);
     }
 
-    // to delete the children when reset
+    // to delete the children when the parent dropdown changes
     if (column === "org_name") {
       params.delete("division_name");
       params.delete("unit_name");
@@ -79,19 +70,16 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const [filterArr, setFilterArr] = useState<string[]>([]);
-  // const [searchTerm, setSearchTerm] = useState("");
-
   useEffect(() => {
     // Fetch all the options in the dropdown, when the searchParams changes
     const fetchOptions = async () => {
       try {
         let ministryFilter = null;
         let divisionFilter = null;
-
         let dropdownArr: string[] = [];
 
         // get query params
+        // do it onChange (pass the stateSetter down)
         if (aggKey == "division_agg") {
           ministryFilter = searchParams.get("org_name");
         } else if (aggKey == "unit_agg") {
@@ -99,11 +87,14 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
           divisionFilter = searchParams.get("division_name");
         }
 
+        // kinda want to make the fetching in the home page as well, to make the component dumber
+        // jadi basically, the dropdown will receive 2 more props: dropdown values and select and selectSetter
+        // The way I can see is, maybe has 2 useEffect outside: for queryParams, for dataFetching
         if (aggKey == "division_agg" && ministryFilter != null) {
           // Only want to fetch the division dropdown if the ministry filter is not null (save resources instead of fetch everytime)
           const { aggregations } = await filterDropdown(ministryFilter);
           dropdownArr = aggregations[aggKey as AggKey];
-          setFilterArr(dropdownArr);
+          setdropdownOptions(dropdownArr);
         } else if (
           aggKey == "unit_agg" &&
           ministryFilter != null &&
@@ -115,19 +106,20 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
             divisionFilter,
           );
           dropdownArr = aggregations[aggKey as AggKey];
-          setFilterArr(dropdownArr);
+          setdropdownOptions(dropdownArr);
         } else if (aggKey == "ministry_agg") {
           const { aggregations } = await filterDropdown();
           dropdownArr = aggregations[aggKey as AggKey];
-          setFilterArr(dropdownArr);
+          setdropdownOptions(dropdownArr);
         }
 
+        // Should i do with onChange as well?
         if (!searchQuery || !dropdownArr) {
-          setSelectedFilters(allValue);
+          setselectedItem(allValue);
         } else {
           // search query exists
           if (dropdownArr.includes(searchQuery)) {
-            setSelectedFilters(searchQuery);
+            setselectedItem(searchQuery);
           } else {
             // searchQuery does not exists in the dropdown value (user temper)
             const params = new URLSearchParams(searchParams);
@@ -145,7 +137,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
               params.delete("unit_name");
             }
             replace(`${pathname}?${params.toString()}`, { scroll: false });
-            setSelectedFilters(allValue);
+            setselectedItem(allValue);
           }
         }
       } catch (error) {
@@ -157,8 +149,8 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   }, [searchParams]);
 
   const handleValueChange = (selected: string) => {
-    searchArray(selected);
-    setSelectedFilters(selected);
+    resetSearchQuery(selected);
+    setselectedItem(selected);
   };
 
   const truncateText = (text: string, maxLength: number) => {
@@ -185,9 +177,9 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
           >
             <span className="text-sm text-dim-500 gap-[6px]">{subtitle}</span>
             <span className="flex-grow">
-              {selectedFilters == allValue
+              {selectedItem == allValue
                 ? all
-                : truncateText(selectedFilters as string, 15)}
+                : truncateText(selectedItem as string, 15)}
             </span>
             <ChevronDown />
           </Button>
@@ -210,7 +202,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
                   >
                     {all}
                   </CommandItem>
-                  {filterArr.map((item) => (
+                  {dropdownOptions.map((item) => (
                     <CommandItem
                       key={item}
                       value={item}
