@@ -11,6 +11,7 @@ import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { DirektoriFilter } from "./filter";
+import { useCallback, useState } from "react";
 
 interface Kakitangan {
   org_sort: number;
@@ -184,6 +185,108 @@ export default function Home({
   };
 
   const isMobile = useMediaQuery("(max-width: 640px)");
+
+  // refactor starts
+
+  type DropdownItems = {
+    org_name: string[];
+    division_name: string[];
+    unit_name: string[];
+  };
+
+  const allValue = "ALL_VALUE";
+
+  const [dropdownItems, setDropdownItems] = useState<DropdownItems>({
+    // TODO: refactor the initial state
+    org_name: [],
+    division_name: [],
+    unit_name: [],
+  });
+
+  const resetSearchQuery = (
+    searchQuery?: string,
+    org_name?: string,
+    division_name?: string,
+    unit_name?: string,
+  ) => {
+    const params = new URLSearchParams(searchParams);
+    if (searchQuery) {
+      params.set("q", searchQuery.toLowerCase());
+    } else {
+      params.delete("q");
+    }
+
+    // check for valid query params
+    const validItem = checkValidItem(org_name, division_name, unit_name);
+
+    if (org_name == allValue || !org_name || !validItem.orgNameCheck) {
+      params.delete("org_name");
+    } else {
+      params.set("org_name", org_name);
+    }
+    if (
+      division_name == allValue ||
+      !division_name ||
+      !validItem.divisionNameCheck
+    ) {
+      params.delete("division_name");
+    } else {
+      params.set("division_name", division_name);
+    }
+    if (unit_name == allValue || !unit_name || !validItem.unitNameCheck) {
+      params.delete("unit_name");
+    } else {
+      params.set("unit_name", unit_name);
+    }
+  };
+
+  const checkValidItem = (
+    org_name?: string,
+    division_name?: string,
+    unit_name?: string,
+  ) => {
+    let orgNameCheck = false;
+    let divisionNameCheck = false;
+    let unitNameCheck = false;
+    const orgNameDropdown = dropdownItems.org_name;
+    const divisionNameDropdown = dropdownItems.division_name;
+    const unitNameDropdown = dropdownItems.unit_name;
+
+    if (org_name) {
+      orgNameCheck = orgNameDropdown.includes(org_name);
+    }
+    if (division_name) {
+      divisionNameCheck = divisionNameDropdown.includes(division_name);
+    }
+    if (unit_name) {
+      unitNameCheck = unitNameDropdown.includes(unit_name);
+    }
+
+    // to reset the division and unit when the user tempers the query params such that it inputs values that are not present in the dropdown
+    // the idea is that for example, if the ministry value is invalid, that is orgNameCheck is false, then division value and unit value will be reset as well. So, the reset is downwards in hierachy
+    if (orgNameCheck == false) {
+      divisionNameCheck = false;
+    }
+    if (divisionNameCheck == false) {
+      unitNameCheck = false;
+    }
+
+    // to check for valid dropdowns present
+    if (unit_name && (!division_name || !org_name)) {
+      // if the dropdown only has unitName, but no ministryName and divisionName, will reset all
+      orgNameCheck = false;
+      divisionNameCheck = false;
+      unitNameCheck = false;
+    }
+    if (division_name && !org_name) {
+      // if the dropdown only has divisionName, but no ministryName will reset all
+      orgNameCheck = false;
+      divisionNameCheck = false;
+      unitNameCheck = false;
+    }
+
+    return { orgNameCheck, divisionNameCheck, unitNameCheck };
+  };
 
   return (
     <main>

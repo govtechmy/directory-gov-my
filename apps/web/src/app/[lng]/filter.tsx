@@ -36,8 +36,8 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   lng,
   aggKey,
 }) => {
-  const [selectedItem, setselectedItem] = useState<string>();
-  const [dropdownOptions, setdropdownOptions] = useState<string[]>([]);
+  // const [selectedItem, setselectedItem] = useState<string>();
+  // const [dropdownOptions, setdropdownOptions] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
 
   const { t } = useTranslation(lng);
@@ -46,112 +46,112 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const searchPlaceholder = t("directory.dropdown.search_placeholder");
   const noData = t("table.no_data");
 
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const pathname = usePathname();
-  const searchQuery = searchParams.get(column);
+  // const searchParams = useSearchParams();
+  // const { replace } = useRouter();
+  // const pathname = usePathname();
+  // const searchQuery = searchParams.get(column);
 
-  const resetSearchQuery = (query: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (query !== all) {
-      params.set(column, query);
-    } else {
-      params.delete(column);
-    }
+  // const resetSearchQuery = (query: string) => {
+  //   const params = new URLSearchParams(searchParams);
+  //   if (query !== all) {
+  //     params.set(column, query);
+  //   } else {
+  //     params.delete(column);
+  //   }
 
-    // to delete the children when the parent dropdown changes
-    if (column === "org_name") {
-      params.delete("division_name");
-      params.delete("unit_name");
-    }
-    if (column === "division_name") {
-      params.delete("unit_name");
-    }
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
+  //   // to delete the children when the parent dropdown changes
+  //   if (column === "org_name") {
+  //     params.delete("division_name");
+  //     params.delete("unit_name");
+  //   }
+  //   if (column === "division_name") {
+  //     params.delete("unit_name");
+  //   }
+  //   replace(`${pathname}?${params.toString()}`, { scroll: false });
+  // };
 
-  useEffect(() => {
-    // Fetch all the options in the dropdown, when the searchParams changes
-    const fetchOptions = async () => {
-      try {
-        let ministryFilter = null;
-        let divisionFilter = null;
-        let dropdownArr: string[] = [];
+  // useEffect(() => {
+  //   // Fetch all the options in the dropdown, when the searchParams changes
+  //   const fetchOptions = async () => {
+  //     try {
+  //       let ministryFilter = null;
+  //       let divisionFilter = null;
+  //       let dropdownArr: string[] = [];
 
-        // get query params
-        // do it onChange (pass the stateSetter down)
-        if (aggKey == "division_agg") {
-          ministryFilter = searchParams.get("org_name");
-        } else if (aggKey == "unit_agg") {
-          ministryFilter = searchParams.get("org_name");
-          divisionFilter = searchParams.get("division_name");
-        }
+  //       // get query params
+  //       // do it onChange (pass the stateSetter down)
+  //       if (aggKey == "division_agg") {
+  //         ministryFilter = searchParams.get("org_name");
+  //       } else if (aggKey == "unit_agg") {
+  //         ministryFilter = searchParams.get("org_name");
+  //         divisionFilter = searchParams.get("division_name");
+  //       }
 
-        // kinda want to make the fetching in the home page as well, to make the component dumber
-        // jadi basically, the dropdown will receive 2 more props: dropdown values and select and selectSetter
-        // The way I can see is, maybe has 2 useEffect outside: for queryParams, for dataFetching
-        if (aggKey == "division_agg" && ministryFilter != null) {
-          // Only want to fetch the division dropdown if the ministry filter is not null (save resources instead of fetch everytime)
-          const { aggregations } = await filterDropdown(ministryFilter);
-          dropdownArr = aggregations[aggKey as AggKey];
-          setdropdownOptions(dropdownArr);
-        } else if (
-          aggKey == "unit_agg" &&
-          ministryFilter != null &&
-          divisionFilter != null
-        ) {
-          // Only want to fetch the unit dropdown if the ministry and division filter are not null (save resources instead of fetch everytime)
-          const { aggregations } = await filterDropdown(
-            ministryFilter,
-            divisionFilter,
-          );
-          dropdownArr = aggregations[aggKey as AggKey];
-          setdropdownOptions(dropdownArr);
-        } else if (aggKey == "ministry_agg") {
-          const { aggregations } = await filterDropdown();
-          dropdownArr = aggregations[aggKey as AggKey];
-          setdropdownOptions(dropdownArr);
-        }
+  //       // kinda want to make the fetching in the home page as well, to make the component dumber
+  //       // jadi basically, the dropdown will receive 2 more props: dropdown values and select and selectSetter
+  //       // The way I can see is, maybe has 2 useEffect outside: for queryParams, for dataFetching
+  //       if (aggKey == "division_agg" && ministryFilter != null) {
+  //         // Only want to fetch the division dropdown if the ministry filter is not null (save resources instead of fetch everytime)
+  //         const { aggregations } = await filterDropdown(ministryFilter);
+  //         dropdownArr = aggregations[aggKey as AggKey];
+  //         setdropdownOptions(dropdownArr);
+  //       } else if (
+  //         aggKey == "unit_agg" &&
+  //         ministryFilter != null &&
+  //         divisionFilter != null
+  //       ) {
+  //         // Only want to fetch the unit dropdown if the ministry and division filter are not null (save resources instead of fetch everytime)
+  //         const { aggregations } = await filterDropdown(
+  //           ministryFilter,
+  //           divisionFilter,
+  //         );
+  //         dropdownArr = aggregations[aggKey as AggKey];
+  //         setdropdownOptions(dropdownArr);
+  //       } else if (aggKey == "ministry_agg") {
+  //         const { aggregations } = await filterDropdown();
+  //         dropdownArr = aggregations[aggKey as AggKey];
+  //         setdropdownOptions(dropdownArr);
+  //       }
 
-        // Should i do with onChange as well?
-        if (!searchQuery || !dropdownArr) {
-          setselectedItem(allValue);
-        } else {
-          // search query exists
-          if (dropdownArr.includes(searchQuery)) {
-            setselectedItem(searchQuery);
-          } else {
-            // searchQuery does not exists in the dropdown value (user temper)
-            const params = new URLSearchParams(searchParams);
-            if (column === "org_name") {
-              // if the dropdown is for the ministry and the query params is invalid then delete from query params all three, then set the selection to 'all'
-              params.delete("org_name");
-              params.delete("division_name");
-              params.delete("unit_name");
-            } else if (column === "division_name") {
-              // if the dropdown is for the division and the query params is invalid then delete from query params the division and unit value, then set the selection to 'all'
-              params.delete("division_name");
-              params.delete("unit_name");
-            } else {
-              // if the dropdown is for the unit and the query params is invalid then delete from query params the unit value, then set the selection to 'all'
-              params.delete("unit_name");
-            }
-            replace(`${pathname}?${params.toString()}`, { scroll: false });
-            setselectedItem(allValue);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching dropdown options:", error);
-      }
-    };
+  //       // Should i do with onChange as well?
+  //       if (!searchQuery || !dropdownArr) {
+  //         setselectedItem(allValue);
+  //       } else {
+  //         // search query exists
+  //         if (dropdownArr.includes(searchQuery)) {
+  //           setselectedItem(searchQuery);
+  //         } else {
+  //           // searchQuery does not exists in the dropdown value (user temper)
+  //           const params = new URLSearchParams(searchParams);
+  //           if (column === "org_name") {
+  //             // if the dropdown is for the ministry and the query params is invalid then delete from query params all three, then set the selection to 'all'
+  //             params.delete("org_name");
+  //             params.delete("division_name");
+  //             params.delete("unit_name");
+  //           } else if (column === "division_name") {
+  //             // if the dropdown is for the division and the query params is invalid then delete from query params the division and unit value, then set the selection to 'all'
+  //             params.delete("division_name");
+  //             params.delete("unit_name");
+  //           } else {
+  //             // if the dropdown is for the unit and the query params is invalid then delete from query params the unit value, then set the selection to 'all'
+  //             params.delete("unit_name");
+  //           }
+  //           replace(`${pathname}?${params.toString()}`, { scroll: false });
+  //           setselectedItem(allValue);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching dropdown options:", error);
+  //     }
+  //   };
 
-    fetchOptions();
-  }, [searchParams]);
+  //   fetchOptions();
+  // }, [searchParams]);
 
-  const handleValueChange = (selected: string) => {
-    resetSearchQuery(selected);
-    setselectedItem(selected);
-  };
+  // const handleValueChange = (selected: string) => {
+  //   resetSearchQuery(selected);
+  //   setselectedItem(selected);
+  // };
 
   const truncateText = (text: string, maxLength: number) => {
     return text?.length > maxLength
