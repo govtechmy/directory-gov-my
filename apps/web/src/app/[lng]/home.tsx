@@ -364,47 +364,7 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
-          {/* <div className="flex space-x-4">
-            <DirektoriFilter
-              lng={lng}
-              column="org_name"
-              subtitle={t("directory.table_header.kementerian")}
-              aggKey="ministry_agg"
-              disabled={dropdownItems.org_name?.length == 0}
-              dropdownItems={dropdownItems.org_name}
-              selectedItem={orgNameSelected}
-              onChange={resetSearchQuery}
-            />
-            <DirektoriFilter
-              lng={lng}
-              column="division_name"
-              subtitle={t("directory.table_header.bhg")}
-              aggKey="division_agg"
-              disabled={
-                // will be disabled if the dropdown items not fetched or organisation name (ministry)not selected
-                dropdownItems.division_name?.length == 0 || !orgNameSelected
-              }
-              dropdownItems={dropdownItems.division_name}
-              selectedItem={divisionNameSelected}
-              onChange={resetSearchQuery}
-            />
-            <DirektoriFilter
-              lng={lng}
-              column="unit_name"
-              subtitle={t("directory.table_header.seksyen")}
-              aggKey="unit_agg"
-              disabled={
-                // will be disabled if the dropdown items not fetched or organisation name (ministry) or division not selected
-                dropdownItems.unit_name?.length == 0 ||
-                !orgNameSelected ||
-                !divisionNameSelected
-              }
-              dropdownItems={dropdownItems.unit_name}
-              selectedItem={unitNameSelected}
-              onChange={resetSearchQuery}
-            />
-          </div> */}
-          <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0">
             {/* First dropdown - full width on mobile */}
             <div className="w-full sm:w-auto">
               <DirektoriFilter
@@ -420,8 +380,8 @@ export default function Home({
             </div>
 
             {/* Container for second and third dropdowns - they'll be side by side on mobile */}
-            <div className="flex flex-row space-x-4 w-full sm:w-auto">
-              <div className="w-1/2 sm:w-auto">
+            <div className="flex flex-row space-x-3 w-full sm:w-auto">
+              <div className="flex-1 min-w-0 sm:w-auto">
                 <DirektoriFilter
                   lng={lng}
                   column="division_name"
@@ -436,7 +396,7 @@ export default function Home({
                 />
               </div>
 
-              <div className="w-1/2 sm:w-auto">
+              <div className="flex-1 min-w-0 sm:w-auto">
                 <DirektoriFilter
                   lng={lng}
                   column="unit_name"

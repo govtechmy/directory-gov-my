@@ -51,11 +51,6 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const all = t("directory.table_header.semua");
   const searchPlaceholder = t("directory.dropdown.search_placeholder");
   const noData = t("table.no_data");
-  const truncateText = (text: string, maxLength: number) => {
-    return text?.length > maxLength
-      ? text?.substring(0, maxLength) + "..."
-      : text;
-  };
   return (
     <div className="pb-4">
       <Popover open={open} onOpenChange={setOpen} modal={true}>
@@ -65,15 +60,13 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
             className="justify-between bg-background/100 focus:ring-brand-600/20"
           >
             <span className="text-sm text-dim-500 gap-[6px]">{subtitle}</span>
-            <span className="flex-grow">
-              {selectedItem == null
-                ? all
-                : truncateText(selectedItem as string, 15)}
+            <span className="flex-grow truncate">
+              {selectedItem == null ? all : selectedItem}
             </span>
             <ChevronDown filled={true} className="fill-black-900 size-4" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 bg-background border-none w-[calc(80%)]">
+        <PopoverContent className="p-0 bg-background border-none w-[calc(90%)]">
           <Command className="border-outline-200 border shadow-context">
             <CommandInput placeholder={searchPlaceholder} />
             <ScrollArea className="max-h-[185px] overflow-auto mt-2">
