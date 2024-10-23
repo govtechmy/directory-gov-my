@@ -76,6 +76,7 @@ export default function DataTable<TData, TValue>({
         // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
       }
     });
+    console.log(initialState);
     return initialState;
   });
 
@@ -112,10 +113,11 @@ export default function DataTable<TData, TValue>({
 
   useEffect(() => {
     const mergedObj = { ...expandableColumns };
+    console.log(mergedObj);
     Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string | null;
-        return value !== null && value.length >= 30;
+        return value !== null && value?.length >= 30;
       });
 
       // if all the rows has length less than 30, then the state with the columnId will be null. It will not has the expandable column capability
@@ -131,7 +133,6 @@ export default function DataTable<TData, TValue>({
 
   return (
     <>
-      {/* Action */}
       {filter ? filter(table, headerGroups[0]!.headers) : <></>}
 
       <Table
