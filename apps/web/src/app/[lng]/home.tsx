@@ -365,7 +365,6 @@ export default function Home({
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
           <div className="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0">
-            {/* First dropdown - full width on mobile */}
             <div className="w-full sm:w-auto">
               <DirektoriFilter
                 lng={lng}
@@ -379,7 +378,6 @@ export default function Home({
               />
             </div>
 
-            {/* Container for second and third dropdowns - they'll be side by side on mobile */}
             <div className="flex flex-row space-x-3 w-full sm:w-auto">
               <div className="flex-1 min-w-0 sm:w-auto">
                 <DirektoriFilter
