@@ -378,8 +378,8 @@ export default function Home({
               />
             </div>
 
-            <div className="flex flex-row gap-3 sm:gap-4 sm:w-auto">
-              <div className="sm:max-w-1/2 sm:max-w-[260px]">
+            <div className="flex flex-row gap-3 sm:gap-4 sm:w-auto w-full">
+              <div className="w-[calc(50%-6px)] sm:max-w-[260px] ">
                 <DirektoriFilter
                   lng={lng}
                   column="division_name"
@@ -394,7 +394,7 @@ export default function Home({
                 />
               </div>
 
-              <div className="w-1/2 sm:w-[260px]">
+              <div className="w-[calc(50%-6px)] sm:max-w-[260px] ">
                 <DirektoriFilter
                   lng={lng}
                   column="unit_name"

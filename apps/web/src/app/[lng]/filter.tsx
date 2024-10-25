@@ -52,14 +52,12 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   const searchPlaceholder = t("directory.dropdown.search_placeholder");
   const noData = t("table.no_data");
   return (
-    <div className="pb-4">
+    <div className="sm:pb-4">
       <Popover open={open} onOpenChange={setOpen} modal={true}>
-        {/* <PopoverTrigger asChild disabled={disabled} className="max-w-[260px]"> */}
         <PopoverTrigger
           asChild
           disabled={disabled}
-          // className="w-full sm: max-w-[260px]"
-          className="w-full sm:max-w-[260px] sm:w-auto"
+          className="w-full sm:max-w-[260px]"
         >
           <Button
             variant="secondary"
@@ -73,11 +71,10 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          // className="p-0 bg-background border-none max-w-[260px]"
-          className="p-0 bg-background border-none w-full sm:w-[260px]"
+          className="p-0 bg-background border-none w-[var(--radix-popover-trigger-width)] sm:w-[260px]"
           align="start"
         >
-          <Command className="border-outline-200 border shadow-context">
+          <Command className="border-outline-200 border shadow-context ">
             <CommandInput placeholder={searchPlaceholder} />
             <ScrollArea className="max-h-[185px] overflow-auto mt-2">
               <CommandList>
