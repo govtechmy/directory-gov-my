@@ -54,7 +54,13 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
   return (
     <div className="pb-4">
       <Popover open={open} onOpenChange={setOpen} modal={true}>
-        <PopoverTrigger asChild disabled={disabled} className="w-full">
+        {/* <PopoverTrigger asChild disabled={disabled} className="max-w-[260px]"> */}
+        <PopoverTrigger
+          asChild
+          disabled={disabled}
+          // className="w-full sm: max-w-[260px]"
+          className="w-full sm:max-w-[260px] sm:w-auto"
+        >
           <Button
             variant="secondary"
             className="justify-between bg-background/100 focus:ring-brand-600/20"
@@ -66,7 +72,11 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
             <ChevronDown filled={true} className="fill-black-900 size-4" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 bg-background border-none w-[calc(90%)]">
+        <PopoverContent
+          // className="p-0 bg-background border-none max-w-[260px]"
+          className="p-0 bg-background border-none w-full sm:w-[260px]"
+          align="start"
+        >
           <Command className="border-outline-200 border shadow-context">
             <CommandInput placeholder={searchPlaceholder} />
             <ScrollArea className="max-h-[185px] overflow-auto mt-2">

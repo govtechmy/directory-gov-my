@@ -364,8 +364,8 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
-          <div className="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0">
-            <div className="w-full sm:w-auto">
+          <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:gap-4">
+            <div className="w-full sm:max-w-[260px] sm:w-auto">
               <DirektoriFilter
                 lng={lng}
                 column="org_name"
@@ -378,8 +378,8 @@ export default function Home({
               />
             </div>
 
-            <div className="flex flex-row space-x-3 w-full sm:w-auto">
-              <div className="flex-1 min-w-0 sm:w-auto">
+            <div className="flex flex-row gap-3 sm:gap-4 sm:w-auto">
+              <div className="sm:max-w-1/2 sm:max-w-[260px]">
                 <DirektoriFilter
                   lng={lng}
                   column="division_name"
@@ -394,7 +394,7 @@ export default function Home({
                 />
               </div>
 
-              <div className="flex-1 min-w-0 sm:w-auto">
+              <div className="w-1/2 sm:w-[260px]">
                 <DirektoriFilter
                   lng={lng}
                   column="unit_name"
