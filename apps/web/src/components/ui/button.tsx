@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 const buttonVariants = cva(
-  "inline-flex select-none items-center justify-center gap-1.5 rounded-md whitespace-nowrap text-start font-medium active:translate-y-[0.5px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-30",
+  "inline-flex select-none items-center justify-center gap-1.5 rounded-md whitespace-nowrap text-start font-medium active:translate-y-[0.5px] disabled:cursor-not-allowed disabled:opacity-30",
   {
     variants: {
       variant: {
@@ -34,7 +34,7 @@ const buttonVariants = cva(
       variant: "secondary",
       size: "sm",
     },
-  }
+  },
 );
 
 export interface ButtonProps
@@ -53,7 +53,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  }
+  },
 );
 Button.displayName = "Button";
 
