@@ -1,13 +1,11 @@
-"use client"
+"use client";
 
 import { Button, ButtonProps, buttonVariants } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
 import ChevronLeft from "@/icons/chevron-left";
 import ChevronRight from "@/icons/chevron-right";
 import Ellipsis from "@/icons/ellipsis";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { ComponentProps, forwardRef, useMemo } from "react";
 import { useTranslation } from "@/i18n/client";
 
@@ -85,41 +83,37 @@ const PaginationEllipsis = ({
 );
 PaginationEllipsis.displayName = "PaginationEllipsis";
 
-export default function _Pagination({
-  curr,
-  disable_next,
-  disable_prev,
-  setPage,
+export default function Paginate({
+  currentPage,
   totalPages,
   lng,
+  disableNext,
+  disablePrev,
+  setPage,
 }: {
-  curr: number;
-  disable_next?: boolean;
-  disable_prev?: boolean;
-  setPage?: (page: number) => void;
+  currentPage: number;
   totalPages: number;
   lng: string;
+  disableNext: boolean;
+  disablePrev: boolean;
+  setPage: (page: number) => void;
 }) {
-  const { t } = useTranslation(lng, "Pagination");
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
+  const { t } = useTranslation(lng);
   const range = (start: number, end: number) => {
     const length = end - start + 1;
     return Array.from({ length }, (_, idx) => idx + start);
   };
 
   const DOTS = "...";
-  const siblings = 1; // square(s) beside curr
+  const siblings = 1;
+
   const pageRange = useMemo(() => {
-    // If num of pages < the squares we want to show, return the range [1..totalPages]
     if (totalPages <= 5 + siblings) {
       return range(1, totalPages);
     }
 
-    const leftSibIdx = Math.max(curr + 1 - siblings, 1);
-    const rightSibIdx = Math.min(curr + 1 + siblings, totalPages);
+    const leftSibIdx = Math.max(currentPage - siblings, 1);
+    const rightSibIdx = Math.min(currentPage + siblings, totalPages);
 
     const showLeftDots = leftSibIdx > 2;
     const showRightDots = rightSibIdx < totalPages - 2;
@@ -143,19 +137,7 @@ export default function _Pagination({
       const middleRange = range(leftSibIdx, rightSibIdx);
       return [firstPageIdx, DOTS, ...middleRange, DOTS, lastPageIdx];
     }
-  }, [curr, totalPages]);
-
-  const changePage = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const getUrl = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
-  };
+  }, [currentPage, totalPages]);
 
   return (
     <Pagination>
@@ -165,34 +147,27 @@ export default function _Pagination({
             variant="secondary"
             size="default"
             className="p-2 lg:p-2.5 mr-3"
-            disabled={disable_prev || curr <= 0}
-            onClick={() => (setPage ? setPage(curr - 1) : changePage(curr))}
+            disabled={disablePrev}
+            onClick={() => setPage(currentPage - 1)}
           >
             <ChevronLeft className="size-4" />
-            <span className="sr-only">{t("previous")}</span>
+            <span className="sr-only">{t("pagination.previous")}</span>
           </Button>
         </PaginationItem>
 
         {pageRange?.map((page, i) => {
           return typeof page === "number" ? (
             <PaginationItem className="hidden min-[360px]:flex" key={i}>
-              {/* {pathname ? (
-                <PaginationLink
-                  href={getUrl(page)}
-                  variant={curr === page - 1 ? "tertiary-colour" : "tertiary"}
-                  isActive={curr === page- 1}
-                >
-                  {page}
-                </PaginationLink>
-              ) : ( */}
               <Button
-                onClick={() => (setPage ? setPage(page - 1) : changePage(page))}
-                variant={curr === page - 1 ? "tertiary-colour" : "tertiary"}
-                className={cn("sm:size-[40px]", curr === page - 1 ? "bg-brand-50" : "")}
+                onClick={() => setPage(page)}
+                variant={currentPage === page ? "tertiary-colour" : "tertiary"}
+                className={cn(
+                  "sm:size-[40px]",
+                  currentPage === page ? "bg-brand-50" : "",
+                )}
               >
                 {page}
               </Button>
-              {/* )} */}
             </PaginationItem>
           ) : (
             <PaginationItem className="hidden min-[360px]:flex" key={i}>
@@ -201,21 +176,21 @@ export default function _Pagination({
           );
         })}
         <span className="flex items-center gap-1 text-center min-[360px]:hidden">
-          {t("page_of", {
-            current: curr,
+          {t("pagination.page_of", {
+            current: currentPage,
             total: totalPages,
           })}
         </span>
         <PaginationItem>
           <Button
-            aria-label={t("next")}
+            aria-label={t("pagination.next")}
             variant="secondary"
             size="default"
             className="p-2 lg:p-2.5 ml-3"
-            disabled={disable_next || curr >= totalPages - 1}
-            onClick={() => (setPage ? setPage(curr + 1) : changePage(curr + 2))}
+            disabled={disableNext}
+            onClick={() => setPage(currentPage + 1)}
           >
-            <span className="sr-only">{t("next")}</span>
+            <span className="sr-only">{t("pagination.next")}</span>
             <ChevronRight className="size-4" />
           </Button>
         </PaginationItem>

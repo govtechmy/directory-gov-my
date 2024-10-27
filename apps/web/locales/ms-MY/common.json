@@ -73,7 +73,10 @@
       "telefon": "No. Telefon",
       "fax": "No. Faks",
       "emel": "Emel",
-      "semua": "Semua Bahagian"
+      "semua": "Semua"
+    },
+    "dropdown": {
+      "search_placeholder": "Taip untuk cari"
     }
   },
   "datepicker": {
@@ -85,7 +88,7 @@
   },
   "pagination": {
     "previous": "Sebelum",
-    "page_of": "{ current } daripada { total }",
+    "page_of": "{{ current }} daripada {{ total }}",
     "next": "Seterusnya"
   },
   "404": {
