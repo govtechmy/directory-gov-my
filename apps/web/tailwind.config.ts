@@ -23,6 +23,8 @@ const config: Config = {
       boxShadow: {
         button: "0 1px 3px 0 rgba(0, 0, 0, 0.07)",
         card: "0px 2px 6px 0 rgba(0, 0, 0, 0.05), 0px 6px 24px 0 rgba(0, 0, 0, 0.05)",
+        context:
+          "0px 12px 50px 0px rgba(0, 0, 0, 0.1), 0px 2px 6px 0px rgba(0, 0, 0, 0.05)",
       },
       colors: {
         brand: {

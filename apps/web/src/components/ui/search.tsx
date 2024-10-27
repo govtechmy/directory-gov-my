@@ -1,7 +1,13 @@
 "use client";
 
-import { FunctionComponent, useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { cn, debounce } from "@/lib/utils";
 import SearchIcon from "@/icons/search";
 import CrossX from "@/icons/cross-x";
 import { Button } from "./button";
@@ -25,14 +31,14 @@ const Search: FunctionComponent<SearchProps> = ({
   lng,
 }) => {
   const { t } = useTranslation(lng);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultValue ?? "");
   const searchRef = useRef<HTMLInputElement>(null);
-  const onSearch = (query: string | number) => {
-    if (typeof query === "string") {
-      setValue(query);
+  const onSearch = useCallback(
+    debounce((query: string) => {
       if (onChange) onChange(query);
-    }
-  };
+    }),
+    [],
+  );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -69,8 +75,12 @@ const Search: FunctionComponent<SearchProps> = ({
         disabled={disabled}
         placeholder={placeholder || t("search.default_placeholder")}
         className="flex h-[42px] w-full rounded-md bg-background py-2.5 text-sm outline-none placeholder:text-dim-500 disabled:cursor-not-allowed disabled:opacity-20"
-        onChange={(event) => onSearch(event.target.value)}
-        {...(defaultValue ? { defaultValue: defaultValue } : { value: value })}
+        onChange={(e) => {
+          const query = e.target.value;
+          setValue(query);
+          onSearch(query);
+        }}
+        value={value}
       />
       {disabled ? (
         <></>
@@ -79,7 +89,10 @@ const Search: FunctionComponent<SearchProps> = ({
           variant="default"
           size="default"
           className="group rounded-full"
-          onClick={() => onSearch("")}
+          onClick={() => {
+            setValue("");
+            onSearch("");
+          }}
         >
           <CrossX className="size-4.5 text-dim-500 group-hover:text-foreground" />
         </Button>

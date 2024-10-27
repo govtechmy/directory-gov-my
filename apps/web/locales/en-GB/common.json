@@ -70,7 +70,10 @@
       "telefon": "Phone No.",
       "fax": "Fax No.",
       "emel": "Email",
-      "semua": "All Divisions"
+      "semua": "All"
+    },
+    "dropdown": {
+      "search_placeholder": "Type to search"
     }
   },
   "datepicker": {

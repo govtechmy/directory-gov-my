@@ -73,7 +73,10 @@
       "telefon": "No. Telefon",
       "fax": "No. Faks",
       "emel": "Emel",
-      "semua": "Semua Bahagian"
+      "semua": "Semua"
+    },
+    "dropdown": {
+      "search_placeholder": "Taip untuk cari"
     }
   },
   "datepicker": {

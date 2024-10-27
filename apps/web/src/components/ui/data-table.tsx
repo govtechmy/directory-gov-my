@@ -42,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   ) => ReactNode;
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
+  isMobile: boolean;
 }
 
 export default function DataTable<TData, TValue>({
@@ -52,6 +53,7 @@ export default function DataTable<TData, TValue>({
   filterable = false,
   filter,
   isMerged,
+  isMobile,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
 
@@ -95,7 +97,7 @@ export default function DataTable<TData, TValue>({
     Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string | null;
-        return value !== null && value.length >= 30;
+        return value !== null && value?.length >= 30;
       });
 
       if (longVisibleRows.length == 0) {
@@ -145,22 +147,23 @@ export default function DataTable<TData, TValue>({
                           desc: <ArrowDown className="h-3 w-3" />,
                           asc: <ArrowUp className="h-3 w-3" />,
                         }[header.column.getIsSorted() as string] ?? null}
-                        {typeof expandableColumns[header.id] === "boolean" && (
-                          <Button
-                            size="default"
-                            variant={"secondary-colour"}
-                            onClick={() => {
-                              toggleColumnWidth(header.id);
-                            }}
-                            className="px-1 rounded-lg"
-                          >
-                            {expandableColumns[header.id] ? (
-                              <ColumnCollapse className="size-4 text-brand-600" />
-                            ) : (
-                              <ColumnExpand className="size-4 text-brand-600" />
-                            )}
-                          </Button>
-                        )}
+                        {!isMobile &&
+                          typeof expandableColumns[header.id] === "boolean" && (
+                            <Button
+                              size="default"
+                              variant={"secondary-colour"}
+                              onClick={() => {
+                                toggleColumnWidth(header.id);
+                              }}
+                              className="px-1 rounded-lg"
+                            >
+                              {expandableColumns[header.id] ? (
+                                <ColumnCollapse className="size-4 text-brand-600" />
+                              ) : (
+                                <ColumnExpand className="size-4 text-brand-600" />
+                              )}
+                            </Button>
+                          )}
                       </div>
                     )}
                   </TableHead>
@@ -198,7 +201,8 @@ export default function DataTable<TData, TValue>({
                           id={cell.id}
                           key={cell.id}
                           className={cn(
-                            "whitespace-nowrap",
+                            "sm:whitespace-nowrap",
+                            "whitespace-normal break-words",
                             typeof expandableColumns[headerId] === "boolean" &&
                               `truncate ${!canExpand && "max-w-[230px]"}`,
                             cell.column.columnDef.meta?.cellClass,
