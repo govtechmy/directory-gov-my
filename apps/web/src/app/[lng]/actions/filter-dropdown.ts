@@ -3,85 +3,96 @@
 import { getElasticClient } from "./elastic-client";
 
 export interface Aggregations {
-  ministry_agg: string[];
+  org_agg: string[];
   division_agg: string[];
-  unit_agg: string[];
+  subdivision_agg: string[];
 }
 interface Bucket {
   key: string;
   doc_count: number;
 }
 
-export async function filterDropdown(
-  ministryFilter?: string,
+export async function getFilterOptions(
+  orgFilter?: string,
   divisionFilter?: string,
-): Promise<{
-  aggregations: Aggregations;
-}> {
+): Promise<Aggregations> {
   const index = "directory";
   try {
-    const body: any = {
-      size: 0,
-      aggs: {},
-    };
-    if (!ministryFilter && !divisionFilter) {
-      // Fetch unique ministries only
-      body.aggs.ministry_agg = {
-        terms: {
-          field: "org_name.keyword",
-          size: 1000,
-        },
-      };
-    } else if (ministryFilter && !divisionFilter) {
-      // Fetch unique divisions for a specific ministry
-      body.query = {
-        term: { "org_name.keyword": ministryFilter },
-      };
-      body.aggs.division_agg = {
-        terms: {
-          field: "division_name.keyword",
-          size: 1000,
-        },
-      };
-    } else if (ministryFilter && divisionFilter) {
-      // Fetch units for a specific ministry and division
-      body.query = {
-        bool: {
-          must: [
-            { term: { "org_name.keyword": ministryFilter } },
-            { term: { "division_name.keyword": divisionFilter } },
-          ],
-        },
-      };
-      body.aggs.unit_agg = {
-        terms: {
-          field: "unit_name.keyword",
-          size: 1000,
-        },
-      };
-    }
-
     const result = await getElasticClient().search({
       index,
-      body,
+      aggs: {
+        org_agg: {
+          terms: {
+            field: "org_name.keyword",
+          },
+        },
+        ...(orgFilter
+          ? {
+              filter_org: {
+                filter: {
+                  term: {
+                    "org_name.keyword": orgFilter,
+                  },
+                },
+                aggs: {
+                  division_agg: {
+                    terms: {
+                      field: "division_name.keyword",
+                      size: 1000,
+                    },
+                  },
+                },
+              },
+            }
+          : {}),
+        ...(divisionFilter
+          ? {
+              filter_division: {
+                filter: {
+                  bool: {
+                    must: [
+                      {
+                        term: {
+                          "org_name.keyword": orgFilter,
+                        },
+                      },
+                      {
+                        term: {
+                          "division_name.keyword": divisionFilter,
+                        },
+                      },
+                    ],
+                  },
+                },
+                aggs: {
+                  subdivision_agg: {
+                    terms: {
+                      field: "unit_name.keyword",
+                    },
+                  },
+                },
+              },
+            }
+          : {}),
+      },
     });
 
     let aggregations: Aggregations = {
-      ministry_agg: [],
+      org_agg: [],
       division_agg: [],
-      unit_agg: [],
+      subdivision_agg: [],
     };
 
-    aggregations.ministry_agg = (
-      result?.aggregations?.ministry_agg as any
-    )?.buckets.map((bucket: Bucket) => bucket.key);
+    aggregations.org_agg = (result?.aggregations?.org_agg as any)?.buckets.map(
+      (bucket: Bucket) => bucket.key,
+    );
     aggregations.division_agg = (
-      result?.aggregations?.division_agg as any
-    )?.buckets.map((bucket: Bucket) => bucket.key);
-    aggregations.unit_agg = (
-      result?.aggregations?.unit_agg as any
-    )?.buckets.map((bucket: Bucket) => bucket.key);
-    return { aggregations };
+      result?.aggregations?.filter_org as any
+    )?.division_agg.buckets.map((bucket: Bucket) => bucket.key);
+    aggregations.subdivision_agg = (
+      result?.aggregations?.filter_division as any
+    )?.subdivision_agg.buckets.map((bucket: Bucket) => bucket.key);
+    return aggregations;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
