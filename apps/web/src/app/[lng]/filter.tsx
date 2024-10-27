@@ -49,6 +49,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
         params.delete("division");
         params.delete("subdivision");
       } else if (key === "division") params.delete("subdivision");
+      params.delete("page");
 
       return push(`${pathname}?${params.toString()}`, { scroll: false });
     },
@@ -81,7 +82,7 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
               <CommandList>
                 <CommandItem
                   value="all"
-                  onSelect={() => setSearchParams(column, "")}
+                  onSelect={() => setSearchParams(column)}
                   className={cn(
                     "hover:bg-washed-100",
                     selectedItem == null && "bg-washed-100",

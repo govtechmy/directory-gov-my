@@ -213,7 +213,10 @@ export default function Home({
         title={t("directory.header")}
         search={
           <Search
-            onChange={(query) => setSearchParams("q", query)}
+            onChange={(query) => {
+              setSearchParams("q", query);
+              setSearchParams("page");
+            }}
             placeholder={t("directory.search_placeholder")}
             defaultValue={searchQuery || ""}
             lng={lng}
