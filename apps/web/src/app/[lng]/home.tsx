@@ -126,7 +126,7 @@ export default function Home({
   const mobileColumn: ColumnDef<Kakitangan>[] = [
     {
       header: "",
-      accessorKey: "division_name",
+      accessorKey: "org_name",
       id: "division_name",
       cell: ({ row }) => {
         const {
@@ -155,17 +155,17 @@ export default function Home({
 
             {person_phone || person_email ? (
               <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                {person_phone && (
-                  <>
-                    <Phone className="text-outline-400" />
-                    <span>{person_phone}</span>
-                  </>
-                )}
-                {person_phone && person_email ? "|" : ""}
                 {person_email && (
                   <div className="flex items-center gap-x-1.5">
                     <Envelope className="text-outline-400" />
                     <span>{person_email}</span>
+                  </div>
+                )}
+                {person_phone && person_email ? "|" : ""}
+                {person_phone && (
+                  <div className="flex flex-row items-center gap-x-1.5">
+                    <Phone className="text-outline-400" />
+                    <span>{person_phone}</span>
                   </div>
                 )}
               </div>
@@ -195,8 +195,6 @@ export default function Home({
     division_name: string[];
     unit_name: string[];
   };
-
-  const allValue = "ALL_VALUE";
 
   const [dropdownItems, setDropdownItems] = useState<DropdownItems>({
     org_name: [],
@@ -378,7 +376,7 @@ export default function Home({
               />
             </div>
 
-            <div className="flex flex-row gap-3 sm:gap-4 sm:w-auto w-full">
+            <div className="flex flex-row gap-3 sm:gap-4 sm:w-auto w-full sm:min-w-[320px]">
               <div className="w-[calc(50%-6px)] sm:max-w-[260px] ">
                 <DirektoriFilter
                   lng={lng}
