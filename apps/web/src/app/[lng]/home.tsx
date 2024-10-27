@@ -11,6 +11,7 @@ import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { DirektoriFilter } from "./filter";
+import Paginate from "@/components/ui/pagination";
 import { useEffect, useState } from "react";
 import { filterDropdown } from "./actions/filter-dropdown";
 
@@ -45,7 +46,9 @@ export default function Home({
   const { replace } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const searchQuery = searchParams.get("q");
+  const currentPage = Number(searchParams.get("page") || "1");
   const orgNameSelected = searchParams.get("org_name");
   const divisionNameSelected = searchParams.get("division_name");
   const unitNameSelected = searchParams.get("unit_name");
@@ -178,14 +181,20 @@ export default function Home({
     },
   ];
 
-  const searchArray = (query: string) => {
+  const updateParams = (updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams);
-    if (query) {
-      params.set("q", query.toLowerCase());
-    } else {
-      params.delete("q");
-    }
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
     replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const searchArray = (query: string) => {
+    updateParams({ q: query || null });
   };
 
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -415,12 +424,20 @@ export default function Home({
             columns={isMobile ? mobileColumn : column}
             data={kakitangan}
             resizable={false}
-            paginate={{
-              pageIndex: 0,
-              pageSize: 20,
-            }}
             isMobile={isMobile}
           />
+          <div className="flex items-center justify-center gap-2 pt-8">
+            <Paginate
+              currentPage={currentPage}
+              totalPages={totalPages}
+              lng={lng}
+              disableNext={currentPage >= totalPages}
+              disablePrev={currentPage <= 1}
+              setPage={(page) => {
+                updateParams({ page: page.toString() });
+              }}
+            />
+          </div>
         </div>
       </Section>
     </main>
