@@ -12,6 +12,7 @@ import SearchIcon from "@/icons/search";
 import CrossX from "@/icons/cross-x";
 import { Button } from "./button";
 import { useTranslation } from "@/i18n/client";
+import { useSearchParams } from "next/navigation";
 
 interface SearchProps {
   className?: string;
@@ -31,13 +32,14 @@ const Search: FunctionComponent<SearchProps> = ({
   lng,
 }) => {
   const { t } = useTranslation(lng);
+  const searchParams = useSearchParams();
   const [value, setValue] = useState(defaultValue ?? "");
   const searchRef = useRef<HTMLInputElement>(null);
   const onSearch = useCallback(
     debounce((query: string) => {
       if (onChange) onChange(query);
     }),
-    [],
+    [searchParams],
   );
 
   useEffect(() => {
