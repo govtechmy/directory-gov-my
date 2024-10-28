@@ -194,11 +194,16 @@ export default function Home({
     },
   ];
 
-  const setSearchParams = useCallback(
-    (name: string, value?: string) => {
+  const updateParams = useCallback(
+    (updates: Record<string, string | null>) => {
       const params = new URLSearchParams(searchParams.toString());
-      if (value) params.set(name, value);
-      else params.delete(name);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === null) {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
 
       return push(`${pathname}?${params.toString()}`, { scroll: false });
     },
@@ -213,10 +218,12 @@ export default function Home({
         title={t("directory.header")}
         search={
           <Search
-            onChange={(query) => {
-              setSearchParams("q", query);
-              setSearchParams("page");
-            }}
+            onChange={(query) =>
+              updateParams({
+                q: query,
+                page: null,
+              })
+            }
             placeholder={t("directory.search_placeholder")}
             defaultValue={searchQuery || ""}
             lng={lng}
@@ -229,29 +236,47 @@ export default function Home({
           <div className="flex flex-wrap flex-col gap-3 sm:flex-row sm:gap-x-4 sm:pb-4">
             <DirektoriFilter
               lng={lng}
-              column="org"
               subtitle={t("directory.table_header.kementerian")}
               disabled={orgs?.length == 0}
               items={orgs}
               selectedItem={orgSelected}
+              onChange={(currentValue) =>
+                updateParams({
+                  org: currentValue,
+                  division: null,
+                  subdivision: null,
+                  page: null,
+                })
+              }
             />
             <DirektoriFilter
               lng={lng}
-              column="division"
               subtitle={t("directory.table_header.bhg")}
               disabled={divisions?.length == 0 || !orgSelected}
               items={divisions}
               selectedItem={divisionSelected}
+              onChange={(currentValue) =>
+                updateParams({
+                  division: currentValue,
+                  subdivision: null,
+                  page: null,
+                })
+              }
             />
             <DirektoriFilter
               lng={lng}
-              column="subdivision"
               subtitle={t("directory.table_header.seksyen")}
               disabled={
                 subdivisions?.length == 0 || !orgSelected || !divisionSelected
               }
               items={subdivisions}
               selectedItem={subdivisionSelected}
+              onChange={(currentValue) =>
+                updateParams({
+                  subdivision: currentValue,
+                  page: null,
+                })
+              }
             />
           </div>
           <DataTable
@@ -268,7 +293,11 @@ export default function Home({
               lng={lng}
               disableNext={currentPage >= totalPages}
               disablePrev={currentPage <= 1}
-              setPage={(page) => setSearchParams("page", page.toString())}
+              setPage={(page) =>
+                updateParams({
+                  page: page.toString(),
+                })
+              }
             />
           </div>
         </div>
