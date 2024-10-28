@@ -24,6 +24,7 @@ export async function getFilterOptions(
         org_agg: {
           terms: {
             field: "org_name.keyword",
+            size: 100000,
           },
         },
         ...(orgFilter
@@ -38,7 +39,7 @@ export async function getFilterOptions(
                   division_agg: {
                     terms: {
                       field: "division_name.keyword",
-                      size: 1000,
+                      size: 100000,
                     },
                   },
                 },
@@ -68,6 +69,7 @@ export async function getFilterOptions(
                   subdivision_agg: {
                     terms: {
                       field: "subdivision_name.keyword",
+                      size: 100000,
                     },
                   },
                 },
