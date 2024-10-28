@@ -8,11 +8,6 @@ import ClarityScript from "./clarity";
 import { languages } from "@/i18n/settings";
 import { useTranslation } from "@/i18n";
 import Providers from "./providers";
-import { Suspense } from "react";
-//useSearchParams() being used outside of a Suspense boundary in the page component at "/[lng]".
-// This can cause problems with server-side rendering and hydration.
-// Do not wrap head or body with anything, Already causes render issue .
-// Moved Suspense to inside body to wrap them.
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -97,16 +92,14 @@ export default function RootLayout({
           "flex min-w-[320px] flex-col",
         )}
       >
-        <Suspense>
-          <Providers>
-            <div className="flex min-h-screen flex-col">
-              <Masthead lng={lng} />
-              <Header lng={lng} />
-              <>{children}</>
-              <Footer lng={lng} />
-            </div>
-          </Providers>
-        </Suspense>
+        <Providers>
+          <div className="flex min-h-screen flex-col">
+            <Masthead lng={lng} />
+            <Header lng={lng} />
+            <>{children}</>
+            <Footer lng={lng} />
+          </div>
+        </Providers>
       </body>
     </html>
   );

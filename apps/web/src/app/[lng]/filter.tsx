@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback } from "react";
+import { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ChevronDown from "@/icons/chevron-down";
 import { useTranslation } from "@/i18n/client";
@@ -13,52 +13,31 @@ import { Command, CommandInput, CommandItem } from "@/components/ui/command";
 import { CommandList } from "cmdk";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface DirektoriFilterI {
-  column: string;
   subtitle?: string;
   lng: string;
   disabled: boolean;
   items?: string[];
   selectedItem: string | null;
+  onChange: (param: string | null) => void;
 }
 
 export const DirektoriFilter: FC<DirektoriFilterI> = ({
-  column,
   subtitle,
   lng,
   disabled,
   items,
   selectedItem,
+  onChange,
 }) => {
   const { t } = useTranslation(lng);
+  const [open, setOpen] = useState(false);
   const all = t("directory.table_header.semua");
-  const searchPlaceholder = t("directory.dropdown.search_placeholder");
-
-  const { push } = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const setSearchParams = useCallback(
-    (key: string, value?: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) params.set(key, value);
-      else params.delete(key);
-
-      if (key === "org") {
-        params.delete("division");
-        params.delete("subdivision");
-      } else if (key === "division") params.delete("subdivision");
-      params.delete("page");
-
-      return push(`${pathname}?${params.toString()}`, { scroll: false });
-    },
-    [searchParams],
-  );
 
   return (
     <>
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
           asChild
           disabled={disabled}
@@ -77,12 +56,17 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
           align="start"
         >
           <Command className="gap-y-2">
-            <CommandInput placeholder={searchPlaceholder} />
+            <CommandInput
+              placeholder={t("directory.dropdown.search_placeholder")}
+            />
             <ScrollArea className="max-h-[240px] overflow-auto">
               <CommandList>
                 <CommandItem
                   value="all"
-                  onSelect={() => setSearchParams(column)}
+                  onSelect={() => {
+                    setOpen(!open);
+                    onChange(null);
+                  }}
                   className={cn(
                     "hover:bg-washed-100",
                     selectedItem == null && "bg-washed-100",
@@ -94,9 +78,10 @@ export const DirektoriFilter: FC<DirektoriFilterI> = ({
                   <CommandItem
                     key={item}
                     value={item}
-                    onSelect={(currentValue) =>
-                      setSearchParams(column, currentValue)
-                    }
+                    onSelect={(currentValue) => {
+                      setOpen(!open);
+                      onChange(currentValue);
+                    }}
                     className={cn(
                       "hover:bg-washed-100",
                       selectedItem == item && "bg-washed-100",
