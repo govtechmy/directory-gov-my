@@ -22,14 +22,14 @@ interface Kakitangan {
   org_type: string;
   division_sort: number;
   division_name: string | null;
-  unit_name: string | null;
+  subdivision_name: string | null;
   person_name: string | null;
-  position: string | null;
+  position_name: string | null;
   person_phone: string | null;
   person_email: string | null;
   person_fax: string | null;
   parent_org_id: string | null;
-  person_sort: number;
+  position_sort: number;
   // grade: string | null;
 }
 
@@ -72,8 +72,8 @@ export default function Home({
     },
     {
       header: t("directory.table_header.jawatan"),
-      accessorKey: "position",
-      id: "position",
+      accessorKey: "position_name",
+      id: "position_name",
       cell: (row) => row.getValue(),
       meta: {
         expandable: true,
@@ -99,8 +99,8 @@ export default function Home({
     },
     {
       header: t("directory.table_header.seksyen"),
-      accessorKey: "unit_name",
-      id: "unit_name",
+      accessorKey: "subdivision_name",
+      id: "subdivision_name",
       cell: (row) => row.getValue() ?? "—",
       meta: {
         expandable: true,
@@ -140,9 +140,9 @@ export default function Home({
       cell: ({ row }) => {
         const {
           division_name,
-          unit_name,
+          subdivision_name,
           person_name,
-          position,
+          position_name,
           person_phone,
           person_fax,
           person_email,
@@ -151,7 +151,8 @@ export default function Home({
         return (
           <div className="space-y-2 font-medium text-dim-500">
             <p className="flex flex-wrap text-xs font-semibold">
-              {division_name} {unit_name ? <>| {unit_name}</> : <></>}
+              {division_name}{" "}
+              {subdivision_name ? <>| {subdivision_name}</> : <></>}
             </p>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
@@ -159,7 +160,7 @@ export default function Home({
                   {person_name ?? "—"}
                 </span>
               </div>
-              <p className="text-black-700">{position}</p>
+              <p className="text-black-700">{position_name}</p>
             </div>
 
             {person_phone || person_email ? (

@@ -67,7 +67,7 @@ export async function getFilterOptions(
                 aggs: {
                   subdivision_agg: {
                     terms: {
-                      field: "unit_name.keyword",
+                      field: "subdivision_name.keyword",
                     },
                   },
                 },

@@ -37,7 +37,7 @@ export async function searchKakitangan(
               ? [{ term: { "division_name.keyword": division } }]
               : []),
             ...(subdivision
-              ? [{ term: { "unit_name.keyword": subdivision } }]
+              ? [{ term: { "subdivision_name.keyword": subdivision } }]
               : []),
           ] as QueryDslQueryContainer[],
         },
