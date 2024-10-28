@@ -46,7 +46,7 @@ export default function Masthead({ lng }: { lng: string }) {
         className="group peer max-w-full overflow-hidden bg-washed-100"
       >
         <summary className="block cursor-pointer list-none py-2.5 outline-none sm:py-1">
-          <div className="mx-auto flex max-w-[1280px] items-center gap-1.5 px-4.5 text-sm/4 text-foreground-primary max-sm:justify-between md:px-6">
+          <div className="container mx-auto flex items-center gap-1.5 px-4.5 text-sm/4 text-foreground-primary max-sm:justify-between md:px-6">
             <div className="flex select-none items-center gap-2">
               <MalaysiaFlag />
               <span className="text-black-700">
