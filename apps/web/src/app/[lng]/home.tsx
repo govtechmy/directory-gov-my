@@ -195,18 +195,21 @@ export default function Home({
     },
   ];
 
-  const updateParams = useCallback(
-    (updates: Record<string, string | null>) => {
+  const setSearchParams = useCallback(
+    (key: string, value: string | null) => {
       const params = new URLSearchParams(searchParams.toString());
-      Object.entries(updates).forEach(([key, value]) => {
-        if (value === null) {
-          params.delete(key);
-        } else {
-          params.set(key, value);
-        }
-      });
+      if (value === null) params.delete(key);
+      else params.set(key, value);
 
-      return push(`${pathname}?${params.toString()}`, { scroll: false });
+      if (key === "org") {
+        params.delete("division");
+        params.delete("subdivision");
+      } else if (key === "division") params.delete("subdivision");
+
+      if (key !== "page") params.delete("page");
+      return push(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
     },
     [searchParams],
   );
@@ -219,12 +222,7 @@ export default function Home({
         title={t("directory.header")}
         search={
           <Search
-            onChange={(query) =>
-              updateParams({
-                q: query,
-                page: null,
-              })
-            }
+            onChange={(query) => setSearchParams("q", query)}
             placeholder={t("directory.search_placeholder")}
             defaultValue={searchQuery || ""}
             lng={lng}
@@ -241,14 +239,7 @@ export default function Home({
               disabled={orgs?.length == 0}
               items={orgs}
               selectedItem={orgSelected}
-              onChange={(currentValue) =>
-                updateParams({
-                  org: currentValue,
-                  division: null,
-                  subdivision: null,
-                  page: null,
-                })
-              }
+              onChange={(currentValue) => setSearchParams("org", currentValue)}
             />
             <DirektoriFilter
               lng={lng}
@@ -257,11 +248,7 @@ export default function Home({
               items={divisions}
               selectedItem={divisionSelected}
               onChange={(currentValue) =>
-                updateParams({
-                  division: currentValue,
-                  subdivision: null,
-                  page: null,
-                })
+                setSearchParams("division", currentValue)
               }
             />
             <DirektoriFilter
@@ -273,10 +260,7 @@ export default function Home({
               items={subdivisions}
               selectedItem={subdivisionSelected}
               onChange={(currentValue) =>
-                updateParams({
-                  subdivision: currentValue,
-                  page: null,
-                })
+                setSearchParams("subdivision", currentValue)
               }
             />
           </div>
@@ -294,11 +278,7 @@ export default function Home({
               lng={lng}
               disableNext={currentPage >= totalPages}
               disablePrev={currentPage <= 1}
-              setPage={(page) =>
-                updateParams({
-                  page: page.toString(),
-                })
-              }
+              setPage={(page) => setSearchParams("page", page.toString())}
             />
           </div>
         </div>
