@@ -47,8 +47,7 @@ export default function Home({
   divisions: string[];
   subdivisions: string[];
 }) {
-  const { t } = useTranslation(lng);
-  const { t: tOrg } = useTranslation(lng, "org");
+  const { t } = useTranslation(lng, ["common", "org"]);
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -85,7 +84,7 @@ export default function Home({
       id: "org_name",
       cell: ({ row }) => {
         const { org_type, org_id, org_name } = row.original;
-        return org_type === "ministry" ? tOrg(org_id) : org_name;
+        return org_type === "ministry" ? t(`org:${org_id}`) : org_name;
       },
       meta: {
         expandable: true,
@@ -151,7 +150,7 @@ export default function Home({
         return (
           <div className="space-y-2 font-medium text-dim-500">
             <p className="flex flex-wrap text-xs font-semibold">
-              {org_type === "ministry" ? tOrg(org_id) : org_name}{" "}
+              {org_type === "ministry" ? t(`org:${org_id}`) : org_name}{" "}
               {division_name && (
                 <>
                   | {division_name}
