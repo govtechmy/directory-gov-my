@@ -23,8 +23,8 @@ i18next
   .use(
     resourcesToBackend(
       (language: string, namespace: string) =>
-        import(`../../locales/${language}/${namespace}.json`)
-    )
+        import(`../../locales/${language}/${namespace}.json`),
+    ),
   )
   .init({
     ...getOptions(),
@@ -35,13 +35,15 @@ i18next
     preload: runsOnServerSide ? languages : [],
   });
 
+type Tuple<T> = readonly [T?, ...T[]];
+
 export function useTranslation<
-  Ns extends FlatNamespace,
+  Ns extends FlatNamespace | Tuple<FlatNamespace> | undefined = undefined,
   KPrefix extends KeyPrefix<FallbackNs<Ns>> = undefined,
 >(
   lng: string,
   ns?: Ns,
-  options?: UseTranslationOptions<KPrefix>
+  options?: UseTranslationOptions<KPrefix>,
 ): UseTranslationResponse<FallbackNs<Ns>, KPrefix> {
   const [cookies, setCookie] = useCookies([cookieName]);
   const ret = useTranslationOrg(ns, options);

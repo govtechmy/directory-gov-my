@@ -68,7 +68,7 @@ export default async function Footer({ lng }: { lng: string }) {
             <p>
               {t("footer.all_rights_reserved")} © {new Date().getFullYear()}
             </p>
-            <span className="hidden h-3 w-px bg-outline-300 lg:block"></span>
+            {/* <span className="hidden h-3 w-px bg-outline-300 lg:block"></span>
             <div className="flex flex-wrap gap-x-3 gap-y-2 text-black-700">
               {["penafian", "dasar-privasi"].map((link) => (
                 <Link
@@ -79,7 +79,7 @@ export default async function Footer({ lng }: { lng: string }) {
                   {t(`footer.${link}`)}
                 </Link>
               ))}
-            </div>
+            </div> */}
           </div>
 
           <time dateTime={process.env.LAST_UPDATED}>

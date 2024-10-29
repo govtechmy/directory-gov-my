@@ -8,30 +8,31 @@ import Hero from "@/components/layout/hero";
 import Section from "@/components/layout/section";
 import DataTable from "@/components/ui/data-table";
 import Search from "@/components/ui/search";
-import Phone from "@/icons/phone";
-import Envelope from "@/icons/envelope";
-import Printer from "@/icons/printer";
 import { DirektoriFilter } from "./filter";
 import Paginate from "@/components/ui/pagination";
 import { useCallback } from "react";
-
-interface Kakitangan {
-  org_sort: number;
-  org_id: string;
-  org_name: string;
-  org_type: string;
-  division_sort: number;
-  division_name: string | null;
-  subdivision_name: string | null;
-  person_name: string | null;
-  position_name: string | null;
-  person_phone: string | null;
-  person_email: string | null;
-  person_fax: string | null;
-  parent_org_id: string | null;
-  position_sort: number;
-  // grade: string | null;
-}
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetOverlay,
+  SheetPortal,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import MobileCard from "@/components/home/mobile-card";
+import Profile from "@/components/home/profile";
+import { Kakitangan } from "@/lib/types/kakitangan";
+import CrossX from "@/icons/cross-x";
 
 export default function Home({
   lng,
@@ -48,7 +49,7 @@ export default function Home({
   divisions: string[];
   subdivisions: string[];
 }) {
-  const { t } = useTranslation(lng);
+  const { t } = useTranslation(lng, ["common", "org"]);
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -64,10 +65,22 @@ export default function Home({
       header: t("directory.table_header.nama"),
       accessorKey: "person_name",
       id: "person_name",
-      cell: (row) => row.getValue() ?? "—",
+      cell: ({ getValue, row }) => (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="tertiary">{(getValue() as string) ?? "—"}</Button>
+          </DialogTrigger>
+          <DialogContent className="p-0 gap-0 max-w-[600px]">
+            <DialogHeader className="p-6 border-b border-outline-200">
+              <DialogTitle>Profil Penjawat Awam</DialogTitle>
+            </DialogHeader>
+            <Profile lng={lng} {...row.original} />
+          </DialogContent>
+        </Dialog>
+      ),
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
-        cellClass: "border-r sticky bg-background left-0 z-10",
+        cellClass: "border-r sticky bg-background left-0 z-10 sm:py-1.5",
       },
     },
     {
@@ -83,7 +96,10 @@ export default function Home({
       header: t("directory.table_header.kementerian"),
       accessorKey: "org_name",
       id: "org_name",
-      cell: (row) => row.getValue(),
+      cell: ({ row }) => {
+        const { org_type, org_id, org_name } = row.original;
+        return org_type === "ministry" ? t(`org:${org_id}`) : org_name;
+      },
       meta: {
         expandable: true,
       },
@@ -106,12 +122,6 @@ export default function Home({
         expandable: true,
       },
     },
-    // {
-    //   header: t("directory.table_header.gred"),
-    //   accessorKey: "grade",
-    //   id: "grade",
-    //   cell: (row) => row.getValue() ?? "—",
-    // },
     {
       header: t("directory.table_header.telefon"),
       accessorKey: "person_phone",
@@ -137,61 +147,31 @@ export default function Home({
       header: "",
       accessorKey: "person_name",
       id: "person_name",
-      cell: ({ row }) => {
-        const {
-          division_name,
-          subdivision_name,
-          person_name,
-          position_name,
-          person_phone,
-          person_fax,
-          person_email,
-        } = row.original;
-
-        return (
-          <div className="space-y-2 font-medium text-dim-500">
-            <p className="flex flex-wrap text-xs font-semibold">
-              {division_name}{" "}
-              {subdivision_name ? <>| {subdivision_name}</> : <></>}
-            </p>
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-x-1.5">
-                <span className="text-base font-semibold text-foreground">
-                  {person_name ?? "—"}
-                </span>
-              </div>
-              <p className="text-black-700">{position_name}</p>
-            </div>
-
-            {person_phone || person_email ? (
-              <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                {person_phone && (
-                  <>
-                    <Phone className="text-outline-400" />
-                    <span>{person_phone}</span>
-                  </>
-                )}
-                {person_phone && person_fax ? "|" : ""}
-                {person_fax && (
-                  <div className="flex items-center gap-x-1.5">
-                    <Printer className="text-outline-400" />
-                    <span>{person_fax}</span>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <></>
-            )}
-
-            {person_email && (
-              <div className="flex items-center gap-x-1.5">
-                <Envelope className="text-outline-400" />
-                <span>{person_email}</span>
-              </div>
-            )}
-          </div>
-        );
-      },
+      cell: ({ row }) => (
+        <MobileCard lng={lng} {...row.original}>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="tertiary-colour">Profile</Button>
+            </SheetTrigger>
+            <SheetPortal>
+              <SheetOverlay />
+              <SheetContent
+                side="bottom"
+                className="flex flex-col p-0 gap-0 min-h-0 max-h-[85dvh] max-sm:w-full"
+              >
+                <SheetHeader className="p-4.5 border-b border-outline-200">
+                  <SheetTitle>Profil Penjawat Awam</SheetTitle>
+                  <SheetClose className="absolute right-4 top-3.5">
+                    <CrossX className="size-4" />
+                    <span className="sr-only">Close</span>
+                  </SheetClose>
+                </SheetHeader>
+                <Profile lng={lng} {...row.original} />
+              </SheetContent>
+            </SheetPortal>
+          </Sheet>
+        </MobileCard>
+      ),
     },
   ];
 
@@ -222,7 +202,7 @@ export default function Home({
         title={t("directory.header")}
         search={
           <Search
-            onChange={(query) => setSearchParams("q", query)}
+            onChange={(query) => setSearchParams("q", query || null)}
             placeholder={t("directory.search_placeholder")}
             defaultValue={searchQuery || ""}
             lng={lng}

@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "directory.gov.my",
-    "description": ""
+    "description": "Your one-stop centre to find details of Government officers!"
   },
   "masthead": {
     "official_gov_website": "Official Malaysia Government Website",
@@ -15,6 +15,7 @@
     "precaution": " as an added precaution. If not present, do not share any sensitive information."
   },
   "header": {
+    "site": "Directory",
     "home": "Home"
   },
   "theme": {
@@ -58,7 +59,7 @@
     "desc": "The is not responsible for any loss or damage incurred from using the information on this portal."
   },
   "directory": {
-    "header": "Staff Directory",
+    "header": "One directory, whole of Government",
     "search_placeholder": "Search for keyword (e.g. name, position, email)",
     "table_header": {
       "nama": "Name",

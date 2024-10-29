@@ -27,6 +27,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useState } from "react";
 import ThemeToggle from "../ui/theme";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export function Header({ lng }: { lng: string }) {
   const { t } = useTranslation(lng);
@@ -34,6 +35,8 @@ export function Header({ lng }: { lng: string }) {
   const active = (href: string) => pathname.startsWith(href) && href !== "/";
   const nav_items = [{ name: t("header.home"), href: routes.HOME }];
   const [showMenu, setMenu] = useState<boolean>(false);
+
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   return (
     <header className="sticky top-0 z-50 border-outline-200 bg-background lg:border-b lg:bg-background/80 lg:backdrop-blur-[30px] print:hidden">
@@ -60,8 +63,8 @@ export function Header({ lng }: { lng: string }) {
               alt="Jata Negara"
             />
 
-            <span className="font-poppins font-semibold whitespace-nowrap text-lg leading-normal">
-              {t("site.name")}
+            <span className="font-poppins font-semibold whitespace-nowrap text-lg">
+              {t(isMobile ? "header.site" : "site.name")}
             </span>
           </Link>
 
