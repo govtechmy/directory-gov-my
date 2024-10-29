@@ -8,7 +8,6 @@ import {
   Header,
   getSortedRowModel,
   Table as TTable,
-  getPaginationRowModel,
   getFacetedUniqueValues,
   Row,
   Cell,
@@ -21,7 +20,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Paginate from "@/components/ui/pagination";
 import { useTranslation } from "@/i18n/client";
 import { ReactNode, useEffect, useState } from "react";
 import ArrowDown from "@/icons/arrow-down";
@@ -38,16 +36,13 @@ interface DataTableProps<TData, TValue> {
   lng: string;
   resizable?: boolean;
   filterable?: boolean;
-  paginate?: {
-    pageIndex: number;
-    pageSize: number;
-  };
   filter?: (
     table: TTable<TData>,
     headers: Header<TData, unknown>[],
   ) => ReactNode;
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
+  isMobile: boolean;
 }
 
 export default function DataTable<TData, TValue>({
@@ -57,14 +52,10 @@ export default function DataTable<TData, TValue>({
   resizable = false,
   filterable = false,
   filter,
-  paginate,
   isMerged,
+  isMobile,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
-  const [pagination, setPagination] = useState({
-    pageIndex: paginate ? paginate.pageIndex : 0,
-    pageSize: paginate ? paginate.pageSize : 10,
-  });
 
   const [expandableColumns, setExpandableColumns] = useState<
     Record<string, boolean | null>
@@ -73,7 +64,6 @@ export default function DataTable<TData, TValue>({
     columns.forEach((column) => {
       if (column.id && column.meta && column.meta.expandable) {
         initialState[column.id as string] = false;
-        // in the expandedColumn state, only columns that can be expanded will have its headerId in it which depends on enabledReadMore property
       }
     });
     return initialState;
@@ -90,19 +80,11 @@ export default function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    state: { pagination },
-
     columnResizeMode: "onChange",
     enableColumnResizing: resizable,
     enableColumnFilters: filterable,
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: (value) => {
-      if (!paginate) return;
-      setPagination(value);
-    },
     getFacetedUniqueValues: getFacetedUniqueValues(),
-
     debugTable: false,
     debugHeaders: false,
   });
@@ -115,14 +97,12 @@ export default function DataTable<TData, TValue>({
     Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string | null;
-        return value !== null && value !== undefined && value.length >= 30;
+        return value !== null && value?.length >= 30;
       });
 
-      // if all the rows has length less than 30, then the state with the columnId will be null. It will not has the expandable column capability
       if (longVisibleRows.length == 0) {
         mergedObj[columnId] = null;
       } else {
-        // we set the state back to false such that it will always stay close when we navigate to different page
         mergedObj[columnId] = false;
       }
     });
@@ -131,7 +111,6 @@ export default function DataTable<TData, TValue>({
 
   return (
     <>
-      {/* Action */}
       {filter ? filter(table, headerGroups[0]!.headers) : <></>}
 
       <Table
@@ -168,22 +147,23 @@ export default function DataTable<TData, TValue>({
                           desc: <ArrowDown className="h-3 w-3" />,
                           asc: <ArrowUp className="h-3 w-3" />,
                         }[header.column.getIsSorted() as string] ?? null}
-                        {typeof expandableColumns[header.id] === "boolean" && (
-                          <Button
-                            size="default"
-                            variant={"secondary-colour"}
-                            onClick={() => {
-                              toggleColumnWidth(header.id);
-                            }}
-                            className="px-1 rounded-lg"
-                          >
-                            {expandableColumns[header.id] ? (
-                              <ColumnCollapse className="size-4 text-brand-600" />
-                            ) : (
-                              <ColumnExpand className="size-4 text-brand-600" />
-                            )}
-                          </Button>
-                        )}
+                        {!isMobile &&
+                          typeof expandableColumns[header.id] === "boolean" && (
+                            <Button
+                              size="default"
+                              variant={"secondary-colour"}
+                              onClick={() => {
+                                toggleColumnWidth(header.id);
+                              }}
+                              className="px-1 rounded-lg"
+                            >
+                              {expandableColumns[header.id] ? (
+                                <ColumnCollapse className="size-4 text-brand-600" />
+                              ) : (
+                                <ColumnExpand className="size-4 text-brand-600" />
+                              )}
+                            </Button>
+                          )}
                       </div>
                     )}
                   </TableHead>
@@ -221,7 +201,8 @@ export default function DataTable<TData, TValue>({
                           id={cell.id}
                           key={cell.id}
                           className={cn(
-                            "whitespace-nowrap",
+                            "sm:whitespace-nowrap",
+                            "whitespace-normal break-words",
                             typeof expandableColumns[headerId] === "boolean" &&
                               `truncate ${!canExpand && "max-w-[230px]"}`,
                             cell.column.columnDef.meta?.cellClass,
@@ -250,19 +231,6 @@ export default function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-
-      {data.length > 0 && paginate && (
-        <div className="flex items-center justify-center gap-2 pt-8">
-          <Paginate
-            curr={table.getState().pagination.pageIndex}
-            disable_next={!table.getCanNextPage()}
-            disable_prev={!table.getCanPreviousPage()}
-            setPage={(page) => table.setPageIndex(page)}
-            totalPages={table.getPageCount()}
-            lng={lng}
-          />
-        </div>
-      )}
     </>
   );
 }

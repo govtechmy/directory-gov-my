@@ -1,108 +1,100 @@
 "use client";
 
-import { Header, Table as TTable } from "@tanstack/react-table";
-import { FC, useState, useMemo } from "react";
+import { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import ChevronDown from "@/icons/chevron-down";
-import { SelectIcon } from "@radix-ui/react-select";
 import { useTranslation } from "@/i18n/client";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Command, CommandInput, CommandItem } from "@/components/ui/command";
+import { CommandList } from "cmdk";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
-interface DirektoriFilter {
-  table: TTable<any>;
-  headers: Header<any, unknown>[];
-  column: string;
+interface DirektoriFilterI {
   subtitle?: string;
   lng: string;
+  disabled: boolean;
+  items?: string[];
+  selectedItem: string | null;
+  onChange: (param: string | null) => void;
 }
 
-export const DirektoriFilter: FC<DirektoriFilter> = ({
-  table,
-  headers,
-  column,
+export const DirektoriFilter: FC<DirektoriFilterI> = ({
   subtitle,
   lng,
+  disabled,
+  items,
+  selectedItem,
+  onChange,
 }) => {
   const { t } = useTranslation(lng);
+  const [open, setOpen] = useState(false);
   const all = t("directory.table_header.semua");
 
-  const header = headers.find((h) => h.id === column)!;
-  const { getFacetedUniqueValues, getFilterValue, setFilterValue } =
-    header.column;
-
-  const [selectedFilters, setSelectedFilters] = useState<string>(
-    (getFilterValue() as string) || all
-  );
-
-  const sortedUniqueValues = useMemo(() => {
-    const uniqueValues = Array.from(getFacetedUniqueValues().keys());
-    const filteredValues = uniqueValues.filter((value) => {
-      if (!Boolean(value)) return false;
-      return value;
-    });
-    return filteredValues.sort((a, b) => b.bhg - a.bhg);
-  }, [getFacetedUniqueValues()]);
-
-  const handleValueChange = (selected: string) => {
-    setSelectedFilters(selected);
-
-    if (selected === all) {
-      table.resetColumnFilters(true);
-      return;
-    }
-    setFilterValue(selected);
-  };
-
   return (
-    <div className="pb-4">
-      <Select value={selectedFilters} onValueChange={handleValueChange}>
-        <SelectTrigger asChild>
+    <>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger
+          asChild
+          disabled={disabled}
+          className="w-full sm:w-fit max-w-96"
+        >
           <Button variant="secondary">
-            {selectedFilters !== all ? null : (
-              <span className="text-sm text-dim-500">{subtitle}:</span>
-            )}
-            <SelectValue>{selectedFilters}</SelectValue>
-            <SelectIcon>
-              <ChevronDown />
-            </SelectIcon>
+            <span className="text-sm text-dim-500">{subtitle}</span>
+            <span className="grow truncate">
+              {items?.find((e) => e === selectedItem) ?? all}
+            </span>
+            <ChevronDown filled className="fill-black-900 size-4 shrink-0" />
           </Button>
-        </SelectTrigger>
-        <SelectContent
-          avoidCollisions={true}
-          side="bottom"
-          className="max-h-[250px] w-full py-2"
+        </PopoverTrigger>
+        <PopoverContent
+          className="p-0 bg-background max-sm:w-[var(--radix-popover-trigger-width)]"
           align="start"
         >
-          <SelectItem
-            value={all}
-            className={cn(
-              "max-sm:w-[calc(100svw-40px)]",
-              all === selectedFilters ? "font-medium" : ""
-            )}
-          >
-            {all}
-          </SelectItem>
-          {sortedUniqueValues.map((l) => (
-            <SelectItem
-              key={l}
-              value={l}
-              className={cn(
-                "max-sm:w-[calc(100svw-40px)]",
-                l === selectedFilters ? "font-medium" : ""
-              )}
-            >
-              {l}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+          <Command className="gap-y-2">
+            <CommandInput
+              placeholder={t("directory.dropdown.search_placeholder")}
+            />
+            <ScrollArea className="max-h-[240px] overflow-auto">
+              <CommandList>
+                <CommandItem
+                  value="all"
+                  onSelect={() => {
+                    setOpen(!open);
+                    onChange(null);
+                  }}
+                  className={cn(
+                    "hover:bg-washed-100",
+                    selectedItem == null && "bg-washed-100",
+                  )}
+                >
+                  {all}
+                </CommandItem>
+                {items?.map((item) => (
+                  <CommandItem
+                    key={item}
+                    value={item}
+                    onSelect={(currentValue) => {
+                      setOpen(!open);
+                      onChange(currentValue);
+                    }}
+                    className={cn(
+                      "hover:bg-washed-100",
+                      selectedItem == item && "bg-washed-100",
+                    )}
+                  >
+                    {item}
+                  </CommandItem>
+                ))}
+              </CommandList>
+            </ScrollArea>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </>
   );
 };

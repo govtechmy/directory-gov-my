@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "Directory",
+    "name": "directory.gov.my",
     "description": ""
   },
   "masthead": {
@@ -70,7 +70,10 @@
       "telefon": "Phone No.",
       "fax": "Fax No.",
       "emel": "Email",
-      "semua": "All Divisions"
+      "semua": "All"
+    },
+    "dropdown": {
+      "search_placeholder": "Type to search"
     }
   },
   "datepicker": {
@@ -79,7 +82,7 @@
   },
   "pagination": {
     "previous": "Previous",
-    "page_of": "{ current } of { total }",
+    "page_of": "{{ current }} of {{ total }}",
     "next": "Next"
   },
   "table": {

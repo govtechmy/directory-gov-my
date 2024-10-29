@@ -6,11 +6,14 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { ColumnDef } from "@tanstack/react-table";
 import Hero from "@/components/layout/hero";
 import Section from "@/components/layout/section";
-import DataTable from "../../components/ui/data-table";
+import DataTable from "@/components/ui/data-table";
 import Search from "@/components/ui/search";
 import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
+import Printer from "@/icons/printer";
 import { DirektoriFilter } from "./filter";
+import Paginate from "@/components/ui/pagination";
+import { useCallback } from "react";
 
 interface Kakitangan {
   org_sort: number;
@@ -19,14 +22,14 @@ interface Kakitangan {
   org_type: string;
   division_sort: number;
   division_name: string | null;
-  unit_name: string | null;
+  subdivision_name: string | null;
   person_name: string | null;
-  person_position: string | null;
+  position_name: string | null;
   person_phone: string | null;
   person_email: string | null;
   person_fax: string | null;
   parent_org_id: string | null;
-  person_sort: number;
+  position_sort: number;
   // grade: string | null;
 }
 
@@ -34,17 +37,27 @@ export default function Home({
   lng,
   kakitangan,
   totalPages,
+  orgs,
+  divisions,
+  subdivisions,
 }: {
   lng: string;
   kakitangan: Kakitangan[];
   totalPages: number;
+  orgs: string[];
+  divisions: string[];
+  subdivisions: string[];
 }) {
   const { t } = useTranslation(lng);
-  const { replace } = useRouter();
+  const { push } = useRouter();
   const pathname = usePathname();
-
   const searchParams = useSearchParams();
+
   const searchQuery = searchParams.get("q");
+  const currentPage = Number(searchParams.get("page") || "1");
+  const orgSelected = searchParams.get("org");
+  const divisionSelected = searchParams.get("division");
+  const subdivisionSelected = searchParams.get("subdivision");
 
   const column: ColumnDef<Kakitangan>[] = [
     {
@@ -59,8 +72,8 @@ export default function Home({
     },
     {
       header: t("directory.table_header.jawatan"),
-      accessorKey: "person_position",
-      id: "person_position",
+      accessorKey: "position_name",
+      id: "position_name",
       cell: (row) => row.getValue(),
       meta: {
         expandable: true,
@@ -68,8 +81,8 @@ export default function Home({
     },
     {
       header: t("directory.table_header.kementerian"),
-      accessorKey: "org_id",
-      id: "org_id",
+      accessorKey: "org_name",
+      id: "org_name",
       cell: (row) => row.getValue(),
       meta: {
         expandable: true,
@@ -86,8 +99,8 @@ export default function Home({
     },
     {
       header: t("directory.table_header.seksyen"),
-      accessorKey: "unit_name",
-      id: "unit_name",
+      accessorKey: "subdivision_name",
+      id: "subdivision_name",
       cell: (row) => row.getValue() ?? "—",
       meta: {
         expandable: true,
@@ -122,14 +135,14 @@ export default function Home({
   const mobileColumn: ColumnDef<Kakitangan>[] = [
     {
       header: "",
-      accessorKey: "division_name",
-      id: "division_name",
+      accessorKey: "person_name",
+      id: "person_name",
       cell: ({ row }) => {
         const {
           division_name,
-          unit_name,
+          subdivision_name,
           person_name,
-          person_position,
+          position_name,
           person_phone,
           person_fax,
           person_email,
@@ -137,8 +150,9 @@ export default function Home({
 
         return (
           <div className="space-y-2 font-medium text-dim-500">
-            <p className="text-balance text-xs font-semibold">
-              {division_name}
+            <p className="flex flex-wrap text-xs font-semibold">
+              {division_name}{" "}
+              {subdivision_name ? <>| {subdivision_name}</> : <></>}
             </p>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
@@ -146,7 +160,7 @@ export default function Home({
                   {person_name ?? "—"}
                 </span>
               </div>
-              <p className="text-black-700">{person_position}</p>
+              <p className="text-black-700">{position_name}</p>
             </div>
 
             {person_phone || person_email ? (
@@ -157,16 +171,23 @@ export default function Home({
                     <span>{person_phone}</span>
                   </>
                 )}
-                {person_phone && person_email ? "|" : ""}
-                {person_email && (
+                {person_phone && person_fax ? "|" : ""}
+                {person_fax && (
                   <div className="flex items-center gap-x-1.5">
-                    <Envelope className="text-outline-400" />
-                    <span>{person_email}</span>
+                    <Printer className="text-outline-400" />
+                    <span>{person_fax}</span>
                   </div>
                 )}
               </div>
             ) : (
               <></>
+            )}
+
+            {person_email && (
+              <div className="flex items-center gap-x-1.5">
+                <Envelope className="text-outline-400" />
+                <span>{person_email}</span>
+              </div>
             )}
           </div>
         );
@@ -174,15 +195,24 @@ export default function Home({
     },
   ];
 
-  const searchArray = (query: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (query) {
-      params.set("q", query.toLowerCase());
-    } else {
-      params.delete("q");
-    }
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
+  const setSearchParams = useCallback(
+    (key: string, value: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value === null) params.delete(key);
+      else params.set(key, value);
+
+      if (key === "org") {
+        params.delete("division");
+        params.delete("subdivision");
+      } else if (key === "division") params.delete("subdivision");
+
+      if (key !== "page") params.delete("page");
+      return push(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
+    },
+    [searchParams],
+  );
 
   const isMobile = useMediaQuery("(max-width: 640px)");
 
@@ -192,7 +222,7 @@ export default function Home({
         title={t("directory.header")}
         search={
           <Search
-            onChange={searchArray}
+            onChange={(query) => setSearchParams("q", query)}
             placeholder={t("directory.search_placeholder")}
             defaultValue={searchQuery || ""}
             lng={lng}
@@ -202,25 +232,55 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
+          <div className="flex flex-wrap flex-col gap-3 sm:flex-row sm:gap-x-4 sm:pb-4">
+            <DirektoriFilter
+              lng={lng}
+              subtitle={t("directory.table_header.kementerian")}
+              disabled={orgs?.length == 0}
+              items={orgs}
+              selectedItem={orgSelected}
+              onChange={(currentValue) => setSearchParams("org", currentValue)}
+            />
+            <DirektoriFilter
+              lng={lng}
+              subtitle={t("directory.table_header.bhg")}
+              disabled={divisions?.length == 0 || !orgSelected}
+              items={divisions}
+              selectedItem={divisionSelected}
+              onChange={(currentValue) =>
+                setSearchParams("division", currentValue)
+              }
+            />
+            <DirektoriFilter
+              lng={lng}
+              subtitle={t("directory.table_header.seksyen")}
+              disabled={
+                subdivisions?.length == 0 || !orgSelected || !divisionSelected
+              }
+              items={subdivisions}
+              selectedItem={subdivisionSelected}
+              onChange={(currentValue) =>
+                setSearchParams("subdivision", currentValue)
+              }
+            />
+          </div>
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
             data={kakitangan}
             resizable={false}
-            paginate={{
-              pageIndex: 0,
-              pageSize: 20,
-            }}
-            filter={(table, headers) => (
-              <DirektoriFilter
-                lng={lng}
-                table={table}
-                headers={headers}
-                column="division_name"
-                subtitle={t("directory.table_header.bhg")}
-              />
-            )}
+            isMobile={isMobile}
           />
+          <div className="flex items-center justify-center gap-2 pt-8">
+            <Paginate
+              currentPage={currentPage}
+              totalPages={totalPages}
+              lng={lng}
+              disableNext={currentPage >= totalPages}
+              disablePrev={currentPage <= 1}
+              setPage={(page) => setSearchParams("page", page.toString())}
+            />
+          </div>
         </div>
       </Section>
     </main>
