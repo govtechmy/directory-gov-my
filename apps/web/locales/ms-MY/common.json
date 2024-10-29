@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "directory.gov.my",
-    "description": ""
+    "description": "Portal tunggal untuk mencari maklumat pegawai Kerajaan!"
   },
   "masthead": {
     "official_gov_website": "Portal Rasmi Kerajaan Malaysia",
@@ -61,7 +61,7 @@
     "desc": " tidak bertanggungjawab terhadap sebarang kehilangan atau kerosakan yang dialami kerana menggunakan maklumat dalam portal ini."
   },
   "directory": {
-    "header": "Direktori Kakitangan",
+    "header": "Satu direktori, seluruh Kerajaan",
     "search_placeholder": "Cari kata kunci (nama, jawatan, emel, dsb)",
     "table_header": {
       "nama": "Nama",
