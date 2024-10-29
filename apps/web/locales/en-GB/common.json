@@ -15,6 +15,7 @@
     "precaution": " as an added precaution. If not present, do not share any sensitive information."
   },
   "header": {
+    "site": "Directory",
     "home": "Home"
   },
   "theme": {
