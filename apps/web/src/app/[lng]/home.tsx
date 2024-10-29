@@ -30,7 +30,6 @@ interface Kakitangan {
   person_fax: string | null;
   parent_org_id: string | null;
   position_sort: number;
-  // grade: string | null;
 }
 
 export default function Home({
@@ -49,6 +48,7 @@ export default function Home({
   subdivisions: string[];
 }) {
   const { t } = useTranslation(lng);
+  const { t: tOrg } = useTranslation(lng, "org");
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -83,7 +83,10 @@ export default function Home({
       header: t("directory.table_header.kementerian"),
       accessorKey: "org_name",
       id: "org_name",
-      cell: (row) => row.getValue(),
+      cell: ({ row }) => {
+        const { org_type, org_id, org_name } = row.original;
+        return org_type === "ministry" ? tOrg(org_id) : org_name;
+      },
       meta: {
         expandable: true,
       },
@@ -106,12 +109,6 @@ export default function Home({
         expandable: true,
       },
     },
-    // {
-    //   header: t("directory.table_header.gred"),
-    //   accessorKey: "grade",
-    //   id: "grade",
-    //   cell: (row) => row.getValue() ?? "—",
-    // },
     {
       header: t("directory.table_header.telefon"),
       accessorKey: "person_phone",
@@ -146,13 +143,21 @@ export default function Home({
           person_phone,
           person_fax,
           person_email,
+          org_type,
+          org_id,
+          org_name,
         } = row.original;
 
         return (
           <div className="space-y-2 font-medium text-dim-500">
             <p className="flex flex-wrap text-xs font-semibold">
-              {division_name}{" "}
-              {subdivision_name ? <>| {subdivision_name}</> : <></>}
+              {org_type === "ministry" ? tOrg(org_id) : org_name}{" "}
+              {division_name && (
+                <>
+                  | {division_name}
+                  {subdivision_name ? <>| {subdivision_name}</> : null}
+                </>
+              )}
             </p>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-x-1.5">
@@ -179,9 +184,7 @@ export default function Home({
                   </div>
                 )}
               </div>
-            ) : (
-              <></>
-            )}
+            ) : null}
 
             {person_email && (
               <div className="flex items-center gap-x-1.5">
