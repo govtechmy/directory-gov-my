@@ -138,7 +138,7 @@ export default function DataTable<TData, TValue>({
                     )}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className="flex items-center gap-2 justify-between whitespace-nowrap">
+                      <div className="flex items-center gap-2 justify-between whitespace-nowrap group">
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
@@ -155,7 +155,7 @@ export default function DataTable<TData, TValue>({
                               onClick={() => {
                                 toggleColumnWidth(header.id);
                               }}
-                              className="px-1 rounded-lg"
+                              className="px-1 rounded-lg invisible group-hover:visible"
                             >
                               {expandableColumns[header.id] ? (
                                 <ColumnCollapse className="size-4 text-brand-600" />
