@@ -1,7 +1,8 @@
 import { Suspense } from "react";
-import { getFilterOptions } from "@/actions/filter-dropdown";
-import { searchKakitangan } from "@/actions/kakitangan";
+// import { getFilterOptions } from "@/actions/filter-dropdown";
+// import { searchKakitangan } from "@/actions/kakitangan";
 import Homepage from "./home";
+import * as sampleData from "./sampleData.json";
 
 export default async function Page({
   params: { lng },
@@ -17,17 +18,26 @@ export default async function Page({
   };
 }) {
   const { q, page, division, subdivision, org } = searchParams;
-  const { kakitangan, totalPages } = await searchKakitangan(
-    page ? Number(page) : 1,
-    q,
-    org,
-    division,
-    subdivision,
-  );
-  const { org_agg, division_agg, subdivision_agg } = await getFilterOptions(
-    org,
-    division,
-  );
+
+  // TODO: remove the comment block once ES is up
+  // const { kakitangan, totalPages } = await searchKakitangan(
+  //   page ? Number(page) : 1,
+  //   q,
+  //   org,
+  //   division,
+  //   subdivision,
+  // );
+  // const { org_agg, division_agg, subdivision_agg } = await getFilterOptions(
+  //   org,
+  //   division
+  // );
+
+  // TODO: remove this when ES is back up
+  let totalPages = 1;
+  let kakitangan = JSON.parse(JSON.stringify(sampleData));
+  let org_agg = ["JPM"];
+  let division_agg = ["PENGURUSAN ATASAN JPM"];
+  let subdivision_agg = ["PEJABAT TIMBALAN KETUA SETIAUSAHA KANAN"];
 
   return (
     // useSearchParams require Suspense boundary, separate boundary for fallback customisability
