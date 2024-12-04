@@ -10,7 +10,7 @@ import DataTable from "@/components/ui/data-table";
 import Search from "@/components/ui/search";
 import { DirektoriFilter } from "./filter";
 import Paginate from "@/components/ui/pagination";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -135,10 +135,43 @@ export default function Home({
       cell: (row) => row.getValue() ?? "—",
     },
     {
-      header: t("directory.table_header.emel"),
+      header: ({ table }) => {
+        // TODO: check if I can do hooks somewhere
+        const checkboxRef = useRef<HTMLInputElement>(null);
+
+        useEffect(() => {
+          if (checkboxRef.current) {
+            checkboxRef.current.indeterminate =
+              table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected();
+          }
+        }, [table.getIsSomeRowsSelected(), table.getIsAllRowsSelected()]);
+        return (
+          <div className="flex items-center gap-2.5 whitespace-nowrap">
+            <input
+              type="checkbox"
+              checked={table.getIsAllRowsSelected()}
+              ref={checkboxRef}
+              onChange={table.getToggleAllRowsSelectedHandler()}
+              className="w-4 h-4"
+            />
+            {t("directory.table_header.emel")}
+          </div>
+        );
+      },
       accessorKey: "person_email",
       id: "person_email",
-      cell: (row) => row.getValue() ?? "—",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2.5 whitespace-nowrap">
+          <input
+            type="checkbox"
+            checked={row.getIsSelected()}
+            disabled={!row.getCanSelect()}
+            onChange={row.getToggleSelectedHandler()}
+            className="w-4 h-4"
+          />
+          {row.getValue("person_email") ?? "—"}
+        </div>
+      ),
     },
   ];
 

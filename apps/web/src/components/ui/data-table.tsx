@@ -76,6 +76,8 @@ export default function DataTable<TData, TValue>({
     }));
   };
 
+  const [rowSelection, setRowSelection] = useState({});
+
   const table = useReactTable({
     data,
     columns,
@@ -87,6 +89,11 @@ export default function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     debugTable: false,
     debugHeaders: false,
+    enableRowSelection: true,
+    state: {
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
   });
 
   const headerGroups = table.getHeaderGroups();
@@ -109,10 +116,10 @@ export default function DataTable<TData, TValue>({
     setExpandableColumns(mergedObj);
   }, [tableRow]);
 
+  console.log("rowSelection", rowSelection);
   return (
     <>
       {filter ? filter(table, headerGroups[0]!.headers) : <></>}
-
       <Table
         style={{
           width:
