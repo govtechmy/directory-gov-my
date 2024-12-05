@@ -33,6 +33,7 @@ import MobileCard from "@/components/home/mobile-card";
 import Profile from "@/components/home/profile";
 import { Kakitangan } from "@/lib/types/kakitangan";
 import CrossX from "@/icons/cross-x";
+import CopyIcon from "@/icons/copy";
 
 export default function Home({
   lng,
@@ -301,7 +302,10 @@ export default function Home({
               }
             />
             {Object.keys(rowSelection).length > 0 && (
-              <Button onClick={copySelectedEmails}>Copy selected email</Button>
+              <Button onClick={copySelectedEmails} variant={"primary"}>
+                <CopyIcon />
+                Copy selected email
+              </Button>
             )}
           </div>
           <DataTable

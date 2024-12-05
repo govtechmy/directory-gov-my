@@ -83,8 +83,6 @@ export default function DataTable<TData, TValue>({
     }));
   };
 
-  // const [rowSelection, setRowSelection] = useState({});
-
   const table = useReactTable({
     data,
     columns,
