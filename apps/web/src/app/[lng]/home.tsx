@@ -60,6 +60,30 @@ export default function Home({
   const divisionSelected = searchParams.get("division");
   const subdivisionSelected = searchParams.get("subdivision");
 
+  type GetSelectedRowsType = (() => any) | null;
+  const [rowCopied, setRowCopied] = useState<GetSelectedRowsType>(null);
+  const [rowSelection, setRowSelection] = useState({});
+
+  const handleCopyRows = useCallback((getSelectedRowModel: () => any) => {
+    setRowCopied(() => getSelectedRowModel);
+  }, []);
+
+  const copySelectedEmails = async () => {
+    if (!rowCopied) return;
+
+    const selectedRows = rowCopied().rows;
+    const emailsToCopy = selectedRows
+      .map((row: any) => row.original.person_email)
+      .join(",");
+
+    try {
+      await navigator.clipboard.writeText(emailsToCopy);
+      // Show success message
+    } catch (err) {
+      // Handle error
+    }
+  };
+
   const column: ColumnDef<Kakitangan>[] = [
     {
       header: t("directory.table_header.nama"),
@@ -276,6 +300,9 @@ export default function Home({
                 setSearchParams("subdivision", currentValue)
               }
             />
+            {Object.keys(rowSelection).length > 0 && (
+              <Button onClick={copySelectedEmails}>Copy selected email</Button>
+            )}
           </div>
           <DataTable
             lng={lng}
@@ -283,6 +310,9 @@ export default function Home({
             data={kakitangan}
             resizable={false}
             isMobile={isMobile}
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
+            copyEmail={handleCopyRows}
           />
           <div className="flex items-center justify-center gap-2 pt-8">
             <Paginate

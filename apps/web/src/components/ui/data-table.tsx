@@ -43,6 +43,10 @@ interface DataTableProps<TData, TValue> {
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
   isMobile: boolean;
+  // TODO: Do proper typing
+  rowSelection: any;
+  setRowSelection: any;
+  copyEmail: any;
 }
 
 export default function DataTable<TData, TValue>({
@@ -54,6 +58,9 @@ export default function DataTable<TData, TValue>({
   filter,
   isMerged,
   isMobile,
+  rowSelection,
+  setRowSelection,
+  copyEmail,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
 
@@ -76,7 +83,7 @@ export default function DataTable<TData, TValue>({
     }));
   };
 
-  const [rowSelection, setRowSelection] = useState({});
+  // const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -95,6 +102,10 @@ export default function DataTable<TData, TValue>({
     },
     onRowSelectionChange: setRowSelection,
   });
+
+  useEffect(() => {
+    copyEmail(table.getSelectedRowModel);
+  }, [table.getSelectedRowModel]);
 
   const headerGroups = table.getHeaderGroups();
   const tableRow = table.getRowModel().rows;
@@ -116,7 +127,6 @@ export default function DataTable<TData, TValue>({
     setExpandableColumns(mergedObj);
   }, [tableRow]);
 
-  console.log("rowSelection", rowSelection);
   return (
     <>
       {filter ? filter(table, headerGroups[0]!.headers) : <></>}
