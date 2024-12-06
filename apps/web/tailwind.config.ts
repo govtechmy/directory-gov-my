@@ -26,6 +26,15 @@ const config: Config = {
         context:
           "0px 12px 50px 0px rgba(0, 0, 0, 0.1), 0px 2px 6px 0px rgba(0, 0, 0, 0.05)",
       },
+      animation: {
+        expire: "decrease-width 5s linear",
+      },
+      keyframes: {
+        "decrease-width": {
+          "0%": { width: "100%" },
+          "100%": { width: "0%" },
+        },
+      },
       colors: {
         brand: {
           50: "oklch(var(--brand-50) / <alpha-value>)",
@@ -95,6 +104,9 @@ const config: Config = {
       spacing: {
         4.5: "18px",
       },
+    },
+    animation: {
+      expire: "decrease-width 5s linear",
     },
   },
   plugins: [tailwindCSSAnimate],

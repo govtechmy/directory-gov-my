@@ -34,6 +34,8 @@ import Profile from "@/components/home/profile";
 import { Kakitangan } from "@/lib/types/kakitangan";
 import CrossX from "@/icons/cross-x";
 import CopyIcon from "@/icons/copy";
+import useToast from "@/hooks/use-toast";
+import { AutoToast } from "@/components/ui/toast";
 
 export default function Home({
   lng,
@@ -69,6 +71,8 @@ export default function Home({
     setRowCopied(() => getSelectedRowModel);
   }, []);
 
+  const { toast } = useToast();
+
   const copySelectedEmails = async () => {
     if (!rowCopied) return;
 
@@ -79,6 +83,11 @@ export default function Home({
 
     try {
       await navigator.clipboard.writeText(emailsToCopy);
+      toast({
+        variant: "success",
+        title: "Emails copied!",
+        // description: "this is a description",
+      });
       // Show success message
     } catch (err) {
       // Handle error
@@ -318,6 +327,7 @@ export default function Home({
             setRowSelection={setRowSelection}
             copyEmail={handleCopyRows}
           />
+          <AutoToast duration={2000} />
           <div className="flex items-center justify-center gap-2 pt-8">
             <Paginate
               currentPage={currentPage}
