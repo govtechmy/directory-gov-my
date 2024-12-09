@@ -210,36 +210,36 @@ export default function Home({
       ),
       meta: {
         // TODO: Why 95px
-        headerClass: "sticky bg-background right-[95px] border-l",
-        cellClass: "sticky bg-background right-[95px] border-l",
+        headerClass: "sticky bg-background right-0 border-l",
+        cellClass: "sticky bg-background right-0 border-l",
       },
     },
-    {
-      id: "profile_info",
-      size: 100,
-      cell: ({ row }) => (
-        <>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="tertiary">
-                <ArrowOutgoing className="size-[16px]" />
-                Profil
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="p-0 gap-0 max-w-[600px]">
-              <DialogHeader className="p-6 border-b border-outline-200">
-                <DialogTitle>Profil Penjawat Awam</DialogTitle>
-              </DialogHeader>
-              <Profile lng={lng} {...row.original} />
-            </DialogContent>
-          </Dialog>
-        </>
-      ),
-      meta: {
-        headerClass: "sticky bg-background right-0 border-l sm:py-1.5",
-        cellClass: "sticky bg-background right-0 border-l sm:py-1.5",
-      },
-    },
+    // {
+    //   id: "profile_info",
+    //   size: 100,
+    //   cell: ({ row }) => (
+    //     <>
+    //       <Dialog>
+    //         <DialogTrigger asChild>
+    //           <Button variant="tertiary">
+    //             <ArrowOutgoing className="size-[16px]" />
+    //             Profil
+    //           </Button>
+    //         </DialogTrigger>
+    //         <DialogContent className="p-0 gap-0 max-w-[600px]">
+    //           <DialogHeader className="p-6 border-b border-outline-200">
+    //             <DialogTitle>Profil Penjawat Awam</DialogTitle>
+    //           </DialogHeader>
+    //           <Profile lng={lng} {...row.original} />
+    //         </DialogContent>
+    //       </Dialog>
+    //     </>
+    //   ),
+    //   meta: {
+    //     headerClass: "sticky bg-background right-0 border-l sm:py-1.5",
+    //     cellClass: "sticky bg-background right-0 border-l sm:py-1.5",
+    //   },
+    // },
   ];
 
   const mobileColumn: ColumnDef<Kakitangan>[] = [
@@ -312,53 +312,49 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
-          <div className="flex justify-between">
-            <div className="flex flex-wrap flex-col gap-3 sm:flex-row sm:gap-x-4 sm:pb-4">
-              <DirektoriFilter
-                lng={lng}
-                subtitle={t("directory.table_header.kementerian")}
-                disabled={orgs?.length == 0}
-                items={orgs}
-                selectedItem={orgSelected}
-                onChange={(currentValue) =>
-                  setSearchParams("org", currentValue)
-                }
-              />
-              <DirektoriFilter
-                lng={lng}
-                subtitle={t("directory.table_header.bhg")}
-                disabled={divisions?.length == 0 || !orgSelected}
-                items={divisions}
-                selectedItem={divisionSelected}
-                onChange={(currentValue) =>
-                  setSearchParams("division", currentValue)
-                }
-              />
-              <DirektoriFilter
-                lng={lng}
-                subtitle={t("directory.table_header.seksyen")}
-                disabled={
-                  subdivisions?.length == 0 || !orgSelected || !divisionSelected
-                }
-                items={subdivisions}
-                selectedItem={subdivisionSelected}
-                onChange={(currentValue) =>
-                  setSearchParams("subdivision", currentValue)
-                }
-              />
+          <div className="flex flex-wrap flex-col gap-3 sm:flex-row sm:gap-x-4 sm:pb-4">
+            <DirektoriFilter
+              lng={lng}
+              subtitle={t("directory.table_header.kementerian")}
+              disabled={orgs?.length == 0}
+              items={orgs}
+              selectedItem={orgSelected}
+              onChange={(currentValue) => setSearchParams("org", currentValue)}
+            />
+            <DirektoriFilter
+              lng={lng}
+              subtitle={t("directory.table_header.bhg")}
+              disabled={divisions?.length == 0 || !orgSelected}
+              items={divisions}
+              selectedItem={divisionSelected}
+              onChange={(currentValue) =>
+                setSearchParams("division", currentValue)
+              }
+            />
+            <DirektoriFilter
+              lng={lng}
+              subtitle={t("directory.table_header.seksyen")}
+              disabled={
+                subdivisions?.length == 0 || !orgSelected || !divisionSelected
+              }
+              items={subdivisions}
+              selectedItem={subdivisionSelected}
+              onChange={(currentValue) =>
+                setSearchParams("subdivision", currentValue)
+              }
+            />
+            <div className="flex-grow flex justify-end">
+              {Object.keys(rowSelection).length > 0 && (
+                <Button
+                  onClick={copySelectedEmails}
+                  variant={"primary"}
+                  size={"sm"}
+                >
+                  <CopyIcon />
+                  Copy selected email
+                </Button>
+              )}
             </div>
-            {Object.keys(rowSelection).length > 0 && (
-              <Button
-                onClick={copySelectedEmails}
-                variant={"primary"}
-                size={"sm"}
-                // TODO: check why height must be passed externally
-                className="h-[32px]"
-              >
-                <CopyIcon />
-                Copy selected email
-              </Button>
-            )}
           </div>
 
           <DataTable
