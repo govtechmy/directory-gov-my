@@ -36,6 +36,7 @@ import CrossX from "@/icons/cross-x";
 import CopyIcon from "@/icons/copy";
 import useToast from "@/hooks/use-toast";
 import { AutoToast } from "@/components/ui/toast";
+import ArrowOutgoing from "@/icons/arrow-outgoing";
 
 export default function Home({
   lng,
@@ -99,22 +100,11 @@ export default function Home({
       header: t("directory.table_header.nama"),
       accessorKey: "person_name",
       id: "person_name",
-      cell: ({ getValue, row }) => (
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="tertiary">{(getValue() as string) ?? "—"}</Button>
-          </DialogTrigger>
-          <DialogContent className="p-0 gap-0 max-w-[600px]">
-            <DialogHeader className="p-6 border-b border-outline-200">
-              <DialogTitle>Profil Penjawat Awam</DialogTitle>
-            </DialogHeader>
-            <Profile lng={lng} {...row.original} />
-          </DialogContent>
-        </Dialog>
-      ),
+      cell: ({ getValue }) => (getValue() as string) ?? "—",
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
         cellClass: "border-r sticky bg-background left-0 z-10 sm:py-1.5",
+        expandable: true,
       },
     },
     {
@@ -196,16 +186,59 @@ export default function Home({
       id: "person_email",
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5 whitespace-nowrap">
-          <input
-            type="checkbox"
-            checked={row.getIsSelected()}
-            disabled={!row.getCanSelect()}
-            onChange={row.getToggleSelectedHandler()}
-            className="w-4 h-4"
-          />
+          {
+            // falsy email value cannot be selected to be copied
+            row.getValue("person_email") ? (
+              <input
+                type="checkbox"
+                checked={row.getIsSelected()}
+                disabled={!row.getCanSelect()}
+                onChange={row.getToggleSelectedHandler()}
+                className="w-4 h-4"
+              />
+            ) : (
+              <input
+                type="checkbox"
+                checked={false}
+                disabled={true}
+                className="w-4 h-4"
+              />
+            )
+          }
           {row.getValue("person_email") ?? "—"}
         </div>
       ),
+      meta: {
+        // TODO: Why 95px
+        headerClass: "sticky bg-background right-[95px] border-l",
+        cellClass: "sticky bg-background right-[95px] border-l",
+      },
+    },
+    {
+      id: "profile_info",
+      size: 100,
+      cell: ({ row }) => (
+        <>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="tertiary">
+                <ArrowOutgoing className="size-[16px]" />
+                Profil
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="p-0 gap-0 max-w-[600px]">
+              <DialogHeader className="p-6 border-b border-outline-200">
+                <DialogTitle>Profil Penjawat Awam</DialogTitle>
+              </DialogHeader>
+              <Profile lng={lng} {...row.original} />
+            </DialogContent>
+          </Dialog>
+        </>
+      ),
+      meta: {
+        headerClass: "sticky bg-background right-0 border-l sm:py-1.5",
+        cellClass: "sticky bg-background right-0 border-l sm:py-1.5",
+      },
     },
   ];
 
@@ -279,44 +312,55 @@ export default function Home({
 
       <Section>
         <div className="w-full border-washed-100 py-12 lg:border-x lg:px-6">
-          <div className="flex flex-wrap flex-col gap-3 sm:flex-row sm:gap-x-4 sm:pb-4">
-            <DirektoriFilter
-              lng={lng}
-              subtitle={t("directory.table_header.kementerian")}
-              disabled={orgs?.length == 0}
-              items={orgs}
-              selectedItem={orgSelected}
-              onChange={(currentValue) => setSearchParams("org", currentValue)}
-            />
-            <DirektoriFilter
-              lng={lng}
-              subtitle={t("directory.table_header.bhg")}
-              disabled={divisions?.length == 0 || !orgSelected}
-              items={divisions}
-              selectedItem={divisionSelected}
-              onChange={(currentValue) =>
-                setSearchParams("division", currentValue)
-              }
-            />
-            <DirektoriFilter
-              lng={lng}
-              subtitle={t("directory.table_header.seksyen")}
-              disabled={
-                subdivisions?.length == 0 || !orgSelected || !divisionSelected
-              }
-              items={subdivisions}
-              selectedItem={subdivisionSelected}
-              onChange={(currentValue) =>
-                setSearchParams("subdivision", currentValue)
-              }
-            />
+          <div className="flex justify-between">
+            <div className="flex flex-wrap flex-col gap-3 sm:flex-row sm:gap-x-4 sm:pb-4">
+              <DirektoriFilter
+                lng={lng}
+                subtitle={t("directory.table_header.kementerian")}
+                disabled={orgs?.length == 0}
+                items={orgs}
+                selectedItem={orgSelected}
+                onChange={(currentValue) =>
+                  setSearchParams("org", currentValue)
+                }
+              />
+              <DirektoriFilter
+                lng={lng}
+                subtitle={t("directory.table_header.bhg")}
+                disabled={divisions?.length == 0 || !orgSelected}
+                items={divisions}
+                selectedItem={divisionSelected}
+                onChange={(currentValue) =>
+                  setSearchParams("division", currentValue)
+                }
+              />
+              <DirektoriFilter
+                lng={lng}
+                subtitle={t("directory.table_header.seksyen")}
+                disabled={
+                  subdivisions?.length == 0 || !orgSelected || !divisionSelected
+                }
+                items={subdivisions}
+                selectedItem={subdivisionSelected}
+                onChange={(currentValue) =>
+                  setSearchParams("subdivision", currentValue)
+                }
+              />
+            </div>
             {Object.keys(rowSelection).length > 0 && (
-              <Button onClick={copySelectedEmails} variant={"primary"}>
+              <Button
+                onClick={copySelectedEmails}
+                variant={"primary"}
+                size={"sm"}
+                // TODO: check why height must be passed externally
+                className="h-[32px]"
+              >
                 <CopyIcon />
                 Copy selected email
               </Button>
             )}
           </div>
+
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
