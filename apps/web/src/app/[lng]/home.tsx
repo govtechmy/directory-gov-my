@@ -87,7 +87,6 @@ export default function Home({
       toast({
         variant: "success",
         title: "Emails copied!",
-        // description: "this is a description",
       });
       // Show success message
     } catch (err) {
@@ -168,7 +167,7 @@ export default function Home({
             checkboxRef.current.indeterminate =
               table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected();
           }
-        }, [table.getIsSomeRowsSelected(), table.getIsAllRowsSelected()]);
+        }, [table]);
         return (
           <div className="flex items-center gap-2.5 whitespace-nowrap">
             <input
@@ -190,6 +189,7 @@ export default function Home({
             // falsy email value cannot be selected to be copied
             row.getValue("person_email") ? (
               <input
+                id={row.id}
                 type="checkbox"
                 checked={row.getIsSelected()}
                 disabled={!row.getCanSelect()}
@@ -205,11 +205,12 @@ export default function Home({
               />
             )
           }
-          {row.getValue("person_email") ?? "—"}
+          <label htmlFor={row.id} className="cursor-pointer select-none">
+            {row.getValue("person_email") ?? "—"}
+          </label>
         </div>
       ),
       meta: {
-        // TODO: Why 95px
         headerClass: "sticky bg-background right-0 border-l",
         cellClass: "sticky bg-background right-0 border-l",
       },
