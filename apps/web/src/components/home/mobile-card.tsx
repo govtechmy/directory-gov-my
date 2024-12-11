@@ -83,7 +83,7 @@ export default function MobileCard({
 
       {person_email && (
         <div
-          className="flex items-center gap-x-1.5"
+          className="flex items-center gap-x-1.5 cursor-pointer select-none"
           onClick={() => copySelectedEmails(person_email)}
         >
           <Envelope className="text-outline-400" />
