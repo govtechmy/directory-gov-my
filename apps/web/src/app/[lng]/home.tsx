@@ -385,7 +385,7 @@ export default function Home({
             />
           </div>
         </div>
-        <AutoToast duration={10000} />
+        <AutoToast />
       </Section>
     </main>
   );
