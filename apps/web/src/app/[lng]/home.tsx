@@ -171,13 +171,19 @@ export default function Home({
         return (
           <div className="flex items-center gap-2.5 whitespace-nowrap">
             <input
+              id="email-header"
               type="checkbox"
               checked={table.getIsAllRowsSelected()}
               ref={checkboxRef}
               onChange={table.getToggleAllRowsSelectedHandler()}
               className="w-4 h-4"
             />
-            {t("directory.table_header.emel")}
+            <label
+              htmlFor="email-header"
+              className="cursor-pointer select-none"
+            >
+              {t("directory.table_header.emel")}
+            </label>
           </div>
         );
       },
