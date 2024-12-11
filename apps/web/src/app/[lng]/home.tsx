@@ -250,7 +250,7 @@ export default function Home({
       id: "person_name",
       cell: ({ row }) => (
         <MobileCard lng={lng} {...row.original}>
-          <Sheet>
+          {/* <Sheet>
             <SheetTrigger asChild>
               <Button variant="tertiary-colour">Profile</Button>
             </SheetTrigger>
@@ -270,7 +270,7 @@ export default function Home({
                 <Profile lng={lng} {...row.original} />
               </SheetContent>
             </SheetPortal>
-          </Sheet>
+          </Sheet> */}
         </MobileCard>
       ),
     },
@@ -368,7 +368,6 @@ export default function Home({
             setRowSelection={setRowSelection}
             copyEmail={handleCopyRows}
           />
-          <AutoToast duration={2000} />
           <div className="flex items-center justify-center gap-2 pt-8">
             <Paginate
               currentPage={currentPage}
@@ -380,6 +379,7 @@ export default function Home({
             />
           </div>
         </div>
+        <AutoToast duration={10000} />
       </Section>
     </main>
   );

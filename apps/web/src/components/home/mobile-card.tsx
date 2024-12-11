@@ -6,6 +6,7 @@ import Envelope from "@/icons/envelope";
 import Printer from "@/icons/printer";
 import { Kakitangan } from "@/lib/types/kakitangan";
 import { ReactNode } from "react";
+import useToast from "@/hooks/use-toast";
 
 export default function MobileCard({
   lng,
@@ -26,6 +27,21 @@ export default function MobileCard({
     org_id,
     org_name,
   } = kakitangan;
+
+  const { toast } = useToast();
+
+  const copySelectedEmails = async (email: string) => {
+    try {
+      await navigator.clipboard.writeText(email);
+      toast({
+        variant: "success",
+        title: "Emails copied!",
+      });
+      // Show success message
+    } catch (err) {
+      // Handle error
+    }
+  };
 
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500">
@@ -66,7 +82,10 @@ export default function MobileCard({
       ) : null}
 
       {person_email && (
-        <div className="flex items-center gap-x-1.5">
+        <div
+          className="flex items-center gap-x-1.5"
+          onClick={() => copySelectedEmails(person_email)}
+        >
           <Envelope className="text-outline-400" />
           <span>{person_email}</span>
         </div>
