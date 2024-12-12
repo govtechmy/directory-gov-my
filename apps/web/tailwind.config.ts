@@ -140,23 +140,6 @@ const config: Config = {
           900: "oklch(var(--black-900) / <alpha-value>)",
         },
 
-        // Replace them in the theme.colors section
-        // success: {
-        //   50: "oklch(var(--success-50) / <alpha-value>)",
-        //   200: "oklch(var(--success-200) / <alpha-value>)",
-        //   300: "oklch(var(--success-300) / <alpha-value>)",
-        //   600: colors.green[600],
-        //   700: colors.green[700],
-        // },
-        // danger: {
-        //   50: "oklch(var(--danger-50)/<alpha-value>)",
-        //   100: "oklch(var(--danger-200)/<alpha-value>)",
-        //   200: "oklch(var(--danger-200)/<alpha-value>)",
-        //   300: "oklch(var(--danger-300)/<alpha-value>)",
-        //   600: colors.red[600],
-        //   700: colors.red[700],
-        // },
-
         // From MyDS
         "bg-white": "rgb(var(--bg-white))",
         "bg-white-hover": "rgba(var(--bg-white-hover))",
@@ -287,7 +270,6 @@ const config: Config = {
       },
       spacing: {
         4.5: "18px",
-        "2.5": "0.625rem",
       },
       borderRadius: {
         xs: "4px",
