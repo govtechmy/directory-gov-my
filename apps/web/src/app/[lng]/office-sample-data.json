@@ -1,0 +1,509 @@
+[
+  {
+    "org_id": "JPM",
+    "org_name": "JABATAN PERDANA MENTERI",
+    "org_address": "Setia Perdana 8, Kompleks Setia Perdana,\nPusat Pentadbiran Kerajaan Persekutuan,\n62502 Putrajaya, Malaysia.",
+    "org_phone": "603-8000 8000",
+    "org_fax": "603-8888 3904",
+    "org_email": "webadmin@jpm.gov.my",
+    "org_website": "https://www.jpm.gov.my/index.php/ms",
+    "social_media": {
+      "facebook": "https://www.facebook.com/Jab.PerdanaMenteri/",
+      "twitter": "https://x.com/jpmgov_",
+      "instagram": "https://www.instagram.com/jabatanperdanamenteri/",
+      "tiktok": "https://www.tiktok.com/@jpmgov",
+      "youtube": "https://www.youtube.com/@jpmgov_/videos",
+      "whatsapp": "https://www.whatsapp.com/channel/0029VaPUCZoHFxP3jEeZ7o2i"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOF",
+    "org_name": "KEMENTERIAN KEWANGAN",
+    "org_address": "Kementerian Kewangan\nNo. 5 Persiaran Perdana, Presint 2,\nPusat Pentadbiran Kerajaan Persekutuan,\n62592 WP Putrajaya.",
+    "org_phone": "03-8000 8000",
+    "org_fax": "03-88823893 / 03-88823894",
+    "org_email": null,
+    "org_website": "https://www.mof.gov.my/portal/ms/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KemKewangan",
+      "twitter": "https://x.com/mofmalaysia",
+      "youtube": "https://www.youtube.com/MOFMalaysia19",
+      "instagram": "https://www.instagram.com/mof_malaysia/"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "RURALLINK",
+    "org_name": "KEMENTERIAN KEMAJUAN DESA DAN WILAYAH",
+    "org_address": "No 47, Persiaran Perdana, Presint 4,\nPusat Pentadbiran Kerajaan Persekutuan\n62100 Putrajaya, Malaysia",
+    "org_phone": "03-8000 8000",
+    "org_fax": null,
+    "org_email": "info@rurallink.gov.my",
+    "org_website": "https://www.rurallink.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/kkdwofficial",
+      "twitter": "https://twitter.com/kplb_gov",
+      "youtube": "https://www.youtube.com/@KKDWGOVOfficial",
+      "instagram": "https://www.instagram.com/kkdw_gov/"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "PETRA",
+    "org_name": "KEMENTERIAN PERALIHAN TENAGA DAN TRANSFORMASI AIR",
+    "org_address": "Menara PETRA,\nNo.25 Persiaran Perdana,\nPresint 4, 62574, Putrajaya,\nMalaysia.",
+    "org_phone": "03-8000 8000",
+    "org_fax": null,
+    "org_email": "info@petra.gov.my",
+    "org_website": "www.petra.gov.my",
+    "social_media": {
+      "facebook": "https://www.facebook.com/K.PETRAMalaysia/",
+      "twitter": "https://x.com/PETRAMalaysia",
+      "instagram": "https://www.instagram.com/petramalaysia/",
+      "tiktok": "https://www.tiktok.com/@petramalaysia"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOT",
+    "org_name": "MINISTRY OF TRANSPORT",
+    "org_address": "No. 26, Jalan Tun Hussein, Presint 4,\n62100 W.P. Putrajaya",
+    "org_phone": "03-8000 8000",
+    "org_fax": "03-8888 0158",
+    "org_email": "aduan@mot.gov.my",
+    "org_website": "https://www.mot.gov.my/my",
+    "social_media": {
+      "facebook": "https://www.facebook.com/motmalaysia/",
+      "twitter": "https://x.com/MOTMalaysia",
+      "instagram": "https://www.instagram.com/ministryoftransportmy/"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KPKM",
+    "org_name": "KEMENTERIAN PERTANIAN DAN KETERJAMINAN MAKANAN",
+    "org_address": "Wisma Tani,\nNo. 28, Persiaran Perdana,\nPresint 4, Pusat Pentadbiran,\nKerajaan Persekutuan, 62624 Putrajaya.",
+    "org_phone": "03-8000 8000",
+    "org_fax": null,
+    "org_email": "pro@kpkm.gov.my",
+    "org_website": "https://www.kpkm.gov.my/bm/utama",
+    "social_media": {
+      "facebook": "https://www.facebook.com/kpkmmalaysia/",
+      "twitter": "https://x.com/kpkmmalaysia",
+      "instagram": "https://www.instagram.com/kpkmmalaysia/",
+      "tiktok": "https://www.tiktok.com/@kpkmmalaysia",
+      "threads": "https://www.threads.net/@kpkmmalaysia"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "EKONOMI",
+    "org_name": "KEMENTERIAN EKONOMI",
+    "org_address": "Menara Prisma\nNo. 26, Persiaran Perdana, Presint 3\nPusat Pentadbiran Kerajaan Persekutuan\n62675 Putrajaya",
+    "org_phone": "603 8090 2094 / 2095",
+    "org_fax": null,
+    "org_email": "ukk@ekonomi.gov.my",
+    "org_website": "https://www.ekonomi.gov.my/ms",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KementerianEkonomi",
+      "twitter": "https://x.com/EkonomiMalaysia",
+      "youtube": "https://www.youtube.com/@kementerianekonomimalaysia"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KPKT",
+    "org_name": "KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN",
+    "org_address": "No. 51, Persiaran Perdana,\nPresint 4, 62100 Putrajaya.",
+    "org_phone": "603-8000 8000",
+    "org_fax": "603-8891 3182",
+    "org_email": "pro@kpkt.gov.my",
+    "org_website": "https://www.kpkt.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KPKTMalaysia/?fref=ts",
+      "twitter": "https://x.com/kpkt_gov",
+      "instagram": "https://www.instagram.com/kpkt/",
+      "youtube": "https://www.youtube.com/channel/UC1E_1jNvmTEirTHAjpFZY4g",
+      "rss": "https://www.kpkt.gov.my/index.php/pages/view/909",
+      "radio": "https://radio.kpkt.gov.my/"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KLN",
+    "org_name": "KEMENTERIAN LUAR NEGARA MALAYSIA",
+    "org_address": "Kompleks Wisma Putra\nNo. 1, Jalan Wisma Putra\nPresint 2,\nPusat Pentadbiran Kerajaan Persekutuan\n62602 Putrajaya\nMalaysia",
+    "org_phone": "603-8000 8000",
+    "org_fax": "603-8889 1717/2816",
+    "org_email": "pro.ukk@kln.gov.my",
+    "org_website": "http://www.kln.gov.my",
+    "social_media": {
+      "facebook": "https://www.facebook.com/MOFAMalaysia/",
+      "twitter": "https://x.com/malaysiamfa?lang=en",
+      "instagram": "https://www.instagram.com/mofamalaysia/?hl=en",
+      "tiktok": "https://www.tiktok.com/@kln_wp?_t=8k3vf9yM3Pt&_r=1",
+      "youtube": "https://www.youtube.com/@wismaputramalaysia",
+      "telegram": "https://t.me/MOFAMalaysia"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KKR",
+    "org_name": "KEMENTERIAN KERJA RAYA",
+    "org_address": "Tingkat 1-14, Kompleks Kerja Raya,\nJalan Sultan Salahuddin,\n50580 Kuala Lumpur",
+    "org_phone": "03 8000 8000",
+    "org_fax": "(603) - 2711 3320",
+    "org_email": "pro@kkr.gov.my",
+    "org_website": "https://www.kkr.gov.my/ms/laman-utama",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KementerianKerjaRaya/",
+      "twitter": "https://twitter.com/MOWorks",
+      "instagram": "https://www.instagram.com/kkr_malaysia/",
+      "tiktok": "https://www.tiktok.com/@kementeriankerjaraya",
+      "youtube": "https://www.youtube.com/c/KementerianKerjaRayaMalaysiaOfficial"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOHA",
+    "org_name": "KEMENTERIAN DALAM NEGARA",
+    "org_address": "Setia Perkasa 1, 2, 7 & 9, Kompleks Setia Perkasa\nPusat Pentadbiran Kerajaan Persekutuan,\n62546 Putrajaya",
+    "org_phone": "03 8000 8000",
+    "org_fax": "03-88891613 / 03-88891610",
+    "org_email": "pro@moha.gov.my",
+    "org_website": "https://www.moha.gov.my/index.php/ms/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/kementeriandalamnegeri",
+      "twitter": "https://x.com/KDNPUTRAJAYA"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MITI",
+    "org_name": "MINISTRY OF INVESTMENT, TRADE AND INDUSTRY (MITI)",
+    "org_address": "Menara MITI,\nNo. 7, Jalan Sultan Haji Ahmad Shah,\n50480 Kuala Lumpur, Malaysia.",
+    "org_phone": "03 8000 8000",
+    "org_fax": "03-6206 4693",
+    "org_email": "webmiti@miti.gov.my",
+    "org_website": "https://www.miti.gov.my",
+    "social_media": {
+      "facebook": "https://www.facebook.com/MITIMalaysia",
+      "twitter": "https://x.com/MITIMalaysia",
+      "instagram": "https://www.instagram.com/MITIMalaysia/",
+      "tiktok": "https://www.tiktok.com/@mitimalaysia",
+      "youtube": "https://www.youtube.com/MITIMalaysiayoutube",
+      "linkedin": "https://www.linkedin.com/company/ministry-of-investment-trade-industry-miti-malaysia/"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOD",
+    "org_name": "KEMENTERIAN PERTAHANAN MALAYSIA",
+    "org_address": "Jalan Padang Tembak\n50634 Kuala Lumpur\nMalaysia",
+    "org_phone": "(60)3-4019 9999",
+    "org_fax": null,
+    "org_email": "mindef@mod.gov.my",
+    "org_website": "https://www.mod.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KementerianPertahanan/",
+      "twitter": "https://x.com/MINDEFMalaysia",
+      "instagram": "https://www.instagram.com/mindefmalaysia/",
+      "tiktok": "https://www.tiktok.com/@mindefmalaysia",
+      "youtube": "https://www.youtube.com/c/KementerianPertahananMalaysia"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOSTI",
+    "org_name": "KEMENTERIAN SAINS, TEKNOLOGI DAN INOVASI",
+    "org_address": "Aras 1-7, Blok C4 & C5, Kompleks C,\nPusat Pentadbiran Kerajaan Persekutuan,\n62662 Putrajaya, Malaysia",
+    "org_phone": "(603) 8000 8000",
+    "org_fax": "(603) 8888 9070",
+    "org_email": "enquiry@mosti.gov.my",
+    "org_website": "https://www.mosti.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/officialmosti",
+      "twitter": "https://x.com/officialmosti",
+      "instagram": "https://www.instagram.com/officialmosti/",
+      "youtube": "https://www.youtube.com/user/onemosti"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KPWKM",
+    "org_name": "KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT",
+    "org_address": "No 55, Persiaran Perdana Presint 4,\n62100 Putrajaya,\nMalaysia.",
+    "org_phone": "+603-8000 8000",
+    "org_fax": "+603-8323 2037",
+    "org_email": "info@kpwkm.gov.my",
+    "org_website": "https://www.kpwkm.gov.my/kpwkm/index.php",
+    "social_media": {
+      "facebook": "https://www.facebook.com/kpwkm",
+      "twitter": "https://x.com/kpwkm?lang=en"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "NRES",
+    "org_name": "KEMENTERIAN SUMBER ASLI DAN KELESTARIAN ALAM",
+    "org_address": "Blok F11, Kompleks F\nLebuh Perdana Timur, Presint 1\n62000, Putrajaya, Malaysia",
+    "org_phone": "+603 8091 7000",
+    "org_fax": null,
+    "org_email": "aduan@nrecc.gov.my",
+    "org_website": "https://www.nres.gov.my/ms-my/Pages/default.aspx",
+    "social_media": {
+      "facebook": "https://www.facebook.com/nresmalaysia",
+      "twitter": "https://twitter.com/nresmalaysia",
+      "instagram": "https://www.instagram.com/nresmalaysia",
+      "tiktok": "https://www.tiktok.com/@nresmalaysia",
+      "youtube": "https://www.youtube.com/katsmalaysia"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KUSKOP",
+    "org_name": "KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI",
+    "org_address": "Blok E4/5, Kompleks Kerajaan Parcel E,\nPusat Pentadbiran Kerajaan Persekutuan,\n62668 Putrajaya, Malaysia.",
+    "org_phone": "03-8000 8000",
+    "org_fax": "03-8889 3712",
+    "org_email": "korporat@kuskop.gov.my",
+    "org_website": "https://www.kuskop.gov.my/index.php",
+    "social_media": {
+      "facebook": "https://www.facebook.com/OfficialKUSKOPMalaysia/",
+      "twitter": "https://x.com/KUSKOPMalaysia",
+      "instagram": "https://www.instagram.com/officialmedmalaysia/",
+      "youtube": "https://www.youtube.com/channel/UCTjjbfdeUbkBg6c5NRwO0Lg/video"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KPT",
+    "org_name": "KEMENTERIAN PENDIDIKAN TINGGI",
+    "org_address": "No. 2, Menara 2,\nJalan P5/6, Presint 5,\n62200 Putrajaya, Malaysia",
+    "org_phone": "+603 8000 8000",
+    "org_fax": "+603 8000 8001",
+    "org_email": "80008000@mygcc.gov.my",
+    "org_website": "https://www.mohe.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/MOHEOfficial/",
+      "twitter": "https://x.com/moheofficial?lang=en",
+      "instagram": "https://www.instagram.com/mohe.official/",
+      "youtube": "https://www.youtube.com/channel/UCzqgghAktWioBL_P7oRAXCg"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOTAC",
+    "org_name": "KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA",
+    "org_address": "No. 2, Menara 1, Jalan P5/6\nPresint 5\n62200 Putrajaya",
+    "org_phone": "03 8000 8000",
+    "org_fax": "03 8891 7100",
+    "org_email": "info@motac.gov.my",
+    "org_website": "https://www.motac.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/MyMOTAC",
+      "twitter": "https://x.com/MyMOTAC",
+      "instagram": "https://www.instagram.com/MyMOTAC/"
+    },
+    "org_operating_hours": {
+      "weekdays": {
+        "monday_to_thursday": {
+          "hours": "7:30 AM - 5:30 PM",
+          "break_time": "1:00 PM - 2:00 PM"
+        },
+        "friday": {
+          "morning": "7:30 AM - 12:15 PM",
+          "break_time": "12:15 PM - 2:45 PM",
+          "afternoon": "2:45 PM - 5:30 PM"
+        }
+      },
+      "counter_service_hours": {
+        "monday_to_thursday": {
+          "hours": "8:30 AM - 4:30 PM",
+          "break_time": "1:00 PM - 2:00 PM"
+        },
+        "friday": {
+          "morning": "8:30 AM - 12:15 PM",
+          "break_time": "12:15 PM - 2:45 PM",
+          "afternoon": "2:45 PM - 4:30 PM"
+        },
+        "note": "Counter payment service closes at 4:00 PM"
+      }
+    }
+  },
+  {
+    "org_id": "KOMUNIKASI",
+    "org_name": "KEMENTERIAN KOMUNIKASI",
+    "org_address": "Lot 4G9, Persiaran Perdana, Presint 4,\nPusat Pentadbiran Kerajaan Persekutuan,\n62100, Putrajaya",
+    "org_phone": "03-80008000",
+    "org_fax": "03-89115183",
+    "org_email": "webmaster@komunikasi.gov.my",
+    "org_website": "https://www.komunikasi.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KEMENTERIANKOMUNIKASI",
+      "twitter": "https://x.com/komunikasi_gov",
+      "instagram": "https://www.instagram.com/komunikasi_gov/",
+      "tiktok": "https://www.youtube.com/@komunikasi_gov/videos",
+      "youtube": "https://www.tiktok.com/@komunikasi_gov?lang=en"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOE",
+    "org_name": "KEMENTERIAN PENDIDIKAN MALAYSIA",
+    "org_address": "Blok E8, Kompleks E,\nPusat Pentadbiran Kerajaan Persekutuan,\n62604 Putrajaya, Malaysia.",
+    "org_phone": "03-8884 6456",
+    "org_fax": null,
+    "org_email": "adukpm@moe.gov.my",
+    "org_website": "https://www.moe.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KemPendidikan/",
+      "twitter": "https://x.com/kempendidikan",
+      "instagram": "https://www.instagram.com/kempendidikan/",
+      "youtube": "https://www.youtube.com/results?search_query=kementerian+pendidikan+malaysia",
+      "rss": "https://www.moe.gov.my/feed"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KPN",
+    "org_name": "KEMENTERIAN PERPADUAN NEGARA",
+    "org_address": "Aras 5-10, Blok F9, Kompleks F, Lebuh Perdana Timur A,\nPresint 1, 62000, Wilayah Persekutuan Putrajaya.",
+    "org_phone": "+603-8091 8000",
+    "org_fax": null,
+    "org_email": "pro@perpaduan.gov.my",
+    "org_website": [
+      "https://www.perpaduan.gov.my/index.php/bm/",
+      "https://perpaduan.spab.gov.my"
+    ],
+    "social_media": {
+      "facebook": "https://www.facebook.com/PerpaduanNegara",
+      "twitter": "https://x.com/PerpaduanNegara",
+      "instagram": "https://www.instagram.com/perpaduannegara/",
+      "youtube": "https://www.youtube.com/channel/UCGcsPzjDxzp_XUivH93WDwQ",
+      "rss": "https://www.perpaduan.gov.my/index.php/bm/perkhidmatann/perkhidmatan-lainn/e-penyertaann/rss"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KBS",
+    "org_name": "Kementerian Belia dan Sukan Malaysia",
+    "org_address": "Menara KBS\nNo 27 Persiaran Perdana,\nPresint 4, Pusat Pentadbiran Kerajaan Persekutuan\n62570 Putrajaya Malaysia",
+    "org_phone": "03-8871 3000",
+    "org_fax": null,
+    "org_email": null,
+    "org_website": "https://www.kbs.gov.my/",
+    "social_media": {
+      "instagram": "https://www.instagram.com/kbsmalaysia/"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "JWP",
+    "org_name": "Kementerian Wilayah Persekutuan",
+    "org_address": "Jabatan Wilayah Persekutuan\nJabatan Perdana Menteri\nBlok 1 & Blok 2, Menara Seri Wilayah\nPresint 2, 62100 Putrajaya",
+    "org_phone": "03-8000 8000",
+    "org_fax": "03-8889 7957",
+    "org_email": "webmaster@jwp.gov.my",
+    "org_website": "https://www.jwp.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/JWPJPM",
+      "twitter": "https://twitter.com/kwp_my",
+      "instagram": "https://www.instagram.com/wilayahpersekutuan",
+      "tiktok": "https://www.tiktok.com/@kwp.my",
+      "youtube": "https://www.youtube.com/c/KWPBKK"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KPDN",
+    "org_name": "Kementerian Perdagangan Dalam Negeri dan Kos Sara Hidup",
+    "org_address": "No. 13, Persiaran Perdana, Presint 2,\n62623 Putrajaya,\nWilayah Persekutuan Putrajaya.",
+    "org_phone": "03-8000 8000",
+    "org_fax": null,
+    "org_email": null,
+    "org_website": "https://www.kpdn.gov.my/ms/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/kpdnksh/",
+      "twitter": "https://x.com/kpdn_hq",
+      "instagram": "https://www.instagram.com/kpdnhep/",
+      "tiktok": "https://www.tiktok.com/@kpdnlamanrasmi",
+      "youtube": "https://www.youtube.com/user/kpdnkktvs"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "KPK",
+    "org_name": "KEMENTERIAN PERLADANGAN DAN KOMODITI",
+    "org_address": "No. 15, Level 5-13\nPersiaran Perdana, Presint 2\n62654 Putrajaya, Malaysia",
+    "org_phone": "603 8000 8000",
+    "org_fax": "603 8880 3482",
+    "org_email": "portalmaster@kpk.gov.my",
+    "org_website": "https://www.kpk.gov.my/kpk/",
+    "social_media": {
+      "youtube": "https://www.kpk.gov.my/kpk/youtube-list"
+    },
+    "org_operating_hours": {
+      "weekdays": {
+        "monday_to_thursday": {
+          "hours": "8:30 AM - 5:30 PM",
+          "break_time": "1:00 PM - 2:00 PM"
+        },
+        "friday": {
+          "morning": "8:30 AM - 12:15 PM",
+          "break_time": "12:15 PM - 2:45 PM",
+          "afternoon": "2:45 PM - 5:30 PM"
+        }
+      }
+    }
+  },
+  {
+    "org_id": "DIGITAL",
+    "org_name": "Kementerian Digital",
+    "org_address": "Aras 13, 14 & 15, Blok Menara, Menara Usahawan\nNo. 18, Persiaran Perdana, Presint 2\nPusat Pentadbiran Kerajaan Persekutuan\n62000 Putrajaya, Malaysia",
+    "org_phone": "+603-8000 8000",
+    "org_fax": null,
+    "org_email": "webmaster@digital.gov.my",
+    "org_website": "https://www.digital.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/KementerianDigitalMalaysia/",
+      "twitter": "https://x.com/KemDigitalMsia",
+      "instagram": "https://www.instagram.com/kementeriandigitalmalaysia/",
+      "tiktok": "https://www.tiktok.com/@kementeriandigital"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOH",
+    "org_name": "Kementerian Kesihatan Malaysia",
+    "org_address": "Kompleks E, Blok E1, E3, E6, E7 & E10,\nPusat Pentadbiran Kerajaan Persekutuan,\n62590 Putrajaya, Wilayah Persekutuan Putrajaya",
+    "org_phone": "+603-8000 8000",
+    "org_fax": null,
+    "org_email": "ukk_khpgn@moh.gov.my",
+    "org_website": "https://www.moh.gov.my/",
+    "social_media": {
+      "facebook": "https://www.facebook.com/kementeriankesihatanmalaysia",
+      "twitter": "https://twitter.com/KKMPutrajaya",
+      "instagram": "https://www.instagram.com/kementeriankesihatanmalaysia/",
+      "youtube": "https://www.youtube.com/c/KementerianKesihatanMalaysia"
+    },
+    "org_operating_hours": null
+  },
+  {
+    "org_id": "MOHR",
+    "org_name": "Kementerian Sumber Manusia",
+    "org_address": {
+      "location1": "Blok D3 & D4, Kompleks D\n62530, PUTRAJAYA",
+      "location2": "Setia Perkasa 3 & 4,\nKompleks Setia Perkasa,\n62530 W.P.Putrajaya"
+    },
+    "org_phone": "+603-8000 8000",
+    "org_fax": "03-88891613 / 03-88891610",
+    "org_email": "aduan.ukk@mohr.gov.my",
+    "org_website": null,
+    "social_media": {
+      "facebook": "https://www.facebook.com/p/Kementerian-Sumber-Manusia-100064677642888/"
+    },
+    "org_operating_hours": null
+  }
+]
