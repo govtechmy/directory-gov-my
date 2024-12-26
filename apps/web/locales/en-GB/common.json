@@ -16,7 +16,10 @@
   },
   "header": {
     "site": "Directory",
-    "home": "Home"
+    "home": "Home",
+    "staff": "Staff",
+    "directory": "Directory",
+    "dasar": "Policy"
   },
   "theme": {
     "toggle_dark": "Toggle dark mode",

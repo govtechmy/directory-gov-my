@@ -16,7 +16,10 @@
   },
   "header": {
     "site": "Direktori",
-    "home": "Utama"
+    "home": "Utama",
+    "staff": "Kakitangan",
+    "directory": "Alamat",
+    "dasar": "Dasar"
   },
   "theme": {
     "toggle_dark": "Tukar kepada mod gelap",
