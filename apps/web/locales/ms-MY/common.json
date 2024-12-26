@@ -83,6 +83,29 @@
       "search_placeholder": "Taip untuk cari"
     }
   },
+  "alamat": {
+    "header": "Direktori Alamat",
+    "search_placeholder": "Cari kata kunci (pejabat, no tel, emel)",
+    "table_header": {
+      "nama": "Nama",
+      "alamat": "Alamat",
+      "kementerian": "Kementerian/Agensi",
+      "bhg": "Bahagian",
+      "seksyen": "Seksyen/Unit",
+      "negeri": "Negeri/Wilayah",
+      "daerah": "Daerah/Kawasan",
+      "jenis": "Jenis",
+      "waktu": "Waktu Operasi",
+      "telefon": "No. Telefon",
+      "fax": "No. Faks",
+      "emel": "Emel",
+      "website": "Website"
+    },
+    "dropdown_title": {
+      "kementerian": "Kementerian",
+      "negeri": "Negeri"
+    }
+  },
   "datepicker": {
     "from": "Dari",
     "to": "Hingga"

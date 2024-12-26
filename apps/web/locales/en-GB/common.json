@@ -80,6 +80,29 @@
       "search_placeholder": "Type to search"
     }
   },
+  "alamat": {
+    "header": "Address Directory",
+    "search_placeholder": "Search for keyword (e.g. office, telephone number, email)",
+    "table_header": {
+      "nama": "Name",
+      "alamat": "Address",
+      "kementerian": "Ministry/ Agency",
+      "bhg": "Division",
+      "seksyen": "Section/Unit",
+      "negeri": "State/Region",
+      "daerah": "District/Area",
+      "jenis": "Services",
+      "waktu": "Operating Hours",
+      "telefon": "Phone No.",
+      "fax": "Fax No.",
+      "emel": "Email",
+      "website": "Website"
+    },
+    "dropdown_title": {
+      "kementerian": "Ministry",
+      "negeri": "State"
+    }
+  },
   "datepicker": {
     "from": "From",
     "to": "To"
