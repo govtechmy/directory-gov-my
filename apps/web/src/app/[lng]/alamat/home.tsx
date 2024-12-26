@@ -70,7 +70,7 @@ export default function Home({
       },
     },
     {
-      header: t("alamat.table_header.address"),
+      header: t("alamat.table_header.alamat"),
       accessorKey: "address",
       id: "address",
       cell: ({ row }) => {
@@ -91,26 +91,24 @@ export default function Home({
           .filter(Boolean)
           .join("\n");
 
-        return <span style={{ whiteSpace: "pre-line" }}>{fullAddress}</span>;
+        return (
+          <div className="w-[400px]">
+            <span style={{ whiteSpace: "pre-line" }}>{fullAddress}</span>
+          </div>
+        );
       },
-      // meta: {
-      //   expandable: true,
-      // },
     },
     {
       header: t("alamat.table_header.kementerian"),
-      accessorKey: "org_name",
-      id: "org_name",
-      cell: ({ row }) => {
-        const { org_type, org_id, org_name } = row.original;
-        return org_type === "ministry" ? t(`org:${org_id}`) : org_name;
-      },
+      accessorKey: "name",
+      id: "agency_name",
+      cell: ({ getValue }) => (getValue() as string) ?? "—",
       meta: {
         expandable: true,
       },
     },
     {
-      header: t("directory.table_header.bhg"),
+      header: t("alamat.table_header.bhg"),
       accessorKey: "division_name",
       id: "division_name",
       cell: (row) => row.getValue() ?? "—",
@@ -119,64 +117,111 @@ export default function Home({
       },
     },
     {
-      header: t("directory.table_header.seksyen"),
-      accessorKey: "subdivision_name",
-      id: "subdivision_name",
+      header: t("alamat.table_header.seksyen"),
+      accessorKey: "section_name",
+      id: "section_name",
       cell: (row) => row.getValue() ?? "—",
       meta: {
         expandable: true,
       },
     },
     {
-      header: t("directory.table_header.telefon"),
-      accessorKey: "person_phone",
-      id: "person_phone",
+      header: t("alamat.table_header.negeri"),
+      accessorKey: "address.state",
+      id: "state_name",
+      cell: (row) => row.getValue() ?? "—",
+      meta: {
+        expandable: true,
+      },
+    },
+    {
+      header: t("alamat.table_header.daerah"),
+      accessorKey: "address.state", // TODO: ask for daerah
+      id: "state_name",
+      cell: (row) => row.getValue() ?? "—",
+      meta: {
+        expandable: true,
+      },
+    },
+    {
+      header: t("alamat.table_header.jenis"),
+      accessorKey: "address.state", // TODO: ask for jenis
+      id: "services_type",
+      cell: (row) => row.getValue() ?? "—",
+      meta: {
+        expandable: true,
+      },
+    },
+    {
+      header: t("alamat.table_header.waktu"),
+      accessorKey: "operating_hours",
+      id: "operating_hours",
+      cell: ({ row }) => {
+        const hours = row.original.operating_hours;
+        return (
+          <div className="w-[380px]">
+            <span style={{ whiteSpace: "pre-line" }}>{hours}</span>
+          </div>
+        );
+      },
+    },
+    {
+      header: t("alamat.table_header.telefon"),
+      accessorKey: "contact.phone",
+      id: "phone",
       cell: (row) => row.getValue() ?? "—",
     },
     {
-      header: t("directory.table_header.fax"),
-      accessorKey: "person_fax",
-      id: "person_fax",
+      header: t("alamat.table_header.fax"),
+      accessorKey: "contact.fax",
+      id: "fax",
       cell: (row) => row.getValue() ?? "—",
     },
     {
-      header: t("directory.table_header.emel"),
-      accessorKey: "person_email",
-      id: "person_email",
+      header: t("alamat.table_header.emel"),
+      accessorKey: "contact.email",
+      id: "email",
+      cell: (row) => row.getValue() ?? "—",
+    },
+    {
+      header: t("alamat.table_header.website"),
+      accessorKey: "contact.website",
+      id: "website",
       cell: (row) => row.getValue() ?? "—",
     },
   ];
 
   // TODO: Redo the ColumnDef
-  const mobileColumn: ColumnDef<Kakitangan>[] = [
+  const mobileColumn: ColumnDef<OfficeDirectory>[] = [
     {
       header: "",
       accessorKey: "person_name",
       id: "person_name",
       cell: ({ row }) => (
-        <MobileCard lng={lng} {...row.original}>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="tertiary-colour">Profile</Button>
-            </SheetTrigger>
-            <SheetPortal>
-              <SheetOverlay />
-              <SheetContent
-                side="bottom"
-                className="flex flex-col p-0 gap-0 min-h-0 max-h-[85dvh] max-sm:w-full"
-              >
-                <SheetHeader className="p-4.5 border-b border-outline-200">
-                  <SheetTitle>Profil Penjawat Awam</SheetTitle>
-                  <SheetClose className="absolute right-4 top-3.5">
-                    <CrossX className="size-4" />
-                    <span className="sr-only">Close</span>
-                  </SheetClose>
-                </SheetHeader>
-                <Profile lng={lng} {...row.original} />
-              </SheetContent>
-            </SheetPortal>
-          </Sheet>
-        </MobileCard>
+        // <MobileCard lng={lng} {...row.original}>
+        //   <Sheet>
+        //     <SheetTrigger asChild>
+        //       <Button variant="tertiary-colour">Profile</Button>
+        //     </SheetTrigger>
+        //     <SheetPortal>
+        //       <SheetOverlay />
+        //       <SheetContent
+        //         side="bottom"
+        //         className="flex flex-col p-0 gap-0 min-h-0 max-h-[85dvh] max-sm:w-full"
+        //       >
+        //         <SheetHeader className="p-4.5 border-b border-outline-200">
+        //           <SheetTitle>Profil Penjawat Awam</SheetTitle>
+        //           <SheetClose className="absolute right-4 top-3.5">
+        //             <CrossX className="size-4" />
+        //             <span className="sr-only">Close</span>
+        //           </SheetClose>
+        //         </SheetHeader>
+        //         <Profile lng={lng} {...row.original} />
+        //       </SheetContent>
+        //     </SheetPortal>
+        //   </Sheet>
+        // </MobileCard>
+        <div>abc</div>
       ),
     },
   ];
@@ -243,13 +288,13 @@ export default function Home({
             />
           </div>
           {/* TODO: The data pased */}
-          {/* <DataTable
+          <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
-            data={kakitangan}
+            data={officeDirectory}
             resizable={false}
             isMobile={isMobile}
-          /> */}
+          />
           <div className="flex items-center justify-center gap-2 pt-8">
             <Paginate
               currentPage={currentPage}

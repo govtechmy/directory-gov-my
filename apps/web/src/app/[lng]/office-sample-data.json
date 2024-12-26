@@ -457,29 +457,7 @@
       "tiktok": "-",
       "youtube": "-"
     },
-    "operating_hours": {
-      "weekdays": {
-        "days": "Isnin - Khamis",
-        "hours": "7.30 pg - 5.30 ptg",
-        "break": "1.00 ptg - 2.00 ptg"
-      },
-      "friday": {
-        "hours": "7.30 pg - 5.30 ptg",
-        "break": "12.15 tengahari - 2.45 ptg"
-      },
-      "counter_hours": {
-        "weekdays": {
-          "days": "Isnin - Khamis",
-          "hours": "8.30 pg - 4.30 ptg",
-          "break": "1.00 ptg - 2.00 ptg"
-        },
-        "friday": {
-          "hours": "8.30 pg - 4.30 ptg",
-          "break": "12.15 tengahari - 2.45 ptg"
-        },
-        "note": "Perkhidmatan kaunter pembayaran DITUTUP jam 4.00 petang"
-      }
-    }
+    "operating_hours": "Isnin - Khamis\n7.30 pg - 5.30 ptg\n1.00 ptg - 2.00 ptg (Waktu Rehat)\n\nJumaat\n7.30 pg - 12.15 tengahari\n12.15 tengahari - 2.45 ptg (Waktu Rehat)\n2.45 ptg - 5.30 ptg\n\nWaktu Operasi Kaunter Perkhidmatan (MM2H / Pelesenan)\nIsnin - Khamis \n8.30 pg - 4.30 ptg\n1.00 ptg - 2.00 ptg (Waktu Rehat)\n\nJumaat\n8.30 pg - 12.15 tengahari\n12.15 tengahari - 2.45 ptg (Waktu Rehat)\n2.45 ptg - 4.30 ptg\n\n( Perkhidmatan kaunter pembayaran DITUTUP jam 4.00 petang )"
   },
   {
     "id": "KOMUNIKASI",
@@ -650,18 +628,7 @@
     "social_media": {
       "youtube": "https://www.kpk.gov.my/kpk/youtube-list"
     },
-    "operating_hours": {
-      "weekdays": {
-        "days": "Isnin - Khamis",
-        "hours": "8.30 pagi - 5.30 petang",
-        "break": "1.00 petang - 2.00 petang"
-      },
-      "friday": {
-        "hours": "8.30 pagi - 5.30 petang",
-        "break": "12.15 tengah hari - 2.45 petang",
-        "additional_hours": "2.45 petang - 5.30 petang"
-      }
-    }
+    "operating_hours": "Isnin - Khamis\n8.30 pagi - 5.30 petang\n1.00 petang - 2.00 petang (Waktu Rehat)\n\nJumaat\n8.30 pagi - 12.15 tengah hari\n12.15 tengah hari - 2.45 petang (Waktu Rehat)\n2.45 petang - 5.30 petang"
   },
   {
     "id": "DIGITAL",

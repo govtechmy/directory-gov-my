@@ -38,4 +38,5 @@ export interface OfficeDirectory {
     tiktok: string;
     youtube: string;
   };
+  operating_hours: string | null;
 }
