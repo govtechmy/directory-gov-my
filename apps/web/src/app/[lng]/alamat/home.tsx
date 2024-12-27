@@ -33,6 +33,7 @@ import MobileCard from "@/components/home/mobile-card";
 import Profile from "@/components/home/profile";
 import { Kakitangan, OfficeDirectory } from "@/lib/types/kakitangan";
 import CrossX from "@/icons/cross-x";
+import { Link } from "@/components/ui/link";
 
 export default function Home({
   lng,
@@ -66,7 +67,8 @@ export default function Home({
       cell: ({ getValue }) => (getValue() as string) ?? "—",
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
-        cellClass: "border-r sticky bg-background left-0 z-10 sm:py-1.5",
+        cellClass:
+          "border-r sticky bg-background left-0 z-10 sm:py-1.5 uppercase",
       },
     },
     {
@@ -99,70 +101,12 @@ export default function Home({
       },
     },
     {
-      header: t("alamat.table_header.kementerian"),
-      accessorKey: "name",
-      id: "agency_name",
-      cell: ({ getValue }) => (getValue() as string) ?? "—",
-      meta: {
-        expandable: true,
-      },
-    },
-    {
-      header: t("alamat.table_header.bhg"),
-      accessorKey: "division_name",
-      id: "division_name",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        expandable: true,
-      },
-    },
-    {
-      header: t("alamat.table_header.seksyen"),
-      accessorKey: "section_name",
-      id: "section_name",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        expandable: true,
-      },
-    },
-    {
       header: t("alamat.table_header.negeri"),
       accessorKey: "address.state",
       id: "state_name",
       cell: (row) => row.getValue() ?? "—",
       meta: {
         expandable: true,
-      },
-    },
-    {
-      header: t("alamat.table_header.daerah"),
-      accessorKey: "address.state", // TODO: ask for daerah
-      id: "state_name",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        expandable: true,
-      },
-    },
-    {
-      header: t("alamat.table_header.jenis"),
-      accessorKey: "address.state", // TODO: ask for jenis
-      id: "services_type",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        expandable: true,
-      },
-    },
-    {
-      header: t("alamat.table_header.waktu"),
-      accessorKey: "operating_hours",
-      id: "operating_hours",
-      cell: ({ row }) => {
-        const hours = row.original.operating_hours;
-        return (
-          <div className="w-[380px]">
-            <span style={{ whiteSpace: "pre-line" }}>{hours}</span>
-          </div>
-        );
       },
     },
     {
@@ -187,7 +131,31 @@ export default function Home({
       header: t("alamat.table_header.website"),
       accessorKey: "contact.website",
       id: "website",
-      cell: (row) => row.getValue() ?? "—",
+      cell: (row) => {
+        const website = row.getValue() as string;
+
+        if (!website || website === "-") {
+          return "—";
+        }
+
+        // Remove http(s):// and trailing slash for display
+        const displayUrl = website
+          .replace(/^https?:\/\//, "")
+          .replace(/^www\./, "")
+          .replace(/\/$/, "");
+
+        return (
+          <Link
+            primary
+            underline={"none"}
+            href={website}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {displayUrl}
+          </Link>
+        );
+      },
     },
   ];
 
