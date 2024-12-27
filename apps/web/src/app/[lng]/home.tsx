@@ -39,7 +39,6 @@ import { Button } from "@/components/ui/button";
 import MobileCard from "@/components/home/mobile-card";
 import Profile from "@/components/home/profile";
 import { Kakitangan } from "@/lib/types/kakitangan";
-import ChevronDown from "@/icons/chevron-down";
 import CrossX from "@/icons/cross-x";
 
 export default function Home({
@@ -63,7 +62,7 @@ export default function Home({
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const ROWS_PER_PAGE = [10, 25, 50].map(toString);
+  const ROWS_PER_PAGE = [10, 25, 50].map((row) => row.toString());
 
   const searchQuery = searchParams.get("q");
   const currentPage = Number(searchParams.get("page") || "1");
@@ -273,10 +272,7 @@ export default function Home({
                 onValueChange={(size) => setSearchParams("size", size)}
               >
                 <SelectTrigger>
-                  <Button variant="secondary">
-                    <SelectValue />
-                    <ChevronDown filled />
-                  </Button>
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {ROWS_PER_PAGE.map((rows) => (
