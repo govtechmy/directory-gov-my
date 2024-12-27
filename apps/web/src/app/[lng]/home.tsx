@@ -19,6 +19,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Sheet,
   SheetClose,
   SheetContent,
@@ -32,12 +39,14 @@ import { Button } from "@/components/ui/button";
 import MobileCard from "@/components/home/mobile-card";
 import Profile from "@/components/home/profile";
 import { Kakitangan } from "@/lib/types/kakitangan";
+import ChevronDown from "@/icons/chevron-down";
 import CrossX from "@/icons/cross-x";
 
 export default function Home({
   lng,
   kakitangan,
   totalPages,
+  size,
   orgs,
   divisions,
   subdivisions,
@@ -45,6 +54,7 @@ export default function Home({
   lng: string;
   kakitangan: Kakitangan[];
   totalPages: number;
+  size: number;
   orgs: string[];
   divisions: string[];
   subdivisions: string[];
@@ -53,6 +63,7 @@ export default function Home({
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const ROWS_PER_PAGE = [10, 25, 50].map(toString);
 
   const searchQuery = searchParams.get("q");
   const currentPage = Number(searchParams.get("page") || "1");
@@ -251,7 +262,32 @@ export default function Home({
             resizable={false}
             isMobile={isMobile}
           />
-          <div className="flex items-center justify-center gap-2 pt-8">
+
+          <div className="flex flex-col items-center justify-between gap-2 pt-8 sm:flex-row">
+            <div className="flex gap-3 items-center">
+              <span className="text-sm text-dim-500 whitespace-nowrap">
+                {t("table.rows_per_page")}
+              </span>
+              <Select
+                value={size.toString()}
+                onValueChange={(size) => setSearchParams("size", size)}
+              >
+                <SelectTrigger>
+                  <Button variant="secondary">
+                    <SelectValue />
+                    <ChevronDown filled />
+                  </Button>
+                </SelectTrigger>
+                <SelectContent>
+                  {ROWS_PER_PAGE.map((rows) => (
+                    <SelectItem key={rows} value={rows}>
+                      {rows}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <Paginate
               currentPage={currentPage}
               totalPages={totalPages}

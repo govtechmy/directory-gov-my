@@ -87,6 +87,7 @@
     "next": "Next"
   },
   "table": {
+    "rows_per_page": "Rows per page:",
     "no_data": "No results matched your query."
   },
   "404": {
