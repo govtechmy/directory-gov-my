@@ -82,7 +82,7 @@ export async function searchOffice(
                 ]
               : []),
             ...(name ? [{ term: { "name.keyword": name } }] : []),
-            ...(state ? [{ term: { "address.state.keyword": state } }] : []),
+            ...(state ? [{ term: { "address.state": state } }] : []),
           ] as QueryDslQueryContainer[],
         },
       },

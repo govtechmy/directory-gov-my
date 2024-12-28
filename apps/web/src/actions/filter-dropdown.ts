@@ -131,7 +131,7 @@ export async function getOfficeFilterOptions(
                 aggs: {
                   state_agg: {
                     terms: {
-                      field: "address.state.keyword",
+                      field: "address.state",
                       size: 1000,
                     },
                   },
@@ -141,7 +141,7 @@ export async function getOfficeFilterOptions(
           : {
               state_agg: {
                 terms: {
-                  field: "address.state.keyword",
+                  field: "address.state",
                   size: 1000,
                 },
               },
@@ -158,7 +158,6 @@ export async function getOfficeFilterOptions(
       result?.aggregations?.name_agg as any
     )?.buckets.map((bucket: Bucket) => bucket.key);
 
-    // Get state aggregations based on whether a name filter was applied
     if (nameFilter) {
       officeAgregations.state_agg = (
         result?.aggregations?.filter_name as any

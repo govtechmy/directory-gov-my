@@ -197,8 +197,6 @@ export default function Home({
   // TODO: Redo the logic
   const setSearchParams = useCallback(
     (key: string, value: string | null) => {
-      console.log("key", key);
-      console.log("value", value);
       const params = new URLSearchParams(searchParams.toString());
       if (value === null) params.delete(key);
       else params.set(key, value);
