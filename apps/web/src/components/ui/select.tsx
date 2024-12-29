@@ -4,7 +4,6 @@ import ChevronUp from "@/icons/chevron-up";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { cn } from "@/lib/utils";
 import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from "react";
-import { Slot } from "@radix-ui/react-slot";
 
 const Select = SelectPrimitive.Root;
 
@@ -17,9 +16,9 @@ const SelectTrigger = forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, asChild = false, ...props }, ref) =>
   asChild ? (
-    <Slot className={className} {...props}>
+    <SelectPrimitive.Trigger className={className} {...props}>
       {children}
-    </Slot>
+    </SelectPrimitive.Trigger>
   ) : (
     <SelectPrimitive.Trigger
       ref={ref}
