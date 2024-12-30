@@ -85,7 +85,7 @@
     "search_placeholder": "Search for keyword (e.g. office, telephone number, email)",
     "table_header": {
       "nama": "Name",
-      "alamat": "Address",
+      "pejabat": "Office",
       "kementerian": "Ministry/ Agency",
       "bhg": "Division",
       "seksyen": "Section/Unit",

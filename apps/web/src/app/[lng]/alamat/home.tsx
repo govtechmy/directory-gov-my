@@ -55,7 +55,7 @@ export default function Home({
       },
     },
     {
-      header: t("alamat.table_header.alamat"),
+      header: t("alamat.table_header.pejabat"),
       accessorKey: "address",
       id: "address",
       cell: ({ row }) => {
