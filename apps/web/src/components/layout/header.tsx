@@ -103,7 +103,7 @@ export function Header({ lng }: { lng: string }) {
                         {href.map((item) => (
                           <SheetClose asChild key={name}>
                             <Link
-                              href={item.href}
+                              href={`/${lng}${item.href}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className={cn(
@@ -124,7 +124,7 @@ export function Header({ lng }: { lng: string }) {
                 ) : (
                   <SheetClose asChild key={name}>
                     <Link
-                      href={href}
+                      href={`/${lng}${href}`}
                       data-state={active(href) ? "open" : "close"}
                       className={cn(
                         buttonVariants({ variant: "tertiary", size: "md" }),
@@ -165,7 +165,7 @@ export function Header({ lng }: { lng: string }) {
                         {href.map((item) => (
                           <Link
                             key={item.name}
-                            href={item.href}
+                            href={`/${lng}${item.href}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={cn(
@@ -182,7 +182,7 @@ export function Header({ lng }: { lng: string }) {
                 ) : (
                   <NavigationMenu.Item key={name}>
                     <Link
-                      href={href}
+                      href={`/${lng}${href}`}
                       data-state={active(href) ? "open" : "close"}
                       className={cn(
                         buttonVariants({ variant: "tertiary" }),
