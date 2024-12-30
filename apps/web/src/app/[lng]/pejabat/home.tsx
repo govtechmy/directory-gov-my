@@ -69,6 +69,9 @@ export default function Home({
           </div>
         );
       },
+      meta: {
+        cellClass: "select-all",
+      },
     },
     {
       header: t("alamat.table_header.negeri"),
@@ -96,6 +99,9 @@ export default function Home({
       accessorKey: "contact.email",
       id: "email",
       cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
     },
     {
       header: t("alamat.table_header.website"),
