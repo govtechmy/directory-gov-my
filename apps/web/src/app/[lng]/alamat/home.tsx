@@ -36,6 +36,9 @@ import CrossX from "@/icons/cross-x";
 import { Link } from "@/components/ui/link";
 import OfficeCard from "@/components/home/office-card";
 import { concatenateAddress } from "@/lib/utils";
+import SocialMediaIcon, {
+  SocialMediaIconProps,
+} from "@/components/home/social-media";
 
 export default function Home({
   lng,
@@ -60,7 +63,6 @@ export default function Home({
   const ministrySelected = searchParams.get("ministry");
   const stateSelected = searchParams.get("state");
 
-  // TODO: Redo the ColumnDef
   const column: ColumnDef<OfficeDirectory>[] = [
     {
       header: t("alamat.table_header.nama"),
@@ -146,6 +148,25 @@ export default function Home({
         );
       },
     },
+    {
+      header: "",
+      accessorKey: "social_media",
+      id: "social_media",
+      cell: (row) => {
+        const social_media = row.getValue() as SocialMediaIconProps["platform"];
+        return (
+          <div className="flex flex-row flex-wrap gap-2 w-[180px]">
+            {Object.entries(social_media).map(([platform, url]) => (
+              <SocialMediaIcon
+                key={platform}
+                platform={platform as any}
+                url={url as any}
+              />
+            ))}
+          </div>
+        );
+      },
+    },
   ];
 
   const mobileColumn: ColumnDef<OfficeDirectory>[] = [
@@ -157,13 +178,12 @@ export default function Home({
     },
   ];
 
-  // TODO: Redo the logic
   const setSearchParams = useCallback(
     (key: string, value: string | null) => {
       const params = new URLSearchParams(searchParams.toString());
       if (value === null) params.delete(key);
       else params.set(key, value);
-
+      // TODO: change ministry to office
       if (key === "ministry") {
         params.delete("state");
       }

@@ -19,7 +19,7 @@ const socialIcons = {
   telegram: { icon: Telegram },
 };
 
-interface SocialMediaIconProps {
+export interface SocialMediaIconProps {
   platform:
     | "facebook"
     | "twitter"
