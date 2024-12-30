@@ -5,6 +5,7 @@ import Envelope from "@/icons/envelope";
 import { ReactNode } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
 import { concatenateAddress } from "@/lib/utils";
+import SocialMediaIcon from "./social-media";
 
 export default function OfficeCard({
   children,
@@ -47,6 +48,16 @@ export default function OfficeCard({
           )}
         </div>
       ) : null}
+
+      <div className="flex flex-row gap-2">
+        {Object.entries(social_media).map(([platform, url]) => (
+          <SocialMediaIcon
+            key={platform}
+            platform={platform as any}
+            url={url}
+          />
+        ))}
+      </div>
 
       {children}
     </div>
