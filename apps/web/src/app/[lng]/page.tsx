@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { getFilterOptions } from "@/actions/filter-dropdown";
 import { searchKakitangan } from "@/actions/kakitangan";
 import Homepage from "./home";
-import * as sampleData from "./sampleData.json";
 
 export default async function Page({
   params: { lng },

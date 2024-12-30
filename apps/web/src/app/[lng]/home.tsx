@@ -11,13 +11,7 @@ import Search from "@/components/ui/search";
 import { DirektoriFilter } from "./filter";
 import Paginate from "@/components/ui/pagination";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
 import {
   Select,
   SelectContent,
@@ -25,25 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetOverlay,
-  SheetPortal,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+
 import { Button } from "@/components/ui/button";
 import MobileCard from "@/components/home/mobile-card";
-import Profile from "@/components/home/profile";
 import { Kakitangan } from "@/lib/types/kakitangan";
-import CrossX from "@/icons/cross-x";
 import CopyIcon from "@/icons/copy";
 import useToast from "@/hooks/use-toast";
 import { AutoToast } from "@/components/ui/toast";
-import ArrowOutgoing from "@/icons/arrow-outgoing";
 
 export default function Home({
   lng,
@@ -169,7 +151,6 @@ export default function Home({
     },
     {
       header: ({ table }) => {
-        // TODO: check if I can do hooks somewhere
         const checkboxRef = useRef<HTMLInputElement>(null);
 
         useEffect(() => {

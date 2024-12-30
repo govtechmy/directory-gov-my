@@ -11,6 +11,7 @@ import {
   getFacetedUniqueValues,
   Row,
   Cell,
+  RowSelectionState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -29,6 +30,8 @@ import ColumnExpand from "@/icons/column-expand";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
+type RowSelection = RowSelectionState;
+
 interface DataTableProps<TData, TValue> {
   className?: string;
   columns: ColumnDef<TData, any>[];
@@ -43,10 +46,9 @@ interface DataTableProps<TData, TValue> {
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
   isMobile: boolean;
-  // TODO: Do proper typing
-  rowSelection: any;
-  setRowSelection: any;
-  copyEmail: any;
+  rowSelection: RowSelection;
+  setRowSelection: React.Dispatch<React.SetStateAction<RowSelection>>;
+  copyEmail: (getSelectedRowModel: () => any) => void;
 }
 
 export default function DataTable<TData, TValue>({
