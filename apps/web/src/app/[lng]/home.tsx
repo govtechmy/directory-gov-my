@@ -80,9 +80,11 @@ export default function Home({
         variant: "success",
         title: "Emails copied!",
       });
-      // Show success message
     } catch (err) {
-      // Handle error
+      toast({
+        variant: "error",
+        title: "Error in copying email. Please try again.",
+      });
     }
   };
 
