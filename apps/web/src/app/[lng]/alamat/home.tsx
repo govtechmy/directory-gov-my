@@ -11,28 +11,7 @@ import Search from "@/components/ui/search";
 import { DirektoriFilter } from "../filter";
 import Paginate from "@/components/ui/pagination";
 import { useCallback } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetOverlay,
-  SheetPortal,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import MobileCard from "@/components/home/mobile-card";
-import Profile from "@/components/home/profile";
-import { Kakitangan, OfficeDirectory } from "@/lib/types/kakitangan";
-import CrossX from "@/icons/cross-x";
+import { OfficeDirectory } from "@/lib/types/kakitangan";
 import { Link } from "@/components/ui/link";
 import OfficeCard from "@/components/home/office-card";
 import { concatenateAddress } from "@/lib/utils";
@@ -44,13 +23,13 @@ export default function Home({
   lng,
   officeDirectory,
   totalPages,
-  ministry,
+  office,
   state,
 }: {
   lng: string;
   officeDirectory: OfficeDirectory[];
   totalPages: number;
-  ministry: string[];
+  office: string[];
   state: string[];
 }) {
   const { t } = useTranslation(lng, ["common", "org"]);
@@ -60,7 +39,7 @@ export default function Home({
 
   const searchQuery = searchParams.get("q");
   const currentPage = Number(searchParams.get("page") || "1");
-  const ministrySelected = searchParams.get("ministry");
+  const officeSelected = searchParams.get("office");
   const stateSelected = searchParams.get("state");
 
   const column: ColumnDef<OfficeDirectory>[] = [
@@ -184,7 +163,7 @@ export default function Home({
       if (value === null) params.delete(key);
       else params.set(key, value);
       // TODO: change ministry to office
-      if (key === "ministry") {
+      if (key === "office") {
         params.delete("state");
       }
 
@@ -218,17 +197,17 @@ export default function Home({
             <DirektoriFilter
               lng={lng}
               subtitle={t("alamat.dropdown_title.kementerian")}
-              disabled={ministry?.length == 0}
-              items={ministry}
-              selectedItem={ministrySelected}
+              disabled={office?.length == 0}
+              items={office}
+              selectedItem={officeSelected}
               onChange={(currentValue) =>
-                setSearchParams("ministry", currentValue)
+                setSearchParams("office", currentValue)
               }
             />
             <DirektoriFilter
               lng={lng}
               subtitle={t("alamat.dropdown_title.negeri")}
-              disabled={state?.length == 0 || !ministrySelected}
+              disabled={state?.length == 0 || !officeSelected}
               items={state}
               selectedItem={stateSelected}
               onChange={(currentValue) =>
