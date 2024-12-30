@@ -8,6 +8,13 @@ import Hero from "@/components/layout/hero";
 import Section from "@/components/layout/section";
 import DataTable from "@/components/ui/data-table";
 import Search from "@/components/ui/search";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { DirektoriFilter } from "../filter";
 import Paginate from "@/components/ui/pagination";
 import { useCallback } from "react";
@@ -23,12 +30,14 @@ export default function Home({
   lng,
   officeDirectory,
   totalPages,
+  size,
   office,
   state,
 }: {
   lng: string;
   officeDirectory: OfficeDirectory[];
   totalPages: number;
+  size: number;
   office: string[];
   state: string[];
 }) {
@@ -36,6 +45,7 @@ export default function Home({
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const ROWS_PER_PAGE = [10, 25, 50].map((row) => row.toString());
 
   const searchQuery = searchParams.get("q");
   const currentPage = Number(searchParams.get("page") || "1");
@@ -210,7 +220,7 @@ export default function Home({
                 setSearchParams("office", currentValue)
               }
             />
-            <DirektoriFilter
+            {/* <DirektoriFilter
               lng={lng}
               subtitle={t("alamat.dropdown_title.negeri")}
               disabled={state?.length == 0 || !officeSelected}
@@ -219,7 +229,7 @@ export default function Home({
               onChange={(currentValue) =>
                 setSearchParams("state", currentValue)
               }
-            />
+            /> */}
           </div>
           <DataTable
             lng={lng}
@@ -228,7 +238,28 @@ export default function Home({
             resizable={false}
             isMobile={isMobile}
           />
-          <div className="flex items-center justify-center gap-2 pt-8">
+          <div className="flex flex-col items-center justify-between gap-2 pt-8 sm:flex-row">
+            <div className="flex gap-3 items-center">
+              <span className="text-sm text-dim-500 whitespace-nowrap">
+                {t("table.rows_per_page")}
+              </span>
+              <Select
+                value={size.toString()}
+                onValueChange={(size) => setSearchParams("size", size)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {ROWS_PER_PAGE.map((rows) => (
+                    <SelectItem key={rows} value={rows}>
+                      {rows}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <Paginate
               currentPage={currentPage}
               totalPages={totalPages}

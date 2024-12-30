@@ -11,15 +11,18 @@ export default async function Page({
   searchParams: {
     page: string;
     q: string;
+    size: string;
     office: string;
     state: string;
   };
-  // TODO: change ministry to office
 }) {
-  const { q, page, office: name, state } = searchParams;
+  const DEFAULT_SIZE = 25;
+  const { q, page, size, office: name, state } = searchParams;
+  const _size = size ? Number(size) : DEFAULT_SIZE;
 
   const { office: officeDirectory, totalPages } = await searchOffice(
     page ? Number(page) : 1,
+    _size,
     q,
     name,
     state,
@@ -34,6 +37,7 @@ export default async function Page({
         lng={lng}
         officeDirectory={officeDirectory}
         totalPages={totalPages}
+        size={_size}
         office={name_agg}
         state={state_agg}
       />
