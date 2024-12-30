@@ -3,9 +3,6 @@ import { getFilterOptions } from "@/actions/filter-dropdown";
 import { searchKakitangan } from "@/actions/kakitangan";
 import Homepage from "./home";
 
-// TODO: remove when ES is up
-import * as sampleData from "./sample-data.json";
-
 export default async function Page({
   params: { lng },
   searchParams,
@@ -21,7 +18,6 @@ export default async function Page({
 }) {
   const { q, page, division, subdivision, org } = searchParams;
 
-  // TODO: uncomment when ES is up
   const { kakitangan, totalPages } = await searchKakitangan(
     page ? Number(page) : 1,
     q,
@@ -33,13 +29,6 @@ export default async function Page({
     org,
     division,
   );
-
-  // TODO: remove this when ES is back up
-  // let totalPages = 1;
-  // let kakitangan = JSON.parse(JSON.stringify(sampleData));
-  // let org_agg = ["JPM"];
-  // let division_agg = ["PENGURUSAN ATASAN JPM"];
-  // let subdivision_agg = ["PEJABAT TIMBALAN KETUA SETIAUSAHA KANAN"];
 
   return (
     // useSearchParams require Suspense boundary, separate boundary for fallback customisability

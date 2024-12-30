@@ -20,7 +20,7 @@ export async function getFilterOptions(
   orgFilter?: string,
   divisionFilter?: string,
 ): Promise<Aggregations> {
-  const index = "directory";
+  const index = "organizations";
   try {
     const result = await getElasticClient().search({
       index,

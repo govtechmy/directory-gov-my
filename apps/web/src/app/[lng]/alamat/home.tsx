@@ -34,6 +34,7 @@ import Profile from "@/components/home/profile";
 import { Kakitangan, OfficeDirectory } from "@/lib/types/kakitangan";
 import CrossX from "@/icons/cross-x";
 import { Link } from "@/components/ui/link";
+import OfficeCard from "@/components/home/office-card";
 
 export default function Home({
   lng,
@@ -95,7 +96,7 @@ export default function Home({
 
         return (
           <div className="w-[400px]">
-            <span style={{ whiteSpace: "pre-line" }}>{fullAddress}</span>
+            <span className="whitespace-pre-line">{fullAddress}</span>
           </div>
         );
       },
@@ -165,32 +166,7 @@ export default function Home({
       header: "",
       accessorKey: "person_name",
       id: "person_name",
-      cell: ({ row }) => (
-        // <MobileCard lng={lng} {...row.original}>
-        //   <Sheet>
-        //     <SheetTrigger asChild>
-        //       <Button variant="tertiary-colour">Profile</Button>
-        //     </SheetTrigger>
-        //     <SheetPortal>
-        //       <SheetOverlay />
-        //       <SheetContent
-        //         side="bottom"
-        //         className="flex flex-col p-0 gap-0 min-h-0 max-h-[85dvh] max-sm:w-full"
-        //       >
-        //         <SheetHeader className="p-4.5 border-b border-outline-200">
-        //           <SheetTitle>Profil Penjawat Awam</SheetTitle>
-        //           <SheetClose className="absolute right-4 top-3.5">
-        //             <CrossX className="size-4" />
-        //             <span className="sr-only">Close</span>
-        //           </SheetClose>
-        //         </SheetHeader>
-        //         <Profile lng={lng} {...row.original} />
-        //       </SheetContent>
-        //     </SheetPortal>
-        //   </Sheet>
-        // </MobileCard>
-        <div>abc</div>
-      ),
+      cell: ({ row }) => <OfficeCard lng={lng} {...row.original}></OfficeCard>,
     },
   ];
 
@@ -253,7 +229,7 @@ export default function Home({
               }
             />
           </div>
-          {/* TODO: The data pased */}
+          {/* TODO: The data passed */}
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}

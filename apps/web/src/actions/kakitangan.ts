@@ -13,7 +13,7 @@ export async function searchKakitangan(
   division?: string,
   subdivision?: string,
 ): Promise<{ kakitangan: any[]; totalPages: number }> {
-  const index = "directory";
+  const index = "organizations";
   const size = 20;
   try {
     const result = await getElasticClient().search({
