@@ -11,7 +11,31 @@ const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
-const SelectTrigger = SelectPrimitive.Trigger;
+const SelectTrigger = forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+>(({ className, children, asChild = false, ...props }, ref) =>
+  asChild ? (
+    <SelectPrimitive.Trigger ref={ref} asChild {...props}>
+      {children}
+    </SelectPrimitive.Trigger>
+  ) : (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "flex w-full gap-1.5 items-center whitespace-nowrap rounded-md border border-outline-200 bg-white px-3 py-2 text-sm shadow-button focus:outline-none focus:ring focus:ring-brand-600 disabled:cursor-not-allowed disabled:bg-bg-white-disabled disabled:text-txt-black-disabled disabled:border-transparent [&>span]:line-clamp-1",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      <SelectPrimitive.Icon asChild>
+        <ChevronDown className="size-5 -mx-1" filled />
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  ),
+);
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectScrollUpButton = forwardRef<
   ComponentRef<typeof SelectPrimitive.ScrollUpButton>,
@@ -106,14 +130,14 @@ const SelectItem = forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none items-center justify-between gap-x-1.5 rounded-sm px-4 py-1.5 text-sm outline-none focus:bg-washed-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex w-full cursor-default select-none items-center justify-between gap-x-1.5 rounded-sm px-4 py-1.5 text-sm outline-none focus:bg-washed-100 data-[state=checked]:font-medium data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className,
     )}
     {...props}
   >
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     <SelectPrimitive.ItemIndicator>
-      <CheckCircle className="size-4.5 text-blue-600" />
+      <CheckCircle className="size-4.5 fill-black-900" filled />
     </SelectPrimitive.ItemIndicator>
   </SelectPrimitive.Item>
 ));

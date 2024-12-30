@@ -11,15 +11,18 @@ export default async function Page({
   searchParams: {
     page: string;
     q: string;
+    size: string;
     org: string;
     division: string;
     subdivision: string;
   };
 }) {
-  const { q, page, division, subdivision, org } = searchParams;
-
+  const DEFAULT_SIZE = 25;
+  const { q, page, size, division, subdivision, org } = searchParams;
+  const _size = size ? Number(size) : DEFAULT_SIZE;
   const { kakitangan, totalPages } = await searchKakitangan(
     page ? Number(page) : 1,
+    _size,
     q,
     org,
     division,
@@ -38,6 +41,7 @@ export default async function Page({
         lng={lng}
         kakitangan={kakitangan}
         totalPages={totalPages}
+        size={_size}
         orgs={org_agg}
         divisions={division_agg}
         subdivisions={subdivision_agg}

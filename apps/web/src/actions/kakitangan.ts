@@ -1,20 +1,17 @@
 "use server";
 
-import {
-  QueryDslQueryContainer,
-  SearchTotalHits,
-} from "@elastic/elasticsearch/lib/api/types";
+import { estypes } from "@elastic/elasticsearch";
 import { getElasticClient } from "./elastic-client";
 
 export async function searchKakitangan(
   page: number,
+  size: number,
   q?: string,
   org?: string,
   division?: string,
   subdivision?: string,
 ): Promise<{ kakitangan: any[]; totalPages: number }> {
   const index = "kakitangan";
-  const size = 20;
   try {
     const result = await getElasticClient().search({
       index,
@@ -39,14 +36,14 @@ export async function searchKakitangan(
             ...(subdivision
               ? [{ term: { "subdivision_name.keyword": subdivision } }]
               : []),
-          ] as QueryDslQueryContainer[],
+          ] as estypes.QueryDslQueryContainer[],
         },
       },
       sort: ["org_sort", "division_sort", "position_sort"],
       size,
       from: (page - 1) * size,
     });
-    const total = result.hits.total as SearchTotalHits;
+    const total = result.hits.total as estypes.SearchTotalHits;
     const kakitangan = result.hits.hits.map((hit) => hit._source);
     return { kakitangan, totalPages: Math.round(total.value / size) };
   } catch (error) {
@@ -83,7 +80,7 @@ export async function searchOffice(
               : []),
             ...(name ? [{ term: { "name.keyword": name } }] : []),
             ...(state ? [{ term: { "address.state": state } }] : []),
-          ] as QueryDslQueryContainer[],
+          ] as estypes.QueryDslQueryContainer[],
         },
       },
       sort: ["name.keyword"],
@@ -91,7 +88,7 @@ export async function searchOffice(
       from: (page - 1) * size,
     });
 
-    const total = result.hits.total as SearchTotalHits;
+    const total = result.hits.total as estypes.SearchTotalHits;
     const office = result.hits.hits.map((hit) => hit._source);
     return {
       office,

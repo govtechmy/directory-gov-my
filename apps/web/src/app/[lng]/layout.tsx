@@ -16,11 +16,11 @@ const poppins = Poppins({
   display: "swap",
   variable: "--font-poppins",
 });
-export const roboto_mono = Roboto_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto-mono",
-});
+// const roboto_mono = Roboto_Mono({
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-roboto-mono",
+// });
 
 export async function generateMetadata({
   params: { lng },
