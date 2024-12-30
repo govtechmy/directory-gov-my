@@ -16,7 +16,7 @@ const SelectTrigger = forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, asChild = false, ...props }, ref) =>
   asChild ? (
-    <SelectPrimitive.Trigger className={className} {...props}>
+    <SelectPrimitive.Trigger asChild {...props}>
       {children}
     </SelectPrimitive.Trigger>
   ) : (
