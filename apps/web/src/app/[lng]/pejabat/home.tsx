@@ -61,7 +61,7 @@ export default function Home({
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
         cellClass:
-          "border-r sticky bg-background left-0 z-10 sm:py-1.5 uppercase",
+          "border-r sticky bg-background left-0 z-10 sm:py-1.5 uppercase min-w-[300px] sm:whitespace-normal",
       },
     },
     {
@@ -96,13 +96,27 @@ export default function Home({
       header: t("alamat.table_header.telefon"),
       accessorKey: "contact.phone",
       id: "phone",
-      cell: (row) => row.getValue() ?? "—",
+      cell: (row) => {
+        const phone = row.getValue();
+
+        if (!phone || phone === "-") return "—";
+        return Array.isArray(phone)
+          ? phone.map((num, i) => (i + 1 < phone.length ? num + " / " : num))
+          : phone;
+      },
     },
     {
       header: t("alamat.table_header.fax"),
       accessorKey: "contact.fax",
       id: "fax",
-      cell: (row) => row.getValue() ?? "—",
+      cell: (row) => {
+        const fax = row.getValue();
+
+        if (!fax || fax === "-") return "—";
+        return Array.isArray(fax)
+          ? fax.map((num, i) => (i + 1 < fax.length ? num + " / " : num))
+          : fax;
+      },
     },
     {
       header: t("alamat.table_header.emel"),

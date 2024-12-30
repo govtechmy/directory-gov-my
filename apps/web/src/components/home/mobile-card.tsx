@@ -47,7 +47,7 @@ export default function MobileCard({
         <p className="text-black-700">{position_name}</p>
       </div>
 
-      {person_phone || person_email ? (
+      {person_phone || person_fax ? (
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
           {person_phone && (
             <>
