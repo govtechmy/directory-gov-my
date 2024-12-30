@@ -3,19 +3,24 @@ import { Header } from "@/components/layout/header";
 import Masthead from "@/components/layout/masthead";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Roboto_Mono } from "next/font/google";
 import ClarityScript from "./clarity";
 import { languages } from "@/i18n/settings";
 import { useTranslation } from "@/i18n";
 import Providers from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["500", "600"],
   display: "swap",
   variable: "--font-poppins",
 });
+// const roboto_mono = Roboto_Mono({
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-roboto-mono",
+// });
 
 export async function generateMetadata({
   params: { lng },
