@@ -35,6 +35,7 @@ import { Kakitangan, OfficeDirectory } from "@/lib/types/kakitangan";
 import CrossX from "@/icons/cross-x";
 import { Link } from "@/components/ui/link";
 import OfficeCard from "@/components/home/office-card";
+import { concatenateAddress } from "@/lib/utils";
 
 export default function Home({
   lng,
@@ -79,24 +80,11 @@ export default function Home({
       cell: ({ row }) => {
         const address = row.original.address;
 
-        // Filter out falsy values from address lines and join with line breaks
-        const addressLines = [address.line1, address.line2, address.line3]
-          .filter(Boolean)
-          .join("\n");
-
-        // Combine postcode and state if they exist
-        const locationLine = [address.postcode, address.state]
-          .filter(Boolean)
-          .join(", ");
-
-        // Combine all parts, filtering out empty strings
-        const fullAddress = [addressLines, locationLine]
-          .filter(Boolean)
-          .join("\n");
-
         return (
           <div className="w-[400px]">
-            <span className="whitespace-pre-line">{fullAddress}</span>
+            <span className="whitespace-pre-line">
+              {concatenateAddress(address)}
+            </span>
           </div>
         );
       },
@@ -160,7 +148,6 @@ export default function Home({
     },
   ];
 
-  // TODO: Redo the ColumnDef
   const mobileColumn: ColumnDef<OfficeDirectory>[] = [
     {
       header: "",
@@ -229,7 +216,6 @@ export default function Home({
               }
             />
           </div>
-          {/* TODO: The data passed */}
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}

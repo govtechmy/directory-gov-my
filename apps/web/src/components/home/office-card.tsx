@@ -4,6 +4,7 @@ import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { ReactNode } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
+import { concatenateAddress } from "@/lib/utils";
 
 export default function OfficeCard({
   children,
@@ -11,20 +12,7 @@ export default function OfficeCard({
 }: OfficeDirectory & { children?: ReactNode; lng: string }) {
   const { id, name, address, contact, social_media } = officeInfo;
 
-  //   TODO: social media, function
-
-  // Filter out falsy values from address lines and join with line breaks
-  const addressLines = [address.line1, address.line2, address.line3]
-    .filter(Boolean)
-    .join("\n");
-
-  // Combine postcode and state if they exist
-  const locationLine = [address.postcode, address.state]
-    .filter(Boolean)
-    .join(", ");
-
-  // Combine all parts, filtering out empty strings
-  const fullAddress = [addressLines, locationLine].filter(Boolean).join("\n");
+  //   TODO: social media
 
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">
@@ -37,7 +25,9 @@ export default function OfficeCard({
         </div>
       </div>
       <div>
-        <span className="whitespace-pre-line">{fullAddress}</span>
+        <span className="whitespace-pre-line text-txt-black-500">
+          {concatenateAddress(address)}
+        </span>
       </div>
 
       {contact.phone || contact.email ? (
