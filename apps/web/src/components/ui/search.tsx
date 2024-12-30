@@ -30,21 +30,27 @@ const Search: FunctionComponent<SearchProps> = ({
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!focused && event.key === "/") {
-        event.preventDefault();
-        searchRef.current?.focus();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!focused) {
+        if (e.key === "/") {
+          e.preventDefault();
+          searchRef.current?.focus();
+        }
+        // Check if 'CMD + K' or 'Ctrl + K' key combination is pressed
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+          e.preventDefault();
+          searchRef.current?.focus();
+        }
+      } else {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          searchRef.current?.blur();
+        }
+        if (e.key === "Enter") {
+          onChange(value);
+          searchRef.current?.blur();
+        }
       }
-      // Check if 'CMD + K' or 'Ctrl + K' key combination is pressed
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-        event.preventDefault();
-        searchRef.current?.focus();
-      }
-      if (event.key === "Escape") {
-        event.preventDefault();
-        searchRef.current?.blur();
-      }
-      if (event.key === "Enter") onChange(value);
     };
 
     document.addEventListener("keydown", handleKeyDown);
@@ -52,7 +58,7 @@ const Search: FunctionComponent<SearchProps> = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [focused]);
+  }, [focused, value]);
 
   return (
     <div
