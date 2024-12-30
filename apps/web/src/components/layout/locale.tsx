@@ -23,9 +23,12 @@ export default function Locale({ lng }: { lng: string }) {
 
   const onValueChange = (lng: string) => {
     startTransition(() => {
-      router.replace(`${lng}${pathname.substring(6)}${searchParams ? `?${searchParams}` : ""}`, {
-        scroll: false,
-      });
+      router.replace(
+        `${lng}${pathname.substring(6)}${searchParams ? `?${searchParams}` : ""}`,
+        {
+          scroll: false,
+        },
+      );
     });
   };
 
@@ -47,17 +50,13 @@ export default function Locale({ lng }: { lng: string }) {
           <Globe />
           <SelectValue>{name[lng as "en-GB" | "ms-MY"].short}</SelectValue>
           <SelectIcon>
-            <ChevronDown />
+            <ChevronDown className="size-4 -mx-0.5" filled />
           </SelectIcon>
         </Button>
       </SelectTrigger>
       <SelectContent align="end">
         {languages.map((l) => (
-          <SelectItem
-            key={l}
-            value={l}
-            className={l === lng ? "font-medium" : ""}
-          >
+          <SelectItem key={l} value={l}>
             {name[l as "en-GB" | "ms-MY"].full}
           </SelectItem>
         ))}

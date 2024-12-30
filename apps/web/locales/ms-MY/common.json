@@ -85,6 +85,7 @@
     "to": "Hingga"
   },
   "table": {
+    "rows_per_page": "Baris setiap halaman:",
     "no_data": "Carian anda tidak dijumpai."
   },
   "pagination": {
