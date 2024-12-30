@@ -87,7 +87,7 @@
   },
   "alamat": {
     "header": "Direktori Pejabat",
-    "search_placeholder": "Cari kata kunci (pejabat, no tel, emel)",
+    "search_placeholder": "Cari kata kunci (cth. Digital)",
     "table_header": {
       "nama": "Nama",
       "alamat": "Alamat",

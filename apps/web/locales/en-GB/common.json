@@ -84,7 +84,7 @@
   },
   "alamat": {
     "header": "Office Directory",
-    "search_placeholder": "Search for keyword (e.g. office, telephone number, email)",
+    "search_placeholder": "Search for keyword (e.g. Digital)",
     "table_header": {
       "nama": "Name",
       "alamat": "Address",
