@@ -138,18 +138,27 @@ export default function Home({
       accessorKey: "person_phone",
       id: "person_phone",
       cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
     },
     {
       header: t("directory.table_header.fax"),
       accessorKey: "person_fax",
       id: "person_fax",
       cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
     },
     {
       header: t("directory.table_header.emel"),
       accessorKey: "person_email",
       id: "person_email",
       cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
     },
   ];
 

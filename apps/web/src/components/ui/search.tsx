@@ -1,23 +1,16 @@
 "use client";
 
-import {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { cn, debounce } from "@/lib/utils";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 import SearchIcon from "@/icons/search";
 import CrossX from "@/icons/cross-x";
 import { Button } from "./button";
 import { useTranslation } from "@/i18n/client";
-import { useSearchParams } from "next/navigation";
 
 interface SearchProps {
   className?: string;
   placeholder?: string;
-  onChange?: (query: string) => void;
+  onChange: (query: string) => void;
   disabled?: boolean;
   defaultValue?: string;
   lng: string;
@@ -32,26 +25,31 @@ const Search: FunctionComponent<SearchProps> = ({
   lng,
 }) => {
   const { t } = useTranslation(lng);
-  const searchParams = useSearchParams();
   const [value, setValue] = useState(defaultValue ?? "");
+  const [focused, setFocus] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
-  const onSearch = useCallback(
-    debounce((query: string) => {
-      if (onChange) onChange(query);
-    }),
-    [searchParams],
-  );
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "/") {
-        event.preventDefault();
-        searchRef.current?.focus();
-      }
-      // Check if 'CMD + K' or 'Ctrl + K' key combination is pressed
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-        event.preventDefault();
-        searchRef.current?.focus();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!focused) {
+        if (e.key === "/") {
+          e.preventDefault();
+          searchRef.current?.focus();
+        }
+        // Check if 'CMD + K' or 'Ctrl + K' key combination is pressed
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+          e.preventDefault();
+          searchRef.current?.focus();
+        }
+      } else {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          searchRef.current?.blur();
+        }
+        if (e.key === "Enter") {
+          onChange(value);
+          searchRef.current?.blur();
+        }
       }
     };
 
@@ -60,7 +58,7 @@ const Search: FunctionComponent<SearchProps> = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [focused, value]);
 
   return (
     <div
@@ -80,8 +78,9 @@ const Search: FunctionComponent<SearchProps> = ({
         onChange={(e) => {
           const query = e.target.value;
           setValue(query);
-          onSearch(query);
         }}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
         value={value}
       />
       {disabled ? (
@@ -91,10 +90,7 @@ const Search: FunctionComponent<SearchProps> = ({
           variant="default"
           size="default"
           className="group rounded-full"
-          onClick={() => {
-            setValue("");
-            onSearch("");
-          }}
+          onClick={() => setValue("")}
         >
           <CrossX className="size-4.5 text-dim-500 group-hover:text-foreground" />
         </Button>
@@ -117,6 +113,7 @@ const Search: FunctionComponent<SearchProps> = ({
           "size-8 rounded-full bg-gradient-to-b from-[#5288FF] to-brand-600 to-100% p-1.5",
           disabled ? "cursor-not-allowed opacity-20" : "",
         )}
+        onClick={() => onChange(value)}
       >
         <SearchIcon className="size-5 text-white" />
       </Button>

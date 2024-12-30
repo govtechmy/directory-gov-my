@@ -54,12 +54,12 @@ export async function searchKakitangan(
 
 export async function searchOffice(
   page: number,
+  size: number,
   searchText?: string,
   name?: string,
   state?: string,
 ): Promise<{ office: any[]; totalPages: number }> {
   const index = "pejabat";
-  const size = 20;
 
   try {
     const result = await getElasticClient().search({

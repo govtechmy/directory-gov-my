@@ -23,7 +23,7 @@ const SelectTrigger = forwardRef<
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex w-full gap-1.5 items-center whitespace-nowrap rounded-md border border-outline-200 bg-white px-3 py-2 text-sm shadow-button focus:outline-none focus:ring focus:ring-brand-600 disabled:cursor-not-allowed disabled:bg-bg-white-disabled disabled:text-txt-black-disabled disabled:border-transparent [&>span]:line-clamp-1",
+        "flex w-full gap-1.5 items-center whitespace-nowrap rounded-md border border-otl-gray-200 bg-bg-white px-3 py-2 text-sm shadow-button focus:outline-none focus:ring focus:ring-fr-primary disabled:cursor-not-allowed disabled:bg-bg-white-disabled disabled:text-txt-black-disabled disabled:border-transparent [&>span]:line-clamp-1",
         className,
       )}
       {...props}
@@ -86,7 +86,7 @@ const SelectContent = forwardRef<
       <SelectPrimitive.Content
         ref={ref}
         className={cn(
-          "relative z-50 max-h-96 min-w-[4rem] overflow-hidden rounded-md border border-outline-200 bg-background shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+          "relative z-50 max-h-96 min-w-[4rem] overflow-hidden rounded-md border border-otl-gray-200 bg-bg-white shadow-button data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
           position === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
           className,

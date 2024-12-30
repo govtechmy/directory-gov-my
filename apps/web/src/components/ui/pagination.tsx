@@ -162,7 +162,7 @@ export default function Paginate({
                 onClick={() => setPage(page)}
                 variant={currentPage === page ? "tertiary-colour" : "tertiary"}
                 className={cn(
-                  "sm:size-[40px]",
+                  "size-[34px] sm:size-[40px]",
                   currentPage === page ? "bg-brand-50" : "",
                 )}
               >

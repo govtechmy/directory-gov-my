@@ -1,4 +1,5 @@
 {
+  "ministry_digital": "Kementerian Digital",
   "site": {
     "name": "directory.gov.my",
     "description": "Portal tunggal untuk mencari maklumat pegawai Kerajaan!"
@@ -36,6 +37,7 @@
     "title": ""
   },
   "footer": {
+    "follow_us": "Ikuti Kami",
     "about_us": "Tentang Kami",
     "open_source": "Sumber Terbuka",
     "repo": "Repo GitHub",
@@ -85,7 +87,7 @@
   },
   "alamat": {
     "header": "Direktori Pejabat",
-    "search_placeholder": "Cari kata kunci (pejabat, no tel, emel)",
+    "search_placeholder": "Cari kata kunci (cth. Digital)",
     "table_header": {
       "nama": "Nama",
       "alamat": "Alamat",

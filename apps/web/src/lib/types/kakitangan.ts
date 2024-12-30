@@ -26,8 +26,8 @@ export interface OfficeDirectory {
     state: string;
   };
   contact: {
-    phone: string;
-    fax: string;
+    phone: string | string[];
+    fax: string | string[];
     email: string;
     website: string;
   };

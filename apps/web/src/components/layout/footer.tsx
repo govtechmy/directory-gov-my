@@ -1,6 +1,9 @@
 import { useTranslation } from "@/i18n";
+import Facebook from "@/icons/facebook";
+import X from "@/icons/twitter-x";
+import Instagram from "@/icons/instagram";
+import Tiktok from "@/icons/tiktok";
 import Image from "next/image";
-import Link from "next/link";
 
 export default async function Footer({ lng }: { lng: string }) {
   const { t } = await useTranslation(lng);
@@ -8,6 +11,25 @@ export default async function Footer({ lng }: { lng: string }) {
   const className = {
     link: "text-sm text-black-700 underline-font hover:text-foreground hover:underline",
   };
+
+  const social_media = [
+    {
+      icon: <Facebook />,
+      name: "Facebook",
+      href: "https://www.facebook.com/KementerianDigitalMalaysia/",
+    },
+    { icon: <X />, name: "X", href: "https://x.com/KemDigitalMsia" },
+    {
+      icon: <Instagram />,
+      name: "Instagram",
+      href: "https://www.instagram.com/kementeriandigitalmalaysia/",
+    },
+    {
+      icon: <Tiktok />,
+      name: "Tiktok",
+      href: "https://www.tiktok.com/@kementeriandigital",
+    },
+  ];
 
   return (
     <footer className="border-t border-outline-200 bg-background-50 py-8 lg:py-16 print:hidden">
@@ -24,42 +46,60 @@ export default async function Footer({ lng }: { lng: string }) {
               />
               <div>
                 <p className="whitespace-nowrap font-poppins font-semibold">
-                  {}
+                  {t("ministry_digital")}
                 </p>
+              </div>
+            </div>
+            <p className="flex flex-col text-sm text-black-700">
+              <span>Aras 13, 14 & 15, Blok Menara, Menara Usahawan</span>
+              <span>No. 18, Persiaran Perdana, Presint 2</span>
+              <span>Pusat Pentadbiran Kerajaan Persekutuan</span>
+              <span>62000 Putrajaya, Malaysia</span>
+            </p>
+            <div className="space-y-2 lg:space-y-3">
+              <p className="text-sm font-semibold">{t("footer.follow_us")}</p>
+              <div className="flex gap-3">
+                {social_media.map(({ icon, href, name }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopenner noreferrer"
+                  >
+                    {icon}
+                    <p className="sr-only">{name}</p>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-6 text-sm lg:flex-row">
-            {/* {(Object.keys(links)).map((category) => (
-              <div className="space-y-2" key={category}>
-                <p className="font-semibold">{t(`Footer.${category}`)}</p>
-                <div className="grid grid-cols-2 flex-col gap-y-2 sm:grid-cols-4 sm:gap-x-6 lg:flex lg:w-[200px] lg:gap-2">
-                  {links[category].map(({ name, href }) =>
-                    category === "about_us" ? (
-                      <Link
-                        key={name}
-                        className={className.link}
-                        href={href}
-                        scroll={true}
-                      >
-                        {name}
-                      </Link>
-                    ) : (
-                      <a
-                        key={name}
-                        className={className.link}
-                        target="_blank"
-                        rel="noopenner noreferrer"
-                        href={href}
-                      >
-                        {name}
-                      </a>
-                    ),
-                  )}
-                </div>
+            <div className="space-y-2">
+              <p className="font-semibold">{t("footer.open_source")}</p>
+              <div className="grid grid-cols-2 flex-col gap-y-2 sm:grid-cols-4 sm:gap-x-6 lg:flex lg:w-[200px] lg:gap-2">
+                {[
+                  {
+                    name: "footer.repo",
+                    href: "https://github.com/govtechmy/directory-gov-my",
+                  },
+                  {
+                    name: "footer.ui_ux",
+                    href: "https://www.figma.com/design/VnVRHnO4CpQ5qJVgxtWpFf",
+                  },
+                ].map(({ name, href }) => (
+                  <a
+                    key={name}
+                    className={className.link}
+                    target="_blank"
+                    rel="noopenner noreferrer"
+                    href={href}
+                  >
+                    {t(name)}
+                  </a>
+                ))}
               </div>
-            ))} */}
+            </div>
           </div>
         </div>
 
@@ -82,7 +122,7 @@ export default async function Footer({ lng }: { lng: string }) {
             </div> */}
           </div>
 
-          <time dateTime={process.env.LAST_UPDATED}>
+          {/* <time dateTime={process.env.LAST_UPDATED}>
             {t("footer.last_update") +
               ": " +
               new Intl.DateTimeFormat(lng, {
@@ -94,7 +134,7 @@ export default async function Footer({ lng }: { lng: string }) {
                 minute: "2-digit",
                 timeZone: "Asia/Kuala_Lumpur",
               }).format(new Date(process.env.LAST_UPDATED))}
-          </time>
+          </time> */}
         </div>
       </div>
     </footer>

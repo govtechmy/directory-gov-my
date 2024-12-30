@@ -1,4 +1,5 @@
 {
+  "ministry_digital": "Ministry of Digital",
   "site": {
     "name": "directory.gov.my",
     "description": "Your one-stop centre to find details of Government officers!"
@@ -33,6 +34,7 @@
     "start_search": "Start typing to search"
   },
   "footer": {
+    "follow_us": "Follow Us",
     "about_us": "About Us",
     "open_source": "Open Source",
     "repo": "GitHub Repo",
@@ -82,7 +84,7 @@
   },
   "alamat": {
     "header": "Office Directory",
-    "search_placeholder": "Search for keyword (e.g. office, telephone number, email)",
+    "search_placeholder": "Search for keyword (e.g. Digital)",
     "table_header": {
       "nama": "Name",
       "alamat": "Address",
