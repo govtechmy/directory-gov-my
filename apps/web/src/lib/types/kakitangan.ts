@@ -14,3 +14,29 @@ export interface Kakitangan {
   parent_org_id: string | null;
   position_sort: number;
 }
+// TODO: change the interface when ES is up
+export interface OfficeDirectory {
+  id: string;
+  name: string;
+  address: {
+    line1: string;
+    line2: string;
+    line3: string;
+    postcode: string;
+    state: string;
+  };
+  contact: {
+    phone: string | string[];
+    fax: string | string[];
+    email: string;
+    website: string;
+  };
+  social_media: {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    tiktok: string;
+    youtube: string;
+  };
+  operating_hours: string | null;
+}

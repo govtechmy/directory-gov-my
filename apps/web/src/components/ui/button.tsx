@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 const buttonVariants = cva(
-  "inline-flex select-none items-center justify-center gap-1.5 rounded-md whitespace-nowrap text-start font-medium active:translate-y-[0.5px] disabled:cursor-not-allowed disabled:opacity-30",
+  "inline-flex select-none items-center justify-center gap-1.5 rounded-md whitespace-nowrap text-start font-medium active:translate-y-[0.5px] disabled:cursor-not-allowed disabled:opacity-40 focus:ring-fr-primary focus:outline-none",
   {
     variants: {
       variant: {
@@ -12,15 +12,14 @@ const buttonVariants = cva(
         primary:
           "from-brand-600 to-[#3E7AFF] bg-gradient-to-t text-white hover:to-[#5B8EFF] shadow-button",
         secondary:
-          "border border-outline-200 hover:border-outline-300 bg-background focus:border-outline-200 focus:ring focus:ring-offset-0 focus:ring-outline-400/20 shadow-button",
+          "border border-outline-200 hover:border-outline-300 bg-background focus:ring shadow-button",
         "secondary-colour":
-          "border border-brand-200 hover:border-brand-300 bg-background hover:bg-brand-50 text-foreground-primary focus:border-brand-200 focus:ring focus:ring-offset-0 focus:ring-brand-600/20 shadow-button",
-        tertiary:
-          "hover:bg-washed-100 focus:ring focus:ring-offset-0 focus:ring-outline-400/20",
+          "border border-brand-200 hover:border-brand-300 bg-background hover:bg-brand-50 text-foreground-primary focus:border-brand-200 focus:ring focus:ring-fr-primary shadow-button",
+        tertiary: "hover:bg-washed-100 focus:ring focus:ring-fr-primary",
         "tertiary-colour":
-          "hover:bg-brand-50 text-foreground-primary focus:ring focus:ring-offset-0 focus:ring-brand-600/20",
+          "hover:bg-brand-50 text-foreground-primary focus:ring focus:ring-fr-primary",
         "danger-primary":
-          "border border-danger-600 bg-danger-600 hover:bg-danger-700 hover:border-danger-700 text-white focus:border-danger-600 focus:ring focus:ring-offset-0 focus:ring-danger-600/20 shadow-button disabled:bg-danger-300 disabled:border-danger-300",
+          "border border-danger-600 bg-danger-600 hover:bg-danger-700 hover:border-danger-700 text-white focus:border-danger-600 focus:ring focus:ring-fr-primary shadow-button disabled:bg-danger-300 disabled:border-danger-300",
       },
       size: {
         default: "",

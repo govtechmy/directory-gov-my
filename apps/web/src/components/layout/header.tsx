@@ -32,8 +32,16 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 export function Header({ lng }: { lng: string }) {
   const { t } = useTranslation(lng);
   const pathname = usePathname();
-  const active = (href: string) => pathname.startsWith(href) && href !== "/";
-  const nav_items = [{ name: t("header.home"), href: routes.HOME }];
+  const active = (href: string) => {
+    const pathWithoutLocale = pathname.slice(6);
+    if (href === routes.HOME) return pathWithoutLocale === "";
+    return pathWithoutLocale.startsWith(href);
+  };
+
+  const nav_items = [
+    { name: t("header.staff"), href: routes.HOME },
+    { name: t("header.directory"), href: routes.DIRECTORY },
+  ];
   const [showMenu, setMenu] = useState<boolean>(false);
 
   const isMobile = useMediaQuery("(max-width: 640px)");

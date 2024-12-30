@@ -1,4 +1,5 @@
 {
+  "ministry_digital": "Ministry of Digital",
   "site": {
     "name": "directory.gov.my",
     "description": "Your one-stop centre to find details of Government officers!"
@@ -16,7 +17,10 @@
   },
   "header": {
     "site": "Directory",
-    "home": "Home"
+    "home": "Home",
+    "staff": "Staff",
+    "directory": "Office",
+    "dasar": "Policy"
   },
   "theme": {
     "toggle_dark": "Toggle dark mode",
@@ -30,6 +34,7 @@
     "start_search": "Start typing to search"
   },
   "footer": {
+    "follow_us": "Follow Us",
     "about_us": "About Us",
     "open_source": "Open Source",
     "repo": "GitHub Repo",
@@ -75,6 +80,29 @@
     },
     "dropdown": {
       "search_placeholder": "Type to search"
+    }
+  },
+  "alamat": {
+    "header": "Office Directory",
+    "search_placeholder": "Search for keyword (e.g. Digital)",
+    "table_header": {
+      "nama": "Name",
+      "alamat": "Address",
+      "kementerian": "Ministry/ Agency",
+      "bhg": "Division",
+      "seksyen": "Section/Unit",
+      "negeri": "State/Region",
+      "daerah": "District/Area",
+      "jenis": "Services",
+      "waktu": "Operating Hours",
+      "telefon": "Phone No.",
+      "fax": "Fax No.",
+      "emel": "Email",
+      "website": "Website"
+    },
+    "dropdown_title": {
+      "kementerian": "Ministry",
+      "negeri": "State"
     }
   },
   "datepicker": {

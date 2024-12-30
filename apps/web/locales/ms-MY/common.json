@@ -1,4 +1,5 @@
 {
+  "ministry_digital": "Kementerian Digital",
   "site": {
     "name": "directory.gov.my",
     "description": "Portal tunggal untuk mencari maklumat pegawai Kerajaan!"
@@ -16,7 +17,10 @@
   },
   "header": {
     "site": "Direktori",
-    "home": "Utama"
+    "home": "Utama",
+    "staff": "Kakitangan",
+    "directory": "Pejabat",
+    "dasar": "Dasar"
   },
   "theme": {
     "toggle_dark": "Tukar kepada mod gelap",
@@ -33,6 +37,7 @@
     "title": ""
   },
   "footer": {
+    "follow_us": "Ikuti Kami",
     "about_us": "Tentang Kami",
     "open_source": "Sumber Terbuka",
     "repo": "Repo GitHub",
@@ -78,6 +83,29 @@
     },
     "dropdown": {
       "search_placeholder": "Taip untuk cari"
+    }
+  },
+  "alamat": {
+    "header": "Direktori Pejabat",
+    "search_placeholder": "Cari kata kunci (cth. Digital)",
+    "table_header": {
+      "nama": "Nama",
+      "alamat": "Alamat",
+      "kementerian": "Kementerian/Agensi",
+      "bhg": "Bahagian",
+      "seksyen": "Seksyen/Unit",
+      "negeri": "Negeri/Wilayah",
+      "daerah": "Daerah/Kawasan",
+      "jenis": "Jenis",
+      "waktu": "Waktu Operasi",
+      "telefon": "No. Telefon",
+      "fax": "No. Faks",
+      "emel": "Emel",
+      "website": "Website"
+    },
+    "dropdown_title": {
+      "kementerian": "Kementerian",
+      "negeri": "Negeri"
     }
   },
   "datepicker": {
