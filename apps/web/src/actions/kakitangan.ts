@@ -61,7 +61,7 @@ export async function searchOffice(
   name?: string,
   state?: string,
 ): Promise<{ office: any[]; totalPages: number }> {
-  const index = "ministries";
+  const index = "pejabat";
   const size = 20;
 
   try {

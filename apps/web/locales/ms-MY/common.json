@@ -18,7 +18,7 @@
     "site": "Direktori",
     "home": "Utama",
     "staff": "Kakitangan",
-    "directory": "Alamat",
+    "directory": "Pejabat",
     "dasar": "Dasar"
   },
   "theme": {
@@ -84,11 +84,11 @@
     }
   },
   "alamat": {
-    "header": "Direktori Alamat",
+    "header": "Direktori Pejabat",
     "search_placeholder": "Cari kata kunci (pejabat, no tel, emel)",
     "table_header": {
       "nama": "Nama",
-      "pejabat": "Pejabat",
+      "alamat": "Alamat",
       "kementerian": "Kementerian/Agensi",
       "bhg": "Bahagian",
       "seksyen": "Seksyen/Unit",

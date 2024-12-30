@@ -18,7 +18,7 @@
     "site": "Directory",
     "home": "Home",
     "staff": "Staff",
-    "directory": "Directory",
+    "directory": "Office",
     "dasar": "Policy"
   },
   "theme": {
@@ -81,11 +81,11 @@
     }
   },
   "alamat": {
-    "header": "Address Directory",
+    "header": "Office Directory",
     "search_placeholder": "Search for keyword (e.g. office, telephone number, email)",
     "table_header": {
       "nama": "Name",
-      "pejabat": "Office",
+      "alamat": "Address",
       "kementerian": "Ministry/ Agency",
       "bhg": "Division",
       "seksyen": "Section/Unit",

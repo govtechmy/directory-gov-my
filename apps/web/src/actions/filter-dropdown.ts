@@ -108,7 +108,7 @@ export async function getFilterOptions(
 export async function getOfficeFilterOptions(
   nameFilter?: string,
 ): Promise<officeAggregations> {
-  const index = "ministries";
+  const index = "pejabat";
   try {
     const result = await getElasticClient().search({
       index,

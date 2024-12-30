@@ -55,7 +55,7 @@ export default function Home({
       },
     },
     {
-      header: t("alamat.table_header.pejabat"),
+      header: t("alamat.table_header.alamat"),
       accessorKey: "address",
       id: "address",
       cell: ({ row }) => {
@@ -117,7 +117,7 @@ export default function Home({
         return (
           <Link
             primary
-            underline={"none"}
+            underline={"hover"}
             href={website}
             target="_blank"
             rel="noopener noreferrer"
