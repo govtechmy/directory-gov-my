@@ -51,3 +51,51 @@ export async function searchKakitangan(
     throw error;
   }
 }
+
+export async function searchOffice(
+  page: number,
+  size: number,
+  searchText?: string,
+  name?: string,
+  state?: string,
+): Promise<{ office: any[]; totalPages: number }> {
+  const index = "pejabat";
+
+  try {
+    const result = await getElasticClient().search({
+      index,
+      query: {
+        bool: {
+          must: [
+            ...(searchText
+              ? [
+                  {
+                    multi_match: {
+                      query: searchText,
+                      fields: ["*"],
+                      type: "bool_prefix",
+                    },
+                  },
+                ]
+              : []),
+            ...(name ? [{ term: { "name.keyword": name } }] : []),
+            ...(state ? [{ term: { "address.state": state } }] : []),
+          ] as estypes.QueryDslQueryContainer[],
+        },
+      },
+      sort: ["name.keyword"],
+      size,
+      from: (page - 1) * size,
+    });
+
+    const total = result.hits.total as estypes.SearchTotalHits;
+    const office = result.hits.hits.map((hit) => hit._source);
+    return {
+      office,
+      totalPages: Math.ceil(total.value / size),
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

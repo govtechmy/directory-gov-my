@@ -24,7 +24,7 @@ export default function Locale({ lng }: { lng: string }) {
   const onValueChange = (lng: string) => {
     startTransition(() => {
       router.replace(
-        `${lng}${pathname.substring(6)}${searchParams ? `?${searchParams}` : ""}`,
+        `/${lng}${pathname.substring(6)}${searchParams ? `?${searchParams}` : ""}`,
         {
           scroll: false,
         },

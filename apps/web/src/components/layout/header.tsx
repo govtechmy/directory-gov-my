@@ -32,8 +32,16 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 export function Header({ lng }: { lng: string }) {
   const { t } = useTranslation(lng);
   const pathname = usePathname();
-  const active = (href: string) => pathname.startsWith(href) && href !== "/";
-  const nav_items = [{ name: t("header.home"), href: routes.HOME }];
+  const active = (href: string) => {
+    const pathWithoutLocale = pathname.slice(6);
+    if (href === routes.HOME) return pathWithoutLocale === "";
+    return pathWithoutLocale.startsWith(href);
+  };
+
+  const nav_items = [
+    { name: t("header.staff"), href: routes.HOME },
+    { name: t("header.directory"), href: routes.DIRECTORY },
+  ];
   const [showMenu, setMenu] = useState<boolean>(false);
 
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -95,7 +103,7 @@ export function Header({ lng }: { lng: string }) {
                         {href.map((item) => (
                           <SheetClose asChild key={name}>
                             <Link
-                              href={item.href}
+                              href={`/${lng}${item.href}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className={cn(
@@ -116,7 +124,7 @@ export function Header({ lng }: { lng: string }) {
                 ) : (
                   <SheetClose asChild key={name}>
                     <Link
-                      href={href}
+                      href={`/${lng}${href}`}
                       data-state={active(href) ? "open" : "close"}
                       className={cn(
                         buttonVariants({ variant: "tertiary", size: "md" }),
@@ -157,7 +165,7 @@ export function Header({ lng }: { lng: string }) {
                         {href.map((item) => (
                           <Link
                             key={item.name}
-                            href={item.href}
+                            href={`/${lng}${item.href}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={cn(
@@ -174,7 +182,7 @@ export function Header({ lng }: { lng: string }) {
                 ) : (
                   <NavigationMenu.Item key={name}>
                     <Link
-                      href={href}
+                      href={`/${lng}${href}`}
                       data-state={active(href) ? "open" : "close"}
                       className={cn(
                         buttonVariants({ variant: "tertiary" }),

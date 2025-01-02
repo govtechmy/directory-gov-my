@@ -93,7 +93,20 @@ export default function Home({
       header: t("directory.table_header.nama"),
       accessorKey: "person_name",
       id: "person_name",
-      cell: ({ getValue }) => (getValue() as string) ?? "—",
+      cell: (row) => row.getValue() ?? "—",
+      // cell: ({ getValue, row }) => (
+      //   <Dialog>
+      //     <DialogTrigger asChild>
+      //       <Button variant="tertiary">{(getValue() as string) ?? "—"}</Button>
+      //     </DialogTrigger>
+      //     <DialogContent className="p-0 gap-0 max-w-[600px]">
+      //       <DialogHeader className="p-6 border-b border-outline-200">
+      //         <DialogTitle>Profil Penjawat Awam</DialogTitle>
+      //       </DialogHeader>
+      //       <Profile lng={lng} {...row.original} />
+      //     </DialogContent>
+      //   </Dialog>
+      // ),
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
         cellClass: "border-r sticky bg-background left-0 z-10 sm:py-1.5",
@@ -144,12 +157,18 @@ export default function Home({
       accessorKey: "person_phone",
       id: "person_phone",
       cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
     },
     {
       header: t("directory.table_header.fax"),
       accessorKey: "person_fax",
       id: "person_fax",
       cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
     },
     {
       header: ({ table }) => {
