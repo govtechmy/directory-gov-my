@@ -10,7 +10,7 @@ import DataTable from "@/components/ui/data-table";
 import Search from "@/components/ui/search";
 import { DirektoriFilter } from "./filter";
 import Paginate from "@/components/ui/pagination";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 import {
   Select,
@@ -26,6 +26,8 @@ import { Kakitangan } from "@/lib/types/kakitangan";
 import CopyIcon from "@/icons/copy";
 import useToast from "@/hooks/use-toast";
 import { AutoToast } from "@/components/ui/toast";
+import { CheckboxHeader } from "@/components/home/checkbox-header";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Home({
   lng,
@@ -172,30 +174,9 @@ export default function Home({
     },
     {
       header: ({ table }) => {
-        const checkboxRef = useRef<HTMLInputElement>(null);
-
-        useEffect(() => {
-          if (checkboxRef.current) {
-            checkboxRef.current.indeterminate =
-              table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected();
-          }
-        }, [table]);
         return (
           <div className="flex items-center gap-2.5 whitespace-nowrap">
-            <input
-              id="email-header"
-              type="checkbox"
-              checked={table.getIsAllRowsSelected()}
-              ref={checkboxRef}
-              onChange={table.getToggleAllRowsSelectedHandler()}
-              className="w-4 h-4"
-            />
-            <label
-              htmlFor="email-header"
-              className="cursor-pointer select-none"
-            >
-              {t("directory.table_header.emel")}
-            </label>
+            <CheckboxHeader table={table} size="small" className="rounded-xs" />
           </div>
         );
       },
@@ -203,28 +184,21 @@ export default function Home({
       id: "person_email",
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5 whitespace-nowrap">
-          {
-            // falsy email value cannot be selected to be copied
-            row.getValue("person_email") ? (
-              <input
-                id={row.id}
-                type="checkbox"
-                checked={row.getIsSelected()}
-                disabled={!row.getCanSelect()}
-                onChange={row.getToggleSelectedHandler()}
-                className="w-4 h-4"
+          {(() => {
+            const email = row.getValue("person_email");
+            const isEmailValid = email && email !== "NULL";
+
+            return (
+              <Checkbox
+                className="rounded-xs"
+                checked={isEmailValid ? row.getIsSelected() : false}
+                disabled={!isEmailValid || !row.getCanSelect()}
+                onCheckedChange={row.getToggleSelectedHandler()}
               />
-            ) : (
-              <input
-                type="checkbox"
-                checked={false}
-                disabled={true}
-                className="w-4 h-4"
-              />
-            )
-          }
+            );
+          })()}
           <label htmlFor={row.id} className="cursor-pointer select-none">
-            {row.getValue("person_email") ?? "—"}
+            {row.getValue("person_email")}
           </label>
         </div>
       ),

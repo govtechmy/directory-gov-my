@@ -289,25 +289,6 @@ const config: Config = {
         xl: "14px",
         full: "9999px",
       },
-      keyframes: {
-        "decrease-width": {
-          "0%": { width: "100%" },
-          "100%": { width: "0%" },
-        },
-        "slide-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "slide-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        expire: "decrease-width 5s linear",
-        "slide-down": "slide-down 300ms ease-out",
-        "slide-up": "slide-up 300ms ease-out",
-      },
     },
     keyframes: {
       "decrease-width": {
@@ -332,9 +313,6 @@ const config: Config = {
       "slide-down": "slide-down 300ms ease-out",
       "slide-up": "slide-up 300ms ease-out",
       "caret-blink": "caret-blink 1.25s ease-out infinite",
-    },
-    animation: {
-      expire: "decrease-width 5s linear",
     },
   },
   plugins: [tailwindCSSAnimate],
