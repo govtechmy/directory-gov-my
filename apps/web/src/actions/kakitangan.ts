@@ -12,40 +12,48 @@ export async function searchKakitangan(
   subdivision?: string,
 ): Promise<{ kakitangan: any[]; totalPages: number }> {
   const index = "kakitangan";
+  let queries = [] as estypes.QueryDslQueryContainer[];
+
+  if (q) {
+    const index = q.lastIndexOf(" ");
+    const match_bool = { match: { query: q.substring(0, index) } };
+    const prefix = { prefix: { prefix: q.substring(index + 1) } };
+    const match_bool_prefix = {
+      all_of: {
+        intervals: index > 0 ? [match_bool, prefix] : prefix,
+      },
+    } as estypes.QueryDslIntervalsQuery;
+    queries = [
+      { intervals: { person_name: match_bool_prefix } },
+      { intervals: { position_name: match_bool_prefix } },
+      { term: { person_email: q } },
+      { term: { person_fax: q } },
+      { term: { person_phone: q } },
+    ];
+  }
+
+  if (org) queries = queries.concat({ term: { "org_name.keyword": org } });
+  if (division)
+    queries = queries.concat({ term: { "division_name.keyword": division } });
+  if (subdivision)
+    queries = queries.concat({
+      term: { "subdivision_name.keyword": subdivision },
+    });
+
+  const query = queries.length > 0 ? { dis_max: { queries } } : undefined;
+
   try {
     const result = await getElasticClient().search({
       index,
-      query: {
-        bool: {
-          must: [
-            ...(q
-              ? [
-                  {
-                    multi_match: {
-                      query: q,
-                      fields: ["*"],
-                      type: "bool_prefix",
-                    },
-                  },
-                ]
-              : []),
-            ...(org ? [{ term: { "org_name.keyword": org } }] : []),
-            ...(division
-              ? [{ term: { "division_name.keyword": division } }]
-              : []),
-            ...(subdivision
-              ? [{ term: { "subdivision_name.keyword": subdivision } }]
-              : []),
-          ] as estypes.QueryDslQueryContainer[],
-        },
-      },
+      query,
       sort: ["org_sort", "division_sort", "position_sort"],
       size,
       from: (page - 1) * size,
     });
     const total = result.hits.total as estypes.SearchTotalHits;
+    const totalPages = Math.ceil(total.value / size);
     const kakitangan = result.hits.hits.map((hit) => hit._source);
-    return { kakitangan, totalPages: Math.round(total.value / size) };
+    return { kakitangan, totalPages };
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
