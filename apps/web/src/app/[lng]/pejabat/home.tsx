@@ -192,7 +192,6 @@ export default function Home({
       const params = new URLSearchParams(searchParams.toString());
       if (value === null) params.delete(key);
       else params.set(key, value);
-      // TODO: change ministry to office
       if (key === "office") {
         params.delete("state");
       }

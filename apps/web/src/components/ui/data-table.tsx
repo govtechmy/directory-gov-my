@@ -46,9 +46,8 @@ interface DataTableProps<TData, TValue> {
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
   isMobile: boolean;
-  rowSelection: RowSelection;
-  setRowSelection: React.Dispatch<React.SetStateAction<RowSelection>>;
-  copyEmail: (getSelectedRowModel: () => any) => void;
+  rowSelection?: RowSelection;
+  setRowSelection?: React.Dispatch<React.SetStateAction<RowSelection>>;
 }
 
 export default function DataTable<TData, TValue>({
@@ -62,7 +61,6 @@ export default function DataTable<TData, TValue>({
   isMobile,
   rowSelection,
   setRowSelection,
-  copyEmail,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
 
@@ -102,10 +100,6 @@ export default function DataTable<TData, TValue>({
     },
     onRowSelectionChange: setRowSelection,
   });
-
-  useEffect(() => {
-    copyEmail(table.getSelectedRowModel);
-  }, [table.getSelectedRowModel]);
 
   const headerGroups = table.getHeaderGroups();
   const tableRow = table.getRowModel().rows;

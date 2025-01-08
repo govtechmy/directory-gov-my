@@ -10,7 +10,7 @@ import DataTable from "@/components/ui/data-table";
 import Search from "@/components/ui/search";
 import { DirektoriFilter } from "./filter";
 import Paginate from "@/components/ui/pagination";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   Select,
@@ -58,37 +58,37 @@ export default function Home({
   const divisionSelected = searchParams.get("division");
   const subdivisionSelected = searchParams.get("subdivision");
 
-  type GetSelectedRowsType = (() => any) | null;
-  const [rowCopied, setRowCopied] = useState<GetSelectedRowsType>(null);
   const [rowSelection, setRowSelection] = useState({});
-
-  const handleCopyRows = useCallback((getSelectedRowModel: () => any) => {
-    setRowCopied(() => getSelectedRowModel);
-  }, []);
 
   const { toast } = useToast();
 
   const copySelectedEmails = async () => {
-    if (!rowCopied) return;
-
-    const selectedRows = rowCopied().rows;
-    const emailsToCopy = selectedRows
-      .map((row: any) => row.original.person_email)
+    if (!rowSelection) return;
+    const emailsToCopy = kakitangan
+      .filter((item, index) => {
+        return Object.keys(rowSelection).includes(index.toString());
+      })
+      .map((item) => item.person_email)
       .join(",");
 
     try {
       await navigator.clipboard.writeText(emailsToCopy);
       toast({
         variant: "success",
-        title: "Emails copied!",
+        title: t("directory.copyEmail.success"),
       });
     } catch (err) {
       toast({
         variant: "error",
-        title: "Error in copying email. Please try again.",
+        title: t("directory.copyEmail.error"),
       });
     }
   };
+
+  useEffect(() => {
+    // clear row selected when page changed
+    setRowSelection({});
+  }, [currentPage]);
 
   const column: ColumnDef<Kakitangan>[] = [
     {
@@ -176,7 +176,19 @@ export default function Home({
       header: ({ table }) => {
         return (
           <div className="flex items-center gap-2.5 whitespace-nowrap">
-            <CheckboxHeader table={table} size="small" className="rounded-xs" />
+            <CheckboxHeader
+              table={table}
+              size="small"
+              className="rounded-xs"
+              id="checkbox-header"
+            />
+            {/* Emel */}
+            <label
+              htmlFor="checkbox-header"
+              className="cursor-pointer select-none"
+            >
+              {t("directory.table_header.emel")}
+            </label>
           </div>
         );
       },
@@ -186,10 +198,11 @@ export default function Home({
         <div className="flex items-center gap-2.5 whitespace-nowrap">
           {(() => {
             const email = row.getValue("person_email");
-            const isEmailValid = email && email !== "NULL";
+            const isEmailValid = email && email !== "—";
 
             return (
               <Checkbox
+                id={row.id}
                 className="rounded-xs"
                 checked={isEmailValid ? row.getIsSelected() : false}
                 disabled={!isEmailValid || !row.getCanSelect()}
@@ -358,7 +371,6 @@ export default function Home({
             isMobile={isMobile}
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
-            copyEmail={handleCopyRows}
           />
 
           <div className="flex flex-col items-center justify-between gap-2 pt-8 sm:flex-row">
