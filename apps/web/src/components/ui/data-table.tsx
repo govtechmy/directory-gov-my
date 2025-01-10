@@ -11,6 +11,7 @@ import {
   getFacetedUniqueValues,
   Row,
   Cell,
+  RowSelectionState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -29,6 +30,8 @@ import ColumnExpand from "@/icons/column-expand";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
+type RowSelection = RowSelectionState;
+
 interface DataTableProps<TData, TValue> {
   className?: string;
   columns: ColumnDef<TData, any>[];
@@ -43,6 +46,8 @@ interface DataTableProps<TData, TValue> {
   onRowSelection?: (value: string[]) => void;
   isMerged?: (row: Row<TData>) => Cell<TData, unknown> | false | undefined;
   isMobile: boolean;
+  rowSelection?: RowSelection;
+  setRowSelection?: React.Dispatch<React.SetStateAction<RowSelection>>;
 }
 
 export default function DataTable<TData, TValue>({
@@ -54,6 +59,8 @@ export default function DataTable<TData, TValue>({
   filter,
   isMerged,
   isMobile,
+  rowSelection,
+  setRowSelection,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(lng);
 
@@ -87,6 +94,11 @@ export default function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     debugTable: false,
     debugHeaders: false,
+    enableRowSelection: true,
+    state: {
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
   });
 
   const headerGroups = table.getHeaderGroups();
@@ -112,7 +124,6 @@ export default function DataTable<TData, TValue>({
   return (
     <>
       {filter ? filter(table, headerGroups[0]!.headers) : <></>}
-
       <Table
         style={{
           width:

@@ -83,6 +83,10 @@
     },
     "dropdown": {
       "search_placeholder": "Taip untuk cari"
+    },
+    "copyEmail": {
+      "success": "Emel telah disalin.",
+      "error": "Gagal menyalin emel. Sila cuba lagi."
     }
   },
   "alamat": {

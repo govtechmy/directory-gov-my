@@ -10,14 +10,8 @@ import DataTable from "@/components/ui/data-table";
 import Search from "@/components/ui/search";
 import { DirektoriFilter } from "./filter";
 import Paginate from "@/components/ui/pagination";
-import { useCallback } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useCallback, useEffect, useState } from "react";
+
 import {
   Select,
   SelectContent,
@@ -25,21 +19,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetOverlay,
-  SheetPortal,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+
 import { Button } from "@/components/ui/button";
 import MobileCard from "@/components/home/mobile-card";
-import Profile from "@/components/home/profile";
 import { Kakitangan } from "@/lib/types/kakitangan";
-import CrossX from "@/icons/cross-x";
+import CopyIcon from "@/icons/copy";
+import useToast from "@/hooks/use-toast";
+import { AutoToast } from "@/components/ui/toast";
+import { CheckboxHeader } from "@/components/home/checkbox-header";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Home({
   lng,
@@ -70,6 +58,38 @@ export default function Home({
   const divisionSelected = searchParams.get("division");
   const subdivisionSelected = searchParams.get("subdivision");
 
+  const [rowSelection, setRowSelection] = useState({});
+
+  const { toast } = useToast();
+
+  const copySelectedEmails = async () => {
+    if (!rowSelection) return;
+    const emailsToCopy = kakitangan
+      .filter((item, index) => {
+        return Object.keys(rowSelection).includes(index.toString());
+      })
+      .map((item) => item.person_email)
+      .join(",");
+
+    try {
+      await navigator.clipboard.writeText(emailsToCopy);
+      toast({
+        variant: "success",
+        title: t("directory.copyEmail.success"),
+      });
+    } catch (err) {
+      toast({
+        variant: "error",
+        title: t("directory.copyEmail.error"),
+      });
+    }
+  };
+
+  useEffect(() => {
+    // clear row selected when page changed
+    setRowSelection({});
+  }, [currentPage]);
+
   const column: ColumnDef<Kakitangan>[] = [
     {
       header: t("directory.table_header.nama"),
@@ -92,6 +112,7 @@ export default function Home({
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
         cellClass: "border-r sticky bg-background left-0 z-10 sm:py-1.5",
+        expandable: true,
       },
     },
     {
@@ -152,14 +173,79 @@ export default function Home({
       },
     },
     {
-      header: t("directory.table_header.emel"),
+      header: ({ table }) => {
+        return (
+          <div className="flex items-center gap-2.5 whitespace-nowrap">
+            <CheckboxHeader
+              table={table}
+              size="small"
+              className="rounded-xs"
+              id="checkbox-header"
+            />
+            {/* Emel */}
+            <label
+              htmlFor="checkbox-header"
+              className="cursor-pointer select-none"
+            >
+              {t("directory.table_header.emel")}
+            </label>
+          </div>
+        );
+      },
       accessorKey: "person_email",
       id: "person_email",
-      cell: (row) => row.getValue() ?? "—",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2.5 whitespace-nowrap">
+          {(() => {
+            const email = row.getValue("person_email");
+            const isEmailValid = email && email !== "—";
+
+            return (
+              <Checkbox
+                id={row.id}
+                className="rounded-xs"
+                checked={isEmailValid ? row.getIsSelected() : false}
+                disabled={!isEmailValid || !row.getCanSelect()}
+                onCheckedChange={row.getToggleSelectedHandler()}
+              />
+            );
+          })()}
+          <label htmlFor={row.id} className="cursor-pointer select-none">
+            {row.getValue("person_email")}
+          </label>
+        </div>
+      ),
       meta: {
-        cellClass: "select-all",
+        headerClass: "sticky bg-background right-0 border-l",
+        cellClass: "sticky bg-background right-0 border-l",
       },
     },
+    // {
+    //   id: "profile_info",
+    //   size: 100,
+    //   cell: ({ row }) => (
+    //     <>
+    //       <Dialog>
+    //         <DialogTrigger asChild>
+    //           <Button variant="tertiary">
+    //             <ArrowOutgoing className="size-[16px]" />
+    //             Profil
+    //           </Button>
+    //         </DialogTrigger>
+    //         <DialogContent className="p-0 gap-0 max-w-[600px]">
+    //           <DialogHeader className="p-6 border-b border-outline-200">
+    //             <DialogTitle>Profil Penjawat Awam</DialogTitle>
+    //           </DialogHeader>
+    //           <Profile lng={lng} {...row.original} />
+    //         </DialogContent>
+    //       </Dialog>
+    //     </>
+    //   ),
+    //   meta: {
+    //     headerClass: "sticky bg-background right-0 border-l sm:py-1.5",
+    //     cellClass: "sticky bg-background right-0 border-l sm:py-1.5",
+    //   },
+    // },
   ];
 
   const mobileColumn: ColumnDef<Kakitangan>[] = [
@@ -263,13 +349,28 @@ export default function Home({
                 setSearchParams("subdivision", currentValue)
               }
             />
+            <div className="flex-grow flex justify-end">
+              {Object.keys(rowSelection).length > 0 && (
+                <Button
+                  onClick={copySelectedEmails}
+                  variant={"primary"}
+                  size={"sm"}
+                >
+                  <CopyIcon />
+                  Copy selected email
+                </Button>
+              )}
+            </div>
           </div>
+
           <DataTable
             lng={lng}
             columns={isMobile ? mobileColumn : column}
             data={kakitangan}
             resizable={false}
             isMobile={isMobile}
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
           />
 
           <div className="flex flex-col items-center justify-between gap-2 pt-8 sm:flex-row">
@@ -304,6 +405,7 @@ export default function Home({
             />
           </div>
         </div>
+        <AutoToast />
       </Section>
     </main>
   );

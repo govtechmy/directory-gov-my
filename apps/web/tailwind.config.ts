@@ -104,6 +104,15 @@ const config: Config = {
         "context-menu":
           "0px 2px 6px 0px rgba(0, 0, 0, 0.05), 0px 12px 50px 0px rgba(0, 0, 0, 0.10)",
       },
+      animation: {
+        expire: "decrease-width 5s linear",
+      },
+      keyframes: {
+        "decrease-width": {
+          "0%": { width: "100%" },
+          "100%": { width: "0%" },
+        },
+      },
       colors: {
         brand: {
           50: "oklch(var(--brand-50) / <alpha-value>)",
@@ -279,25 +288,6 @@ const config: Config = {
         lg: "12px",
         xl: "14px",
         full: "9999px",
-      },
-      keyframes: {
-        "decrease-width": {
-          "0%": { width: "100%" },
-          "100%": { width: "0%" },
-        },
-        "slide-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "slide-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        expire: "decrease-width 5s linear",
-        "slide-down": "slide-down 300ms ease-out",
-        "slide-up": "slide-up 300ms ease-out",
       },
     },
     keyframes: {
