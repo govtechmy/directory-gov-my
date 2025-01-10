@@ -111,7 +111,8 @@ export default function Home({
       // ),
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
-        cellClass: "border-r sticky bg-background left-0 z-10 sm:py-1.5",
+        cellClass:
+          "border-r sticky bg-background left-0 z-10 sm:py-1.5 max-w-[300px]",
         expandable: true,
       },
     },
@@ -350,16 +351,15 @@ export default function Home({
               }
             />
             <div className="flex-grow flex justify-end">
-              {Object.keys(rowSelection).length > 0 && (
-                <Button
-                  onClick={copySelectedEmails}
-                  variant={"primary"}
-                  size={"sm"}
-                >
-                  <CopyIcon />
-                  Copy selected email
-                </Button>
-              )}
+              <Button
+                onClick={copySelectedEmails}
+                variant={"primary"}
+                size={"sm"}
+                disabled={Object.keys(rowSelection).length === 0}
+              >
+                <CopyIcon />
+                Copy selected email
+              </Button>
             </div>
           </div>
 
