@@ -79,6 +79,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang={lng} suppressHydrationWarning>
+      {/* TODO change after going live */}
+      {process.env.APP_ENV === "production" && (
+        <meta name="robots" content="noindex,nofollow"></meta>
+      )}
       {process.env.APP_ENV === "production" && (
         <head>
           {/* <script
