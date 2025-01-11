@@ -111,8 +111,7 @@ export default function Home({
       // ),
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
-        cellClass:
-          "border-r sticky bg-background left-0 z-10 sm:py-1.5 max-w-[300px]",
+        cellClass: "border-r sticky bg-background left-0 z-10 sm:py-1.5",
         expandable: true,
       },
     },
