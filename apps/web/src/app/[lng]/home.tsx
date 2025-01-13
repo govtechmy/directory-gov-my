@@ -350,16 +350,15 @@ export default function Home({
               }
             />
             <div className="flex-grow flex justify-end">
-              {Object.keys(rowSelection).length > 0 && (
-                <Button
-                  onClick={copySelectedEmails}
-                  variant={"primary"}
-                  size={"sm"}
-                >
-                  <CopyIcon />
-                  Copy selected email
-                </Button>
-              )}
+              <Button
+                onClick={copySelectedEmails}
+                variant={"primary"}
+                size={"sm"}
+                disabled={Object.keys(rowSelection).length === 0}
+              >
+                <CopyIcon />
+                Copy selected email
+              </Button>
             </div>
           </div>
 
