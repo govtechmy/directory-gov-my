@@ -26,6 +26,13 @@ export async function searchKakitangan(
     queries = [
       { intervals: { person_name: match_bool_prefix } },
       { intervals: { position_name: match_bool_prefix } },
+      {
+        multi_match: {
+          query: q,
+          fields: ["org_name", "division_name", "subdivision_name"],
+          type: "phrase_prefix",
+        },
+      },
       { term: { person_email: q } },
       { term: { person_fax: q } },
       { term: { person_phone: q } },
