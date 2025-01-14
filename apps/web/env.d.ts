@@ -3,6 +3,7 @@ declare namespace NodeJS {
     APP_URL: string;
     AUTH_TOKEN: string;
     APP_ENV: string;
+    NEXT_PUBLIC_APP_ENV: string;
     REVALIDATE_TOKEN: string;
 
     NEXT_PUBLIC_CLARITY_PROJECT_ID: string;

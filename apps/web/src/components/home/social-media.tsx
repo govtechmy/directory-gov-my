@@ -37,7 +37,7 @@ const SocialMediaIcon = ({ platform, url }: SocialMediaIconProps) => {
   if (!IconComponent || !url) return null;
 
   return (
-    <Button className="size-[32px]">
+    <Button className="size-[32px] p-2" asChild>
       <a
         href={url}
         target="_blank"

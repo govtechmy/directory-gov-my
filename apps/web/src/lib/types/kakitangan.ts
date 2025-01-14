@@ -14,7 +14,6 @@ export interface Kakitangan {
   parent_org_id: string | null;
   position_sort: number;
 }
-// TODO: change the interface when ES is up
 export interface OfficeDirectory {
   id: string;
   name: string;

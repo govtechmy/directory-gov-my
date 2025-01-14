@@ -80,6 +80,10 @@
     },
     "dropdown": {
       "search_placeholder": "Type to search"
+    },
+    "copyEmail": {
+      "success": "Emails copied successfully!",
+      "error": "Error in copying email. Please try again."
     }
   },
   "alamat": {

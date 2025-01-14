@@ -14,8 +14,6 @@ export default function OfficeCard({
 }: OfficeDirectory & { children?: ReactNode; lng: string }) {
   const { id, name, address, contact, social_media } = officeInfo;
 
-  //   TODO: social media
-
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">
       <p className="flex flex-wrap text-xs font-semibold">{id}</p>
