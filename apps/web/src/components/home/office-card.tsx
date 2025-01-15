@@ -4,9 +4,10 @@ import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { ReactNode } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
-import { concatenateAddress } from "@/lib/utils";
+import { concatenateAddress, encodeAddress } from "@/lib/utils";
 import SocialMediaIcon from "./social-media";
 import Printer from "@/icons/printer";
+import { ContactInfoType } from "@/app/[lng]/pejabat/home";
 
 export default function OfficeCard({
   children,
@@ -14,7 +15,10 @@ export default function OfficeCard({
 }: OfficeDirectory & { children?: ReactNode; lng: string }) {
   const { id, name, address, contact, social_media } = officeInfo;
 
-  console.log(social_media);
+  const concatAddress = concatenateAddress(address, ", ");
+  const gMapUrl = encodeAddress(concatAddress);
+  const contactInfo = { ...(social_media as ContactInfoType) };
+  contactInfo["googleMap"] = gMapUrl;
 
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">
@@ -62,7 +66,7 @@ export default function OfficeCard({
       </div>
 
       <div className="flex flex-row gap-2">
-        {Object.entries(social_media).map(([platform, url]) => (
+        {Object.entries(contactInfo).map(([platform, url]) => (
           <SocialMediaIcon
             key={platform}
             platform={platform as any}

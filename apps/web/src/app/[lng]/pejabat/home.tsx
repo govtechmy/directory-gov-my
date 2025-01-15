@@ -26,7 +26,7 @@ import SocialMediaIcon, {
   SocialMediaIconProps,
 } from "@/components/home/social-media";
 
-type ContactInfoType = {
+export type ContactInfoType = {
   [K in SocialMediaIconProps["platform"]]?: string;
 };
 
@@ -166,7 +166,8 @@ export default function Home({
       accessorKey: "social_media",
       id: "social_media",
       cell: (row) => {
-        const contactInfo = row.getValue() as ContactInfoType;
+        // do shallow copy here such that it won't modify the original row.getValue()
+        const contactInfo = { ...(row.getValue() as ContactInfoType) };
         const address = concatenateAddress(row.row.original.address, ", ");
         const gMapUrl = encodeAddress(address);
         contactInfo["googleMap"] = gMapUrl;
@@ -190,7 +191,9 @@ export default function Home({
       header: "",
       accessorKey: "person_name",
       id: "person_name",
-      cell: ({ row }) => <OfficeCard lng={lng} {...row.original}></OfficeCard>,
+      cell: ({ row }) => {
+        return <OfficeCard lng={lng} {...row.original}></OfficeCard>;
+      },
     },
   ];
 
