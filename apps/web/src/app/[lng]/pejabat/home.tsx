@@ -21,10 +21,14 @@ import { useCallback } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
 import { Link } from "@/components/ui/link";
 import OfficeCard from "@/components/home/office-card";
-import { concatenateAddress } from "@/lib/utils";
+import { concatenateAddress, encodeAddress } from "@/lib/utils";
 import SocialMediaIcon, {
   SocialMediaIconProps,
 } from "@/components/home/social-media";
+
+type ContactInfoType = {
+  [K in SocialMediaIconProps["platform"]]?: string;
+};
 
 export default function Home({
   lng,
@@ -32,7 +36,7 @@ export default function Home({
   totalPages,
   size,
   office,
-  state,
+  // state,
 }: {
   lng: string;
   officeDirectory: OfficeDirectory[];
@@ -50,7 +54,7 @@ export default function Home({
   const searchQuery = searchParams.get("q");
   const currentPage = Number(searchParams.get("page") || "1");
   const officeSelected = searchParams.get("office");
-  const stateSelected = searchParams.get("state");
+  // const stateSelected = searchParams.get("state");
 
   const column: ColumnDef<OfficeDirectory>[] = [
     {
@@ -162,10 +166,13 @@ export default function Home({
       accessorKey: "social_media",
       id: "social_media",
       cell: (row) => {
-        const social_media = row.getValue() as SocialMediaIconProps["platform"];
+        const contactInfo = row.getValue() as ContactInfoType;
+        const address = concatenateAddress(row.row.original.address, ", ");
+        const gMapUrl = encodeAddress(address);
+        contactInfo["googleMap"] = gMapUrl;
         return (
           <div className="flex flex-row flex-wrap gap-2 w-[180px]">
-            {Object.entries(social_media).map(([platform, url]) => (
+            {Object.entries(contactInfo).map(([platform, url]) => (
               <SocialMediaIcon
                 key={platform}
                 platform={platform as any}

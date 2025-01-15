@@ -7,6 +7,7 @@ import Tiktok from "@/icons/tiktok";
 import TwitterX from "@/icons/twitter-x";
 import Youtube from "@/icons/youtube";
 import { Button } from "../ui/button";
+import GoogleMaps from "@/icons/google-map";
 
 const socialIcons = {
   facebook: { icon: Facebook },
@@ -17,6 +18,7 @@ const socialIcons = {
   rss: { icon: Rss },
   linkedin: { icon: Linkedin },
   telegram: { icon: Telegram },
+  googleMap: { icon: GoogleMaps },
 };
 
 export interface SocialMediaIconProps {
@@ -27,8 +29,9 @@ export interface SocialMediaIconProps {
     | "youtube"
     | "tiktok"
     | "rss"
+    | "linkedin"
     | "telegram"
-    | "linkedin";
+    | "googleMap";
   url: string;
 }
 
