@@ -15,9 +15,10 @@ export async function searchKakitangan(
   let queries = [] as estypes.QueryDslQueryContainer[];
 
   if (q) {
-    const index = q.lastIndexOf(" ");
-    const match_bool = { match: { query: q.substring(0, index) } };
-    const prefix = { prefix: { prefix: q.substring(index + 1) } };
+    const trimmed_q = q.trim();
+    const index = trimmed_q.lastIndexOf(" ");
+    const match_bool = { match: { query: trimmed_q.substring(0, index) } };
+    const prefix = { prefix: { prefix: trimmed_q.substring(index + 1) } };
     const match_bool_prefix = {
       all_of: {
         intervals: index > 0 ? [match_bool, prefix] : prefix,
