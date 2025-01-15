@@ -40,15 +40,21 @@ export async function searchKakitangan(
     ];
   }
 
-  if (org) queries = queries.concat({ term: { "org_name.keyword": org } });
-  if (division)
-    queries = queries.concat({ term: { "division_name.keyword": division } });
-  if (subdivision)
-    queries = queries.concat({
-      term: { "subdivision_name.keyword": subdivision },
-    });
+  let must = [] as estypes.QueryDslQueryContainer[];
+  if (queries.length > 0) {
+    must = must.concat({ dis_max: { queries } });
+  }
+  if (org) {
+    must = must.concat({ term: { "org_name.keyword": org } });
+  }
+  if (division) {
+    must = must.concat({ term: { "division_name.keyword": division } });
+  }
+  if (subdivision) {
+    must = must.concat({ term: { "subdivision_name.keyword": subdivision } });
+  }
 
-  const query = queries.length > 0 ? { dis_max: { queries } } : undefined;
+  const query = must.length > 0 ? { bool: { must } } : undefined;
 
   try {
     const result = await getElasticClient().search({
