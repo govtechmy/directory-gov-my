@@ -8,6 +8,7 @@ import TwitterX from "@/icons/twitter-x";
 import Youtube from "@/icons/youtube";
 import { Button } from "../ui/button";
 import GoogleMaps from "@/icons/google-map";
+import Waze from "@/icons/waze";
 
 const socialIcons = {
   facebook: { icon: Facebook },
@@ -19,6 +20,7 @@ const socialIcons = {
   linkedin: { icon: Linkedin },
   telegram: { icon: Telegram },
   googleMap: { icon: GoogleMaps },
+  waze: { icon: Waze },
 };
 
 export interface SocialMediaIconProps {
@@ -31,7 +33,8 @@ export interface SocialMediaIconProps {
     | "rss"
     | "linkedin"
     | "telegram"
-    | "googleMap";
+    | "googleMap"
+    | "waze";
   url: string;
 }
 

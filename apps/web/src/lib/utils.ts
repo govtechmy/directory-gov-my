@@ -2,6 +2,10 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { OfficeDirectory } from "./types/kakitangan";
 
+interface GenerateMapUrlI {
+  (address: string, type: "Waze" | "Google"): string;
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -36,11 +40,22 @@ export function concatenateAddress(
   return fullAddress;
 }
 
-export function encodeAddress(address: string) {
-  // refer https://developers.google.com/maps/documentation/urls/get-started#search-action
-  const params = new URLSearchParams({
-    api: "1",
-    query: address,
-  });
-  return `https://www.google.com/maps/search/?${params.toString()}`;
-}
+export const generateMapUrl: GenerateMapUrlI = (address: string, type) => {
+  switch (type) {
+    case "Waze": {
+      // refer https://developers.google.com/waze/deeplinks
+      let params = new URLSearchParams({
+        q: address,
+      });
+      return `https://waze.com/ul?${params.toString()}`;
+    }
+    case "Google": {
+      // refer https://developers.google.com/maps/documentation/urls/get-started#search-action
+      let params = new URLSearchParams({
+        api: "1",
+        query: address,
+      });
+      return `https://www.google.com/maps/search/?${params.toString()}`;
+    }
+  }
+};

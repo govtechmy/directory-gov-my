@@ -4,7 +4,7 @@ import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { ReactNode } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
-import { concatenateAddress, encodeAddress } from "@/lib/utils";
+import { concatenateAddress, generateMapUrl } from "@/lib/utils";
 import SocialMediaIcon from "./social-media";
 import Printer from "@/icons/printer";
 import { ContactInfoType } from "@/app/[lng]/pejabat/home";
@@ -16,9 +16,11 @@ export default function OfficeCard({
   const { id, name, address, contact, social_media } = officeInfo;
 
   const concatAddress = concatenateAddress(address, ", ");
-  const gMapUrl = encodeAddress(concatAddress);
+  const gMapUrl = generateMapUrl(concatAddress, "Google");
+  const wazeUrl = generateMapUrl(concatAddress, "Waze");
   const contactInfo = { ...(social_media as ContactInfoType) };
   contactInfo["googleMap"] = gMapUrl;
+  contactInfo["waze"] = wazeUrl;
 
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">

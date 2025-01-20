@@ -21,7 +21,7 @@ import { useCallback } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
 import { Link } from "@/components/ui/link";
 import OfficeCard from "@/components/home/office-card";
-import { concatenateAddress, encodeAddress } from "@/lib/utils";
+import { concatenateAddress, generateMapUrl } from "@/lib/utils";
 import SocialMediaIcon, {
   SocialMediaIconProps,
 } from "@/components/home/social-media";
@@ -169,8 +169,10 @@ export default function Home({
         // do shallow copy here such that it won't modify the original row.getValue()
         const contactInfo = { ...(row.getValue() as ContactInfoType) };
         const address = concatenateAddress(row.row.original.address, ", ");
-        const gMapUrl = encodeAddress(address);
+        const gMapUrl = generateMapUrl(address, "Google");
+        const wazeUrl = generateMapUrl(address, "Waze");
         contactInfo["googleMap"] = gMapUrl;
+        contactInfo["waze"] = wazeUrl;
         return (
           <div className="flex flex-row flex-wrap gap-2 w-[180px]">
             {Object.entries(contactInfo).map(([platform, url]) => (
