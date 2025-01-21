@@ -85,7 +85,7 @@ export default function Home({
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10 ",
         cellClass:
-          "border-r sticky bg-background left-0 z-10 uppercase min-w-[300px] sm:whitespace-normal hover:text-txt-primary hover:bg-bg-white-hover relative",
+          "border-r sticky bg-background left-0 z-10 uppercase min-w-[300px] sm:whitespace-normal hover:text-txt-primary hover:bg-bg-white-hover",
       },
     },
     {
