@@ -8,6 +8,8 @@ import { concatenateAddress, generateMapUrl } from "@/lib/utils";
 import SocialMediaIcon from "./social-media";
 import Printer from "@/icons/printer";
 import { ContactInfoType } from "@/app/[lng]/pejabat/home";
+import ArrowOutgoing from "@/icons/arrow-outgoing";
+import { Link } from "@/components/ui/link";
 
 export default function OfficeCard({
   children,
@@ -15,6 +17,7 @@ export default function OfficeCard({
 }: OfficeDirectory & { children?: ReactNode; lng: string }) {
   const { id, name, address, contact, social_media } = officeInfo;
 
+  const website = contact.website;
   const concatAddress = concatenateAddress(address, ", ");
   const gMapUrl = generateMapUrl(concatAddress, "Google");
   const wazeUrl = generateMapUrl(concatAddress, "Waze");
@@ -26,11 +29,16 @@ export default function OfficeCard({
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">
       <p className="flex flex-wrap text-xs font-semibold">{id}</p>
       <div>
-        <div className="flex flex-wrap items-center gap-x-1.5">
-          <span className="text-base font-semibold text-foreground">
-            {name ?? "—"}
-          </span>
-        </div>
+        <Link
+          className="flex gap-2 text-txt-black-900"
+          underline={"none"}
+          href={website}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <p className="text-base">{name ?? "-"}</p>
+          <ArrowOutgoing className="size-[20px] flex-shrink-0" />
+        </Link>
       </div>
       <div>
         <span className="whitespace-pre-line text-txt-black-500">
