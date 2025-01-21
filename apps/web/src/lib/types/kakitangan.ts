@@ -23,6 +23,10 @@ export interface OfficeDirectory {
     line3: string;
     postcode: string;
     state: string;
+    location: {
+      lat: number;
+      lon: number;
+    };
   };
   contact: {
     phone: string | string[];

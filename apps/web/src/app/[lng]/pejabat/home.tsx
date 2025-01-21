@@ -158,9 +158,16 @@ export default function Home({
       cell: (row) => {
         // do shallow copy here such that it won't modify the original row.getValue()
         const contactInfo = { ...(row.getValue() as ContactInfoType) };
-        const address = concatenateAddress(row.row.original.address, ", ");
-        const gMapUrl = generateMapUrl(address, "Google");
-        const wazeUrl = generateMapUrl(address, "Waze");
+        const gMapUrl = generateMapUrl(
+          row.row.original.address.location.lat,
+          row.row.original.address.location.lon,
+          "Google",
+        );
+        const wazeUrl = generateMapUrl(
+          row.row.original.address.location.lat,
+          row.row.original.address.location.lon,
+          "Waze",
+        );
         contactInfo["googleMap"] = gMapUrl;
         contactInfo["waze"] = wazeUrl;
         return (

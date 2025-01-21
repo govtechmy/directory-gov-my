@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { OfficeDirectory } from "./types/kakitangan";
 
 interface GenerateMapUrlI {
-  (address: string, type: "Waze" | "Google"): string;
+  (latitude: number, longitude: number, type: "Waze" | "Google"): string;
 }
 
 export function cn(...inputs: ClassValue[]) {
@@ -40,12 +40,12 @@ export function concatenateAddress(
   return fullAddress;
 }
 
-export const generateMapUrl: GenerateMapUrlI = (address: string, type) => {
+export const generateMapUrl: GenerateMapUrlI = (latitude, longitude, type) => {
   switch (type) {
     case "Waze": {
       // refer https://developers.google.com/waze/deeplinks
       let params = new URLSearchParams({
-        q: address,
+        ll: `${latitude},${longitude}`,
       });
       return `https://waze.com/ul?${params.toString()}`;
     }
@@ -53,7 +53,7 @@ export const generateMapUrl: GenerateMapUrlI = (address: string, type) => {
       // refer https://developers.google.com/maps/documentation/urls/get-started#search-action
       let params = new URLSearchParams({
         api: "1",
-        query: address,
+        query: `${latitude},${longitude}`,
       });
       return `https://www.google.com/maps/search/?${params.toString()}`;
     }
