@@ -80,7 +80,7 @@ const TableCell = forwardRef<
   <td
     ref={ref}
     className={cn(
-      "py-4 sm:py-3 px-3 align-middle border-b border-outline-200 [&>[role=checkbox]]:translate-y-[2px] text-sm text-black-700 font-medium ",
+      "py-4 sm:py-3 px-3 align-middle border-b border-outline-200 [&>[role=checkbox]]:translate-y-[2px] text-sm text-black-700 font-medium",
       className,
     )}
     {...props}

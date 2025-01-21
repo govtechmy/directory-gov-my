@@ -69,7 +69,7 @@ export default function Home({
 
           return (
             <Link
-              className="flex gap-2"
+              className="flex gap-2 min-h-[100px] sm:py-3 px-3"
               underline={"none"}
               href={website}
               target="_blank"
