@@ -25,6 +25,7 @@ import { concatenateAddress, generateMapUrl } from "@/lib/utils";
 import SocialMediaIcon, {
   SocialMediaIconProps,
 } from "@/components/home/social-media";
+import ArrowOutgoing from "@/icons/arrow-outgoing";
 
 export type ContactInfoType = {
   [K in SocialMediaIconProps["platform"]]?: string;
@@ -61,11 +62,29 @@ export default function Home({
       header: t("alamat.table_header.nama"),
       accessorKey: "name",
       id: "name",
-      cell: ({ getValue }) => (getValue() as string) ?? "—",
+      cell: (row) => {
+        if (row.getValue()) {
+          console.log(row.getValue());
+          const website = row.row.original.contact.website as string;
+
+          return (
+            <Link
+              className="flex gap-2"
+              underline={"none"}
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <p>{row.getValue() as string}</p>
+              <ArrowOutgoing className="size-[20px] flex-shrink-0" />
+            </Link>
+          );
+        }
+      },
       meta: {
-        headerClass: "border-r sticky bg-background left-0 z-10",
+        headerClass: "border-r sticky bg-background left-0 z-10 ",
         cellClass:
-          "border-r sticky bg-background left-0 z-10 sm:py-1.5 uppercase min-w-[300px] sm:whitespace-normal",
+          "border-r sticky bg-background left-0 z-10 uppercase min-w-[300px] sm:whitespace-normal hover:text-txt-primary hover:bg-bg-white-hover sm:px-0 sm:py-0",
       },
     },
     {
@@ -129,36 +148,6 @@ export default function Home({
       cell: (row) => row.getValue() ?? "—",
       meta: {
         cellClass: "select-all",
-      },
-    },
-    {
-      header: t("alamat.table_header.website"),
-      accessorKey: "contact.website",
-      id: "website",
-      cell: (row) => {
-        const website = row.getValue() as string;
-
-        if (!website || website === "-") {
-          return "—";
-        }
-
-        // Remove http(s):// and trailing slash for display
-        const displayUrl = website
-          .replace(/^https?:\/\//, "")
-          .replace(/^www\./, "")
-          .replace(/\/$/, "");
-
-        return (
-          <Link
-            primary
-            underline={"hover"}
-            href={website}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {displayUrl}
-          </Link>
-        );
       },
     },
     {
