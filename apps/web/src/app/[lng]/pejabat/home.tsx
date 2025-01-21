@@ -64,19 +64,20 @@ export default function Home({
       id: "name",
       cell: (row) => {
         if (row.getValue()) {
-          console.log(row.getValue());
           const website = row.row.original.contact.website as string;
 
           return (
             <Link
-              className="flex gap-2 min-h-[100px] sm:py-3 px-3"
+              className="absolute h-full w-full inset-0 p-3"
               underline={"none"}
               href={website}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <p>{row.getValue() as string}</p>
-              <ArrowOutgoing className="size-[20px] flex-shrink-0" />
+              <span className="text-xs mr-1.5">{row.getValue() as string}</span>
+              {website && (
+                <ArrowOutgoing className="size-5 inline-flex mb-0.5 stroke-[1.5px]" />
+              )}
             </Link>
           );
         }
@@ -84,7 +85,7 @@ export default function Home({
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10 ",
         cellClass:
-          "border-r sticky bg-background left-0 z-10 uppercase min-w-[300px] sm:whitespace-normal hover:text-txt-primary hover:bg-bg-white-hover sm:px-0 sm:py-0",
+          "border-r sticky bg-background left-0 z-10 uppercase min-w-[300px] sm:whitespace-normal hover:text-txt-primary hover:bg-bg-white-hover relative",
       },
     },
     {
@@ -106,15 +107,15 @@ export default function Home({
         cellClass: "select-all",
       },
     },
-    {
-      header: t("alamat.table_header.negeri"),
-      accessorKey: "address.state",
-      id: "state_name",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        expandable: true,
-      },
-    },
+    // {
+    //   header: t("alamat.table_header.negeri"),
+    //   accessorKey: "address.state",
+    //   id: "state_name",
+    //   cell: (row) => row.getValue() ?? "—",
+    //   meta: {
+    //     expandable: true,
+    //   },
+    // },
     {
       header: t("alamat.table_header.telefon"),
       accessorKey: "contact.phone",

@@ -28,18 +28,18 @@ export default function OfficeCard({
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">
       <p className="flex flex-wrap text-xs font-semibold">{id}</p>
-      <div>
-        <Link
-          className="flex gap-2 text-txt-black-900"
-          underline={"none"}
-          href={website}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <p className="text-base">{name ?? "-"}</p>
-          <ArrowOutgoing className="size-[20px] flex-shrink-0" />
-        </Link>
-      </div>
+      <Link
+        className="text-txt-black-900 text-base block"
+        underline={"none"}
+        href={website}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className="mr-1.5 text-base">{name ?? "-"}</span>
+        {website && (
+          <ArrowOutgoing className="size-5 inline-flex mb-0.5 stroke-[1.5px]" />
+        )}
+      </Link>
       <div>
         <span className="whitespace-pre-line text-txt-black-500">
           {concatenateAddress(address)}
