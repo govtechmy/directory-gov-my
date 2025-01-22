@@ -50,12 +50,8 @@ export const generateMapUrl: GenerateMapUrlI = (latitude, longitude, type) => {
       return `https://waze.com/ul?${params.toString()}`;
     }
     case "Google": {
-      // refer https://developers.google.com/maps/documentation/urls/get-started#search-action
-      let params = new URLSearchParams({
-        api: "1",
-        query: `${latitude},${longitude}`,
-      });
-      return `https://www.google.com/maps/search/?${params.toString()}`;
+      // refer https://stackoverflow.com/questions/32806084/google-map-zoom-parameter-in-url-not-working
+      return `https://maps.google.com/?q=${latitude},${longitude}&ll=${latitude},${longitude}&z=17`;
     }
   }
 };
