@@ -66,9 +66,9 @@ export default function Home({
     if (!rowSelection) return;
 
     const selectedRowIndices = Object.keys(rowSelection);
-    const emailsToCopy = selectedRowIndices.map(
-      (index) => kakitangan[Number(index)]?.person_email,
-    );
+    const emailsToCopy = selectedRowIndices
+      .map((index) => kakitangan[Number(index)]?.person_email)
+      .filter((email) => email);
 
     try {
       await navigator.clipboard.writeText(emailsToCopy.join(","));
