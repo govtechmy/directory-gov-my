@@ -68,16 +68,20 @@ export default function Home({
 
           return (
             <Link
-              className="absolute h-full w-full inset-0 p-3"
+              className="absolute h-full w-full inset-0 p-3 flex items-center"
               underline={"none"}
               href={website}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="text-xs mr-1.5">{row.getValue() as string}</span>
-              {website && (
-                <ArrowOutgoing className="size-5 inline-flex mb-0.5 stroke-[1.5px]" />
-              )}
+              <div>
+                <span className="text-xs mr-1.5">
+                  {row.getValue() as string}
+                </span>
+                {website && (
+                  <ArrowOutgoing className="size-5 inline-flex mb-0.5 stroke-[1.5px]" />
+                )}
+              </div>
             </Link>
           );
         }
