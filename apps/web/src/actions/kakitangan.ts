@@ -14,7 +14,7 @@ export async function searchKakitangan(
   const index = "kakitangan";
   let queries = [] as estypes.QueryDslQueryContainer[];
 
-  if (q) {
+  if (q && q.trim()) {
     const trimmed_q = q.trim();
     const index = trimmed_q.lastIndexOf(" ");
     const match_bool = { match: { query: trimmed_q.substring(0, index) } };
