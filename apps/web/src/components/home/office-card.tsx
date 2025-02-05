@@ -15,15 +15,9 @@ export default function OfficeCard({
   children,
   ...officeInfo
 }: OfficeDirectory & { children?: ReactNode; lng: string }) {
-  const { id, name, address, contact, social_media } = officeInfo;
+  const { id, name, address, contact, links } = officeInfo;
 
   const website = contact.website;
-  const concatAddress = concatenateAddress(address, ", ");
-  const gMapUrl = generateMapUrl(concatAddress, "Google");
-  const wazeUrl = generateMapUrl(concatAddress, "Waze");
-  const contactInfo = { ...(social_media as ContactInfoType) };
-  contactInfo["googleMap"] = gMapUrl;
-  contactInfo["waze"] = wazeUrl;
 
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">
@@ -76,7 +70,7 @@ export default function OfficeCard({
       </div>
 
       <div className="flex flex-row gap-2">
-        {Object.entries(contactInfo).map(([platform, url]) => (
+        {Object.entries(links as ContactInfoType).map(([platform, url]) => (
           <SocialMediaIcon
             key={platform}
             platform={platform as any}

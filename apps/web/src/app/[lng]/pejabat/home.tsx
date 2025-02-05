@@ -75,9 +75,7 @@ export default function Home({
               rel="noopener noreferrer"
             >
               <div>
-                <span className="text-xs mr-1.5">
-                  {row.getValue() as string}
-                </span>
+                <span className="mr-1.5">{row.getValue() as string}</span>
                 {website && (
                   <ArrowOutgoing className="size-5 inline-flex mb-0.5 stroke-[1.5px]" />
                 )}
@@ -87,7 +85,7 @@ export default function Home({
         }
       },
       meta: {
-        headerClass: "border-r sticky bg-background left-0 z-10 ",
+        headerClass: "border-r sticky bg-background left-0 z-10",
         cellClass:
           "border-r sticky bg-background left-0 z-10 uppercase min-w-[300px] sm:whitespace-normal hover:text-txt-primary hover:bg-bg-white-hover",
       },
@@ -157,34 +155,24 @@ export default function Home({
     },
     {
       header: "",
-      accessorKey: "social_media",
-      id: "social_media",
-      cell: (row) => {
-        // do shallow copy here such that it won't modify the original row.getValue()
-        const contactInfo = { ...(row.getValue() as ContactInfoType) };
-        const gMapUrl = generateMapUrl(
-          row.row.original.address.location.lat,
-          row.row.original.address.location.lon,
-          "Google",
-        );
-        const wazeUrl = generateMapUrl(
-          row.row.original.address.location.lat,
-          row.row.original.address.location.lon,
-          "Waze",
-        );
-        contactInfo["googleMap"] = gMapUrl;
-        contactInfo["waze"] = wazeUrl;
-        return (
-          <div className="flex flex-row flex-wrap gap-2 w-[180px]">
-            {Object.entries(contactInfo).map(([platform, url]) => (
+      accessorKey: "links",
+      id: "links",
+      cell: (row) => (
+        <div className="grid grid-cols-4 w-max gap-2">
+          {Object.entries(row.getValue() as ContactInfoType).map(
+            ([platform, url]) => (
               <SocialMediaIcon
                 key={platform}
                 platform={platform as any}
                 url={url as any}
               />
-            ))}
-          </div>
-        );
+            ),
+          )}
+        </div>
+      ),
+      meta: {
+        headerClass: "border-l sticky bg-background right-0 z-10",
+        cellClass: "border-l sticky bg-background right-0 z-10",
       },
     },
   ];

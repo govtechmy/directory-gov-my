@@ -19,7 +19,7 @@ const socialIcons = {
   rss: { icon: Rss },
   linkedin: { icon: Linkedin },
   telegram: { icon: Telegram },
-  googleMap: { icon: GoogleMaps },
+  googleMaps: { icon: GoogleMaps },
   waze: { icon: Waze },
 };
 
@@ -33,7 +33,7 @@ export interface SocialMediaIconProps {
     | "rss"
     | "linkedin"
     | "telegram"
-    | "googleMap"
+    | "googleMaps"
     | "waze";
   url: string;
 }
