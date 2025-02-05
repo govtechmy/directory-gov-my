@@ -82,7 +82,9 @@
       "search_placeholder": "Type to search"
     },
     "copyEmail": {
-      "success": "Emails copied successfully!",
+      "success": "Success!",
+      "success_desc_other": "{{ count }} emails were copied.",
+      "success_desc_one": "1 email copied.",
       "error": "Error in copying email. Please try again."
     }
   },

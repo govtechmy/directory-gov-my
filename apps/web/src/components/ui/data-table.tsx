@@ -106,10 +106,19 @@ export default function DataTable<TData, TValue>({
 
   useEffect(() => {
     const mergedObj = { ...expandableColumns };
+
+    const el = document.createElement("p");
+    el.style.position = "absolute";
+    el.style.whiteSpace = "nowrap";
+    el.style.font = "14px Inter";
+    document.body.appendChild(el);
+
     Object.keys(expandableColumns).forEach((columnId) => {
       const longVisibleRows = table.getRowModel().rows.filter((row) => {
         const value = row.getValue(columnId) as string | null;
-        return value !== null && value?.length >= 30;
+        el.innerText = value ?? "";
+        const width = el.offsetWidth;
+        return value !== null && width >= 250;
       });
 
       if (longVisibleRows.length == 0) {
@@ -119,6 +128,7 @@ export default function DataTable<TData, TValue>({
       }
     });
     setExpandableColumns(mergedObj);
+    document.body.removeChild(el);
   }, [tableRow]);
 
   return (
@@ -215,7 +225,7 @@ export default function DataTable<TData, TValue>({
                             "sm:whitespace-nowrap",
                             "whitespace-normal break-words",
                             typeof expandableColumns[headerId] === "boolean" &&
-                              `truncate ${!canExpand && "max-w-[230px]"}`,
+                              `truncate ${!canExpand && "max-w-[250px]"}`,
                             cell.column.columnDef.meta?.cellClass,
                           )}
                         >

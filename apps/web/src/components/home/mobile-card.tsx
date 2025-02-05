@@ -7,6 +7,8 @@ import Printer from "@/icons/printer";
 import { Kakitangan } from "@/lib/types/kakitangan";
 import { ReactNode } from "react";
 import useToast from "@/hooks/use-toast";
+import { Button } from "../ui/button";
+import CopyIcon from "@/icons/copy";
 
 export default function MobileCard({
   lng,
@@ -35,11 +37,13 @@ export default function MobileCard({
       await navigator.clipboard.writeText(email);
       toast({
         variant: "success",
-        title: "Emails copied!",
+        title: t("directory.copyEmail.success"),
       });
-      // Show success message
     } catch (err) {
-      // Handle error
+      toast({
+        variant: "error",
+        title: t("directory.copyEmail.error"),
+      });
     }
   };
 
@@ -82,12 +86,16 @@ export default function MobileCard({
       ) : null}
 
       {person_email && (
-        <div
-          className="flex items-center gap-x-1.5 cursor-pointer select-none"
-          onClick={() => copySelectedEmails(person_email)}
-        >
+        <div className="flex items-center gap-x-1.5 cursor-pointer select-none">
           <Envelope className="text-outline-400" />
           <span>{person_email}</span>
+          <Button
+            onClick={() => copySelectedEmails(person_email)}
+            variant="tertiary"
+            size="icon"
+          >
+            <CopyIcon />
+          </Button>
         </div>
       )}
       {children}

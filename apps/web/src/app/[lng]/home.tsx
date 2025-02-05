@@ -64,18 +64,20 @@ export default function Home({
 
   const copySelectedEmails = async () => {
     if (!rowSelection) return;
-    const emailsToCopy = kakitangan
-      .filter((item, index) => {
-        return Object.keys(rowSelection).includes(index.toString());
-      })
-      .map((item) => item.person_email)
-      .join(",");
+
+    const selectedRowIndices = Object.keys(rowSelection);
+    const emailsToCopy = selectedRowIndices
+      .map((index) => kakitangan[Number(index)]?.person_email)
+      .filter((email) => email);
 
     try {
-      await navigator.clipboard.writeText(emailsToCopy);
+      await navigator.clipboard.writeText(emailsToCopy.join(","));
       toast({
         variant: "success",
         title: t("directory.copyEmail.success"),
+        description: t("directory.copyEmail.success_desc", {
+          count: emailsToCopy.length,
+        }),
       });
     } catch (err) {
       toast({
@@ -125,6 +127,24 @@ export default function Home({
       },
     },
     {
+      header: t("directory.table_header.telefon"),
+      accessorKey: "person_phone",
+      id: "person_phone",
+      cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
+    },
+    {
+      header: t("directory.table_header.fax"),
+      accessorKey: "person_fax",
+      id: "person_fax",
+      cell: (row) => row.getValue() ?? "—",
+      meta: {
+        cellClass: "select-all",
+      },
+    },
+    {
       header: t("directory.table_header.kementerian"),
       accessorKey: "org_name",
       id: "org_name",
@@ -152,24 +172,6 @@ export default function Home({
       cell: (row) => row.getValue() ?? "—",
       meta: {
         expandable: true,
-      },
-    },
-    {
-      header: t("directory.table_header.telefon"),
-      accessorKey: "person_phone",
-      id: "person_phone",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        cellClass: "select-all",
-      },
-    },
-    {
-      header: t("directory.table_header.fax"),
-      accessorKey: "person_fax",
-      id: "person_fax",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        cellClass: "select-all",
       },
     },
     {
@@ -349,7 +351,7 @@ export default function Home({
                 setSearchParams("subdivision", currentValue)
               }
             />
-            <div className="flex-grow flex justify-end">
+            <div className="hidden sm:flex flex-grow justify-end">
               <Button
                 onClick={copySelectedEmails}
                 variant={"primary"}
