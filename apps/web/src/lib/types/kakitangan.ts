@@ -14,6 +14,7 @@ export interface Kakitangan {
   parent_org_id: string | null;
   position_sort: number;
 }
+
 export interface OfficeDirectory {
   id: string;
   name: string;
@@ -23,6 +24,10 @@ export interface OfficeDirectory {
     line3: string;
     postcode: string;
     state: string;
+    location: {
+      lat: number;
+      lon: number;
+    };
   };
   contact: {
     phone: string | string[];
@@ -30,7 +35,9 @@ export interface OfficeDirectory {
     email: string;
     website: string;
   };
-  social_media: {
+  links: {
+    googleMaps: string;
+    waze: string;
     facebook: string;
     twitter: string;
     instagram: string;
