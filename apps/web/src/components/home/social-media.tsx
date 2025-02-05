@@ -7,6 +7,8 @@ import Tiktok from "@/icons/tiktok";
 import TwitterX from "@/icons/twitter-x";
 import Youtube from "@/icons/youtube";
 import { Button } from "../ui/button";
+import GoogleMaps from "@/icons/google-map";
+import Waze from "@/icons/waze";
 
 const socialIcons = {
   facebook: { icon: Facebook },
@@ -17,6 +19,8 @@ const socialIcons = {
   rss: { icon: Rss },
   linkedin: { icon: Linkedin },
   telegram: { icon: Telegram },
+  googleMaps: { icon: GoogleMaps },
+  waze: { icon: Waze },
 };
 
 export interface SocialMediaIconProps {
@@ -27,8 +31,10 @@ export interface SocialMediaIconProps {
     | "youtube"
     | "tiktok"
     | "rss"
+    | "linkedin"
     | "telegram"
-    | "linkedin";
+    | "googleMaps"
+    | "waze";
   url: string;
 }
 

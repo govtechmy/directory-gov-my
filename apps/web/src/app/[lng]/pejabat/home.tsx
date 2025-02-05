@@ -21,10 +21,15 @@ import { useCallback } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
 import { Link } from "@/components/ui/link";
 import OfficeCard from "@/components/home/office-card";
-import { concatenateAddress } from "@/lib/utils";
+import { concatenateAddress, generateMapUrl } from "@/lib/utils";
 import SocialMediaIcon, {
   SocialMediaIconProps,
 } from "@/components/home/social-media";
+import ArrowOutgoing from "@/icons/arrow-outgoing";
+
+export type ContactInfoType = {
+  [K in SocialMediaIconProps["platform"]]?: string;
+};
 
 export default function Home({
   lng,
@@ -32,7 +37,7 @@ export default function Home({
   totalPages,
   size,
   office,
-  state,
+  // state,
 }: {
   lng: string;
   officeDirectory: OfficeDirectory[];
@@ -50,18 +55,39 @@ export default function Home({
   const searchQuery = searchParams.get("q");
   const currentPage = Number(searchParams.get("page") || "1");
   const officeSelected = searchParams.get("office");
-  const stateSelected = searchParams.get("state");
+  // const stateSelected = searchParams.get("state");
 
   const column: ColumnDef<OfficeDirectory>[] = [
     {
       header: t("alamat.table_header.nama"),
       accessorKey: "name",
       id: "name",
-      cell: ({ getValue }) => (getValue() as string) ?? "—",
+      cell: (row) => {
+        if (row.getValue()) {
+          const website = row.row.original.contact.website as string;
+
+          return (
+            <Link
+              className="absolute h-full w-full inset-0 p-3 flex items-center"
+              underline={"none"}
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div>
+                <span className="mr-1.5">{row.getValue() as string}</span>
+                {website && (
+                  <ArrowOutgoing className="size-5 inline-flex mb-0.5 stroke-[1.5px]" />
+                )}
+              </div>
+            </Link>
+          );
+        }
+      },
       meta: {
         headerClass: "border-r sticky bg-background left-0 z-10",
         cellClass:
-          "border-r sticky bg-background left-0 z-10 sm:py-1.5 uppercase min-w-[300px] sm:whitespace-normal",
+          "border-r sticky bg-background left-0 z-10 uppercase min-w-[300px] sm:whitespace-normal hover:text-txt-primary hover:bg-bg-white-hover",
       },
     },
     {
@@ -83,15 +109,15 @@ export default function Home({
         cellClass: "select-all",
       },
     },
-    {
-      header: t("alamat.table_header.negeri"),
-      accessorKey: "address.state",
-      id: "state_name",
-      cell: (row) => row.getValue() ?? "—",
-      meta: {
-        expandable: true,
-      },
-    },
+    // {
+    //   header: t("alamat.table_header.negeri"),
+    //   accessorKey: "address.state",
+    //   id: "state_name",
+    //   cell: (row) => row.getValue() ?? "—",
+    //   meta: {
+    //     expandable: true,
+    //   },
+    // },
     {
       header: t("alamat.table_header.telefon"),
       accessorKey: "contact.phone",
@@ -128,52 +154,25 @@ export default function Home({
       },
     },
     {
-      header: t("alamat.table_header.website"),
-      accessorKey: "contact.website",
-      id: "website",
-      cell: (row) => {
-        const website = row.getValue() as string;
-
-        if (!website || website === "-") {
-          return "—";
-        }
-
-        // Remove http(s):// and trailing slash for display
-        const displayUrl = website
-          .replace(/^https?:\/\//, "")
-          .replace(/^www\./, "")
-          .replace(/\/$/, "");
-
-        return (
-          <Link
-            primary
-            underline={"hover"}
-            href={website}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {displayUrl}
-          </Link>
-        );
-      },
-    },
-    {
       header: "",
-      accessorKey: "social_media",
-      id: "social_media",
-      cell: (row) => {
-        const social_media = row.getValue() as SocialMediaIconProps["platform"];
-        return (
-          <div className="flex flex-row flex-wrap gap-2 w-[180px]">
-            {Object.entries(social_media).map(([platform, url]) => (
+      accessorKey: "links",
+      id: "links",
+      cell: (row) => (
+        <div className="grid grid-cols-4 w-max gap-2">
+          {Object.entries(row.getValue() as ContactInfoType).map(
+            ([platform, url]) => (
               <SocialMediaIcon
                 key={platform}
                 platform={platform as any}
                 url={url as any}
               />
-            ))}
-          </div>
-        );
+            ),
+          )}
+        </div>
+      ),
+      meta: {
+        headerClass: "border-l sticky bg-background right-0 z-10",
+        cellClass: "border-l sticky bg-background right-0 z-10",
       },
     },
   ];
@@ -183,7 +182,9 @@ export default function Home({
       header: "",
       accessorKey: "person_name",
       id: "person_name",
-      cell: ({ row }) => <OfficeCard lng={lng} {...row.original}></OfficeCard>,
+      cell: ({ row }) => {
+        return <OfficeCard lng={lng} {...row.original}></OfficeCard>;
+      },
     },
   ];
 

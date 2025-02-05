@@ -4,26 +4,36 @@ import Phone from "@/icons/phone";
 import Envelope from "@/icons/envelope";
 import { ReactNode } from "react";
 import { OfficeDirectory } from "@/lib/types/kakitangan";
-import { concatenateAddress } from "@/lib/utils";
+import { concatenateAddress, generateMapUrl } from "@/lib/utils";
 import SocialMediaIcon from "./social-media";
 import Printer from "@/icons/printer";
+import { ContactInfoType } from "@/app/[lng]/pejabat/home";
+import ArrowOutgoing from "@/icons/arrow-outgoing";
+import { Link } from "@/components/ui/link";
 
 export default function OfficeCard({
   children,
   ...officeInfo
 }: OfficeDirectory & { children?: ReactNode; lng: string }) {
-  const { id, name, address, contact, social_media } = officeInfo;
+  const { id, name, address, contact, links } = officeInfo;
+
+  const website = contact.website;
 
   return (
     <div className="space-y-2 font-medium text-sm text-dim-500 flex-flex-col gap-2">
       <p className="flex flex-wrap text-xs font-semibold">{id}</p>
-      <div>
-        <div className="flex flex-wrap items-center gap-x-1.5">
-          <span className="text-base font-semibold text-foreground">
-            {name ?? "—"}
-          </span>
-        </div>
-      </div>
+      <Link
+        className="text-txt-black-900 text-base block"
+        underline={"none"}
+        href={website}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className="mr-1.5 text-base">{name ?? "-"}</span>
+        {website && (
+          <ArrowOutgoing className="size-5 inline-flex mb-0.5 stroke-[1.5px]" />
+        )}
+      </Link>
       <div>
         <span className="whitespace-pre-line text-txt-black-500">
           {concatenateAddress(address)}
@@ -60,7 +70,7 @@ export default function OfficeCard({
       </div>
 
       <div className="flex flex-row gap-2">
-        {Object.entries(social_media).map(([platform, url]) => (
+        {Object.entries(links as ContactInfoType).map(([platform, url]) => (
           <SocialMediaIcon
             key={platform}
             platform={platform as any}
